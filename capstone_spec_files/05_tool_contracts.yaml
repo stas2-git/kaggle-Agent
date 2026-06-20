@@ -1,0 +1,203 @@
+# Tool Contracts for Actuarial Portfolio Monitoring Agent
+# These contracts are implementation guidance. They define tool boundaries, permissions, inputs, outputs, and safety rules.
+
+version: 0.1
+project: actuarial-portfolio-monitoring-agent
+principles:
+  - deterministic_tools_calculate_numbers
+  - llm_interprets_tool_outputs_only
+  - synthetic_or_deidentified_data_only
+  - no_automatic_external_actions
+  - human_review_for_high_severity_or_low_confidence
+
+tools:
+  load_portfolio_data:
+    purpose: Load an approved synthetic portfolio CSV into a normalized dataframe.
+    permission_level: read_only_local
+    allowed_paths:
+      - data/
+      - examples/
+    inputs:
+      file_path:
+        type: string
+        required: true
+        description: Local CSV path under an approved directory.
+    outputs:
+      dataset_id: string
+      row_count: integer
+      columns: list[string]
+      dataframe_ref: string
+    failure_modes:
+      - file_not_found
+      - path_not_allowed
+      - csv_parse_error
+    human_approval_required: false
+
+  validate_portfolio_data:
+    purpose: Validate schema, required columns, data types, and basic data quality.
+    permission_level: read_only_memory
+    inputs:
+      dataframe_ref:
+        type: string
+        required: true
+      validation_config:
+        type: object
+        required: false
+    outputs:
+      status:
+        type: string
+        enum: [pass, pass_with_warnings, fail]
+      blocking_errors: list[string]
+      warnings: list[string]
+      row_count: integer
+      valid_row_count: integer
+      injection_flags: list[object]
+    failure_modes:
+      - missing_required_column
+      - invalid_data_type
+      - empty_dataset
+    human_approval_required: false
+
+  calculate_portfolio_metrics:
+    purpose: Calculate deterministic portfolio metrics by valuation month and selected dimensions.
+    permission_level: read_only_memory
+    inputs:
+      dataframe_ref:
+        type: string
+        required: true
+      group_by:
+        type: list[string]
+        required: true
+        default: [valuation_month, business_segment]
+    outputs:
+      metrics_ref: string
+      metrics_records: list[object]
+      calculation_warnings: list[string]
+    failure_modes:
+      - divide_by_zero
+      - missing_metric_column
+    human_approval_required: false
+
+  detect_anomalies:
+    purpose: Compare latest period to comparison periods and identify material movements.
+    permission_level: read_only_memory
+    inputs:
+      metrics_ref:
+        type: string
+        required: true
+      latest_month:
+        type: string
+        required: true
+      threshold_config:
+        type: object
+        required: false
+    outputs:
+      anomaly_ref: string
+      anomalies: list[object]
+      summary_counts: object
+    failure_modes:
+      - no_comparison_period
+      - invalid_threshold_config
+    human_approval_required: false
+
+  investigate_anomaly_drivers:
+    purpose: Decompose an anomaly across dimensions to identify likely contributors.
+    permission_level: read_only_memory
+    inputs:
+      dataframe_ref:
+        type: string
+        required: true
+      anomaly_id:
+        type: string
+        required: true
+      dimensions:
+        type: list[string]
+        required: true
+        default: [business_segment, coverage, state, policy_year, underwriter]
+      top_n:
+        type: integer
+        required: false
+        default: 5
+    outputs:
+      driver_ref: string
+      driver_results: list[object]
+      caveats: list[string]
+    failure_modes:
+      - anomaly_not_found
+      - dimension_not_available
+    human_approval_required: false
+
+  synthesize_review_findings:
+    purpose: Use LLM reasoning to summarize tool outputs into evidence-based review findings.
+    permission_level: llm_reasoning
+    inputs:
+      anomalies: list[object]
+      driver_results: list[object]
+      data_quality_summary: object
+      style_rules: object
+    outputs:
+      executive_summary: string
+      finding_details: list[object]
+      recommended_followups: list[string]
+      confidence: number
+      requires_human_review: boolean
+    safety_rules:
+      - do_not_invent_numbers
+      - cite_tool_outputs_for_metrics
+      - distinguish_fact_from_hypothesis
+      - use_conservative_language
+      - flag_data_quality_limitations
+    human_approval_required: false
+
+  generate_report:
+    purpose: Write final markdown report artifact to approved local output folder.
+    permission_level: write_local_output
+    allowed_paths:
+      - outputs/reports/
+    inputs:
+      report_title: string
+      executive_summary: string
+      finding_details: list[object]
+      data_quality_summary: object
+      recommended_followups: list[string]
+      trace_path: string
+    outputs:
+      report_path: string
+      report_status: string
+    failure_modes:
+      - output_path_not_allowed
+      - file_write_error
+    human_approval_required: false
+
+  write_trace:
+    purpose: Write run trace JSON for observability and evaluation.
+    permission_level: write_local_output
+    allowed_paths:
+      - outputs/traces/
+    inputs:
+      run_id: string
+      events: list[object]
+      final_status: string
+    outputs:
+      trace_path: string
+    failure_modes:
+      - output_path_not_allowed
+      - json_serialization_error
+    human_approval_required: false
+
+  send_report_email:
+    purpose: Optional future action to send a report to stakeholders.
+    permission_level: external_side_effect
+    status: excluded_from_mvp
+    inputs:
+      recipients: list[string]
+      subject: string
+      body: string
+      attachment_path: string
+    outputs:
+      message_id: string
+    human_approval_required: true
+    safety_rules:
+      - never_send_without_explicit_user_confirmation
+      - show_final_email_before_sending
+      - validate_recipient_allowlist

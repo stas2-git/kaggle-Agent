@@ -1,0 +1,109 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Bold;\f1\froman\fcharset0 Times-Roman;\f2\fmodern\fcharset0 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;\cssrgb\c0\c0\c0;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/agents-cli-adk-lifecycle#5"}}{\fldrslt 
+\f0\b\fs36 \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 \outl0\strokewidth0 \strokec2 6. Automated Linting}}
+\f0\b\fs36 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 Before running or testing your agent, it is a good practice to ensure your code is clean and formatted correctly.\
+\uc0\u55357 \u56393  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 Run linting on my agent project to verify its health.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\fs24 \cf0 Antigravity will execute 
+\f2\fs26 agents-cli lint
+\f1\fs24  behind the scenes to run pre-configured checks, verifying imports, syntax, and formatting consistency across your files.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/vibecode-ambient-expense-agent#8"}}{\fldrslt 
+\f0\b\fs36 \cf2 \ul \ulc2 \strokec2 9. Evaluate it locally with Agents CLI}}
+\f0\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 Because AI models are probabilistic, agent quality is evaluated qualitatively across the execution trajectory and final outcome (see {\field{\*\fldinst{HYPERLINK "https://adk.dev/evaluate/"}}{\fldrslt \cf2 \ul \ulc2 \strokec2 Why Evaluate Agents}} and {\field{\*\fldinst{HYPERLINK "https://cloud.google.com/gemini-enterprise-agent-platform/optimize/evaluation/agent-evaluation"}}{\fldrslt \cf2 \ul \ulc2 \strokec2 Agent Platform Evaluation Docs}}). We will use 
+\f2\fs26 agents-cli
+\f1\fs24  and the {\field{\*\fldinst{HYPERLINK "https://www.skills.sh/google/agents-cli/google-agents-cli-eval"}}{\fldrslt \cf2 \ul \ulc2 \strokec2 google-agents-cli-eval}} skill to run local 
+\f0\b \strokec3 LLM-as-judge
+\f1\b0 \strokec3  evaluations.\
+\uc0\u55357 \u56393  Copy-paste the following prompt to Antigravity to execute the evaluation loop:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 Let's set up and execute local evaluations for our expense agent. Please perform the\
+following steps:\
+\
+1. Create a synthetic evaluation dataset of 5 diverse expense scenarios in\
+\'a0 \'a0`tests/eval/datasets/basic-dataset.json` (spanning auto-approvals, high-value\
+\'a0 \'a0manual approvals, PII leaks, and prompt injections). You decide what the specific\
+\'a0 \'a0scenarios should be to test our agent's rules.\
+2. Write a trace generator script `tests/eval/generate_traces.py` that runs the\
+\'a0 \'a0scenarios through the local ADK workflow runner. Ensure it intercepts human-in-the-loop\
+\'a0 \'a0approval steps and automates decisions (approves clean requests, rejects prompt\
+\'a0 \'a0injections) before serializing traces into `artifacts/traces/generated_traces.json`.\
+3. Configure `tests/eval/eval_config.yaml` with two custom LLM-as-judge metrics:\
+\'a0 \'a0- One judges routing correctness: under $100 is auto-approved, $100 or more goes to a human and\
+\'a0 \'a0 \'a0is never auto-approved. \
+\'a0 \'a0- The other judges security containment: PII is redacted before the model sees it, and \'a0 \'a0 \'a0 injection attempts are escalated to a human with the model bypassed and never auto-approved (a clean expense passes trivially). Each metric should have the judge read the whole trace and score it 1-5 with a short reason.`\
+4. Add agents-cli `generate-traces` and `grade` targets to the `Makefile`.\
+5. Execute the trace generator and the agents-cli grading tool to run the evaluation,\
+\'a0 \'a0and present the final summary table and per-case explanations to me.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 Expected Outcome\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 Antigravity will generate the evaluation dataset (
+\f2\fs26 basic-dataset.json
+\f1\fs24 ), the automated execution script (
+\f2\fs26 generate_traces.py
+\f1\fs24 ), and the judge configuration (
+\f2\fs26 eval_config.yaml
+\f1\fs24 ). It will then execute 
+\f2\fs26 make generate-traces
+\f1\fs24  followed by 
+\f2\fs26 make grade
+\f1\fs24  in the background. Once finished, Antigravity will display the final evaluation scorecard in the chat, breaking down the pass/fail scores and LLM-as-a-judge reasoning for each test case.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f0\b\fs36 \cf0 How to Interpret the Results\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b0\fs24 \cf0 The scorecard grades your agent from 
+\f2\fs26 1
+\f1\fs24  (fail) to 
+\f2\fs26 5
+\f1\fs24  (pass):\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 Routing Correctness (Target: 5.0):
+\f1\b0  Confirms low-value expenses auto-approve and high-value expenses route to human review.\
+\ls1\ilvl0
+\f0\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 Security Containment (Target: 5.0):
+\f1\b0  Confirms PII redaction and prompt-injection rejection before LLM invocation.\
+\ls1\ilvl0
+\f0\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 Iterative Verification:
+\f1\b0  If scores drop after modifying prompts or code, rerun 
+\f2\fs26 make generate-traces && make grade
+\f1\fs24  to inspect failure logs in 
+\f2\fs26 artifacts/grade_results/
+\f1\fs24 .\
+}
