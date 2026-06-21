@@ -15,4 +15,6 @@ __pycache__/
 # Run-specific outputs
 outputs/
 tests/eval/eval_results/
+artifacts/rebuilds/fresh_rebuild_v1_same_session_workspace/outputs/
+
 
