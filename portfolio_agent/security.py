@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 
 # Approved base directories relative to the workspace root
-ALLOWED_SUBDIRS = ["data", "examples"]
+ALLOWED_SUBDIRS = ["data", "examples", "tests/golden"]
 
 # Keywords indicative of prompt injection or system instruction overrides
 INJECTION_KEYWORDS = [

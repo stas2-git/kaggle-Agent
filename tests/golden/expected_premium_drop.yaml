@@ -1,0 +1,24 @@
+dataset_id: "premium_drop.csv"
+scenario: "premium_drop"
+expected_metrics:
+  current_period_premium: 60000.0
+  prior_period_premium: 100000.0
+  premium_change_pct: -0.40
+  current_loss_ratio: 0.50
+  prior_loss_ratio: 0.50
+  loss_ratio_change_points: 0.0
+expected_flags:
+  anomaly_detected: true
+  severity: "high"
+  human_review_required: true
+expected_top_drivers:
+  - dimension: "state"
+    value: "NY"
+    contribution: -0.40
+expected_report_requirements:
+  must_include:
+    - "60,000"
+    - "100,000"
+    - "NY"
+  must_not_include:
+    - "error"
