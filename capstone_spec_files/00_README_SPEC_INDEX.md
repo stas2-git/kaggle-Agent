@@ -59,8 +59,12 @@ The capstone should explicitly demonstrate at least three course concepts. This 
 | `20_synthetic_eval_cases.json` | Example evaluation case definitions. |
 | `21_risk_register.md` | Project risks and mitigations. |
 | `22_output_report_template.md` | Expected final report format. |
+| `23_spec_adequacy_and_build_gates.md` | Build governance covering spec readiness, vertical-slice gates, golden tests, eval gates, fresh-context rebuilds, and submission readiness. |
 
 ## Recommended implementation style
+
+> [!IMPORTANT]
+> Implementation must begin with Gate 0 (Spec Completeness Review) and Gate 1 (Plan-Only Build Review) before writing any application code.
 
 Start local. Use synthetic CSV files and deterministic Python tools first. Then add the LLM layer for reasoning and narrative generation. This keeps the demo reliable and makes the agent's value clear without depending on private data or external systems.
 

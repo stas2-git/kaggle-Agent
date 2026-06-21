@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../../../../../../../Volumes/shared_C_drive/actuarial papers"
 		}
 	],
 	"settings": {}

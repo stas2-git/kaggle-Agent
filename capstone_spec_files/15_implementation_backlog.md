@@ -89,6 +89,16 @@
 - [ ] Attach public project link.
 - [ ] Submit before deadline.
 
+## Milestone 10: Build Governance and Gates (23_spec_adequacy_and_build_gates.md)
+
+- [ ] Gate 0: Create and complete spec completeness review artifact (`artifacts/spec_reviews/spec_review_vX.md`) before coding.
+- [ ] Gate 1: Create and complete plan-only build review artifact (`artifacts/build_plans/build_plan_vX.md`) detailing MVP implementation.
+- [ ] Gate 2: Implement and verify the vertical-slice build, producing `artifacts/gate_results/gate_2_vertical_slice.md`.
+- [ ] Gate 3: Create golden datasets and expected-output YAML files for deterministic metrics, producing `artifacts/gate_results/gate_3_golden_tests.md`.
+- [ ] Gate 4: Set up and run the agent/report/security evaluation suite, producing `artifacts/gate_results/gate_4_agent_evals.md`.
+- [ ] Gate 5: Perform the fresh-context rebuild test to verify spec completeness, producing `artifacts/rebuilds/fresh_rebuild_vX.md`.
+- [ ] Gate 6: Complete the submission readiness checklist, producing `artifacts/gate_results/gate_6_submission_readiness.md`.
+
 ## Suggested implementation prompts for coding agent
 
 ### Prompt 1: Create project skeleton
