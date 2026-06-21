@@ -1,2 +1,13 @@
 .DS_Store
 **/.DS_Store
+
+# Python
+.venv/
+.python-version
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+
+# Local secrets
+.env

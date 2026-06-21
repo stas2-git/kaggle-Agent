@@ -96,11 +96,11 @@ def smart_extract(pages_text: list[str], max_chars: int) -> str:
 
     # Try to grab key sections first
     lines = full_text.split("\n")
-    priority_blocks = []
-    normal_blocks = []
+    priority_blocks: list[str] = []
+    normal_blocks: list[str] = []
 
     in_priority = False
-    buffer = []
+    buffer: list[str] = []
 
     for line in lines:
         if score_line(line) > 0:
@@ -154,7 +154,7 @@ def _extract_page_text(doc: fitz.Document, page_num: int) -> str:
     # Fallback: OCR at 300 DPI with image preprocessing
     mat = fitz.Matrix(300 / 72, 300 / 72)
     pix = page.get_pixmap(matrix=mat, colorspace=fitz.csGRAY)
-    img = Image.open(io.BytesIO(pix.tobytes("png")))
+    img: Image.Image = Image.open(io.BytesIO(pix.tobytes("png")))
     img = _enhance_image(img)
     ocr_text = pytesseract.image_to_string(img, lang="eng", config="--psm 3")
     return ocr_text.strip()
@@ -206,7 +206,7 @@ def extract_pdf_document(pdf_path: Path, max_chars: int, min_chars: int, timeout
         log.warning(f"  Cannot open PDF document {pdf_path.name}: {e}")
         return None
 
-    accumulated = []
+    accumulated: list[str] = []
     total_chars = 0
 
     for page_num in range(len(doc)):
