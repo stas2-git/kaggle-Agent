@@ -11,3 +11,6 @@ __pycache__/
 
 # Local secrets
 .env
+
+# Run-specific outputs
+outputs/
