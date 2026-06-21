@@ -15,7 +15,8 @@ GOLDEN_DIR = Path(__file__).parent / "golden"
 @pytest.mark.parametrize("scenario", [
     "loss_ratio_spike",
     "premium_drop",
-    "clean_portfolio"
+    "clean_portfolio",
+    "benchmark_deterioration"
 ])
 def test_golden_scenario(scenario: str):
     csv_path = GOLDEN_DIR / f"{scenario}.csv"
@@ -59,14 +60,27 @@ def test_golden_scenario(scenario: str):
     calc_lr_change = m_cur.loss_ratio - m_pri.loss_ratio
     assert pytest.approx(calc_lr_change, abs=1e-4) == exp_metrics["loss_ratio_change_points"]
 
+    # Verify benchmark adequacy if present
+    if "current_benchmark_adequacy" in exp_metrics:
+        assert pytest.approx(m_cur.benchmark_adequacy, abs=1e-4) == exp_metrics["current_benchmark_adequacy"]
+        assert pytest.approx(m_pri.benchmark_adequacy, abs=1e-4) == exp_metrics["prior_benchmark_adequacy"]
+        calc_ba_change = m_cur.benchmark_adequacy - m_pri.benchmark_adequacy
+        assert pytest.approx(calc_ba_change, abs=1e-4) == exp_metrics["benchmark_adequacy_change"]
+
     # 4. Detect anomalies
     anomalies = detect_anomalies(metrics, "2026-06")
     exp_flags = expected["expected_flags"]
     
     if exp_flags["anomaly_detected"]:
         assert len(anomalies) > 0
-        # Find the primary anomaly (loss ratio or premium)
-        anomaly = anomalies[0]
+        # Find the primary anomaly matching the expected type if specified
+        exp_type = exp_flags.get("anomaly_type")
+        if exp_type:
+            anomaly = next((a for a in anomalies if a.metric == exp_type), None)
+            assert anomaly is not None, f"Expected anomaly of type {exp_type} not found."
+        else:
+            anomaly = anomalies[0]
+            
         assert anomaly.severity == exp_flags["severity"]
         
         # Verify human review escalation flag

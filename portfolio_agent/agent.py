@@ -13,7 +13,8 @@ def synthesize_review_findings(
     anomalies: list[AnomalyRecord],
     driver_results: list[DriverResult],
     data_quality_summary: dict,
-    model_name: str = "gemini-2.5-flash"
+    model_name: str = "gemini-2.5-flash",
+    user_prompt_override: str = None
 ) -> ReviewMemo:
     """
     Synthesize deterministic anomalies and drivers into an actuary-ready review memo.
@@ -44,7 +45,26 @@ CRITICAL RULES:
     anomalies_json = [a.model_dump() for a in anomalies]
     drivers_json = [d.model_dump() for d in driver_results]
 
-    user_prompt = f"""
+    if user_prompt_override:
+        user_prompt = f"""
+Valuation Month: {valuation_month}
+
+Anomalies Detected:
+{json.dumps(anomalies_json, indent=2)}
+
+Driver Analysis:
+{json.dumps(drivers_json, indent=2)}
+
+Data Quality Summary:
+{json.dumps(data_quality_summary, indent=2)}
+
+USER REQUEST:
+{user_prompt_override}
+
+Generate a ReviewMemo JSON output following the response schema.
+"""
+    else:
+        user_prompt = f"""
 Valuation Month: {valuation_month}
 
 Anomalies Detected:

@@ -26,6 +26,7 @@ def parse_args():
     parser.add_argument("--input", required=True, help="Path to synthetic monthly portfolio CSV")
     parser.add_argument("--latest-month", required=True, help="Valuation month to review (YYYY-MM)")
     parser.add_argument("--model", default="gemini-2.5-flash", help="Gemini LLM model name")
+    parser.add_argument("--user-prompt", default=None, help="Custom prompt or override instruction for the agent")
     return parser.parse_args()
 
 def main():
@@ -92,7 +93,8 @@ def main():
             anomalies=anomalies,
             driver_results=driver_results,
             data_quality_summary=dq_summary,
-            model_name=args.model
+            model_name=args.model,
+            user_prompt_override=args.user_prompt
         )
         trace.log_event("findings_synthesized", {
             "confidence": memo.confidence,

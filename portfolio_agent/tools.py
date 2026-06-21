@@ -206,6 +206,24 @@ def detect_anomalies(metrics: List[MetricsRecord], latest_month: str) -> List[An
                     )
                 )
 
+        # Check Benchmark Adequacy Anomaly (< 0.90 is moderate/severe)
+        if cur.benchmark_adequacy < 0.90:
+            severity = "high" if cur.benchmark_adequacy < 0.80 else "moderate"
+            anomalies.append(
+                AnomalyRecord(
+                    anomaly_id=f"ANOM_{latest_month}_{segment.replace(' ', '_')}_BA",
+                    metric="rate_adequacy",
+                    business_segment=segment,
+                    current_value=cur.benchmark_adequacy,
+                    prior_value=prior.benchmark_adequacy,
+                    absolute_change=cur.benchmark_adequacy - prior.benchmark_adequacy,
+                    percent_change=(cur.benchmark_adequacy - prior.benchmark_adequacy) / prior.benchmark_adequacy if prior.benchmark_adequacy > 0 else 0.0,
+                    severity=severity,
+                    explanation=f"Benchmark adequacy score deteriorated to {cur.benchmark_adequacy:.2f} (from {prior.benchmark_adequacy:.2f}).",
+                    requires_human_review=True  # Pricing related issues require human review
+                )
+            )
+
     return anomalies
 
 def investigate_anomaly_drivers(df: pd.DataFrame, anomaly: AnomalyRecord, dimensions: List[str] = None) -> List[DriverResult]:
@@ -297,6 +315,42 @@ def investigate_anomaly_drivers(df: pd.DataFrame, anomaly: AnomalyRecord, dimens
                         prior_value=float(pri_wp),
                         contribution_to_change=float(contrib),
                         notes=f"Change: {cur_wp - pri_wp:+,.0f}"
+                    )
+                )
+        elif metric == "rate_adequacy":
+            # Group by dimension and calculate average or weighted average benchmark_adequacy
+            cur_grp_wp = df_cur.groupby(dim)["written_premium"].sum()
+            pri_grp_wp = df_pri.groupby(dim)["written_premium"].sum()
+            
+            # Using groupby-apply to calculate weighted average
+            cur_grp_ba = df_cur.groupby(dim).apply(lambda g: np.average(g["benchmark_adequacy"], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g["benchmark_adequacy"].mean())
+            pri_grp_ba = df_pri.groupby(dim).apply(lambda g: np.average(g["benchmark_adequacy"], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g["benchmark_adequacy"].mean())
+            
+            total_cur_wp = df_cur["written_premium"].sum()
+            total_pri_wp = df_pri["written_premium"].sum()
+            
+            all_vals = set(cur_grp_ba.index).union(set(pri_grp_ba.index))
+            
+            for val in all_vals:
+                cur_ba = float(cur_grp_ba.loc[val]) if val in cur_grp_ba.index else 0.0
+                pri_ba = float(pri_grp_ba.loc[val]) if val in pri_grp_ba.index else 0.0
+                
+                cur_wp = float(cur_grp_wp.loc[val]) if val in cur_grp_wp.index else 0.0
+                pri_wp = float(pri_grp_wp.loc[val]) if val in pri_grp_wp.index else 0.0
+                
+                # Weighted contribution to the change in benchmark adequacy
+                cur_share = cur_wp / total_cur_wp if total_cur_wp > 0 else 0.0
+                pri_share = pri_wp / total_pri_wp if total_pri_wp > 0 else 0.0
+                
+                contrib = (cur_ba * cur_share) - (pri_ba * pri_share)
+                
+                contributors.append(
+                    DriverContributor(
+                        value=str(val),
+                        current_value=cur_ba,
+                        prior_value=pri_ba,
+                        contribution_to_change=float(contrib),
+                        notes=f"Change: {cur_ba - pri_ba:+.2f}"
                     )
                 )
 

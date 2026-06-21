@@ -72,3 +72,15 @@ During the initial run of the golden test suite, we encountered the following fa
 * **Reason**: The security policy in `portfolio_agent/security.py` strictly restricts file reads to subdirectories `"data"` and `"examples"` to prevent unauthorized file access. The test suite needs to access `tests/golden` for reading datasets.
 * **Resolution**: Updated `ALLOWED_SUBDIRS` in [security.py](file:///Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My%20Drive/keggle%20Agent/portfolio_agent/security.py) to include `"tests/golden"` to allow the test suite to load the golden CSVs.
 * **Other classifications**: None (0 code defects, 0 architecture failures, 0 eval gaps).
+
+---
+
+## 7. Supplemental Gate 3 Update After Gate 4
+
+During Gate 4 implementation, rate adequacy / benchmark adequacy anomaly checks were added to [tools.py](file:///Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My%20Drive/keggle%20Agent/portfolio_agent/tools.py). Because this represents deterministic business logic, we extended Gate 3's golden deterministic test suite coverage to encompass rate adequacy.
+
+### Additions:
+* **Dataset**: Created [benchmark_deterioration.csv](file:///Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My%20Drive/keggle%20Agent/tests/golden/benchmark_deterioration.csv) representing a baseline and 25% deterioration in rate adequacy.
+* **Expected Output**: Created [expected_benchmark_deterioration.yaml](file:///Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My%20Drive/keggle%20Agent/tests/golden/expected_benchmark_deterioration.yaml) containing exact assertions for benchmark adequacy metrics, rate adequacy anomaly flag, and top driver contributions.
+* **Verification**: Parametrized [test_golden.py](file:///Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My%20Drive/keggle%20Agent/tests/test_golden.py) to run this new scenario.
+* **Pytest Outcomes**: The test suite now checks 4 golden scenarios, and all tests pass cleanly.
