@@ -1,0 +1,23 @@
+
+==================================================
+Run complete.
+Severity: High
+Human review required: Yes
+Top finding: The Public D&O business segment experienced a significant increase in loss ratio for the 2026-06 valuation month, rising from 0.
+Report: outputs/reports/portfolio_review_2026_06_312.md
+Trace: outputs/traces/run_trace_312.json
+==================================================
+
+
+2026-06-21 18:09:46,707  INFO     Starting Portfolio Review (Run ID: 312, Valuation Month: 2026-06)
+2026-06-21 18:09:46,707  INFO     Loading data from tests/golden/loss_ratio_spike.csv
+2026-06-21 18:09:46,708  INFO     Validating dataset schema and quality
+2026-06-21 18:09:46,709  INFO     Calculating portfolio metrics
+2026-06-21 18:09:46,710  INFO     Running anomaly thresholds checks
+2026-06-21 18:09:46,710  INFO     Running driver investigations on 1 anomalies
+2026-06-21 18:09:46,713  INFO     Calling Gemini for review synthesis and follow-ups
+2026-06-21 18:09:46,713  WARNING  Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+2026-06-21 18:09:46,728  INFO     AFC is enabled with max remote calls: 10.
+2026-06-21 18:09:54,468  INFO     HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-06-21 18:09:54,470  INFO     Compiling markdown report
+2026-06-21 18:09:54,471  INFO     Review pipeline finished successfully.

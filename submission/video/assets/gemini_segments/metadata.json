@@ -1,0 +1,14 @@
+{
+  "source": "Gemini API TTS (Segment-Based - Partial)",
+  "model": "gemini-3.1-flash-tts-preview",
+  "voice": "Kore",
+  "segments": [
+    {
+      "slide_number": 1,
+      "title": "Title Card",
+      "text_length": 504,
+      "wav_file": "seg_1.wav",
+      "mp3_file": "seg_1.mp3"
+    }
+  ]
+}

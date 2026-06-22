@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent
+configfile: pyproject.toml
+plugins: anyio-4.14.0
+collected 25 items
+
+artifacts/rebuilds/fresh_rebuild_v1_same_session_workspace/tests/test_rebuilt_golden.py . [  4%]
+...                                                                      [ 16%]
+artifacts/rebuilds/fresh_rebuild_v1_workspace/fresh_rebuild_v1/test_rebuild.py . [ 20%]
+.....                                                                    [ 40%]
+tests/test_eval_report_quality.py .                                      [ 44%]
+tests/test_eval_security.py .....                                        [ 64%]
+tests/test_golden.py ....                                                [ 80%]
+tests/test_security.py ..                                                [ 88%]
+tests/test_tools.py ...                                                  [100%]
+
+============================== 25 passed in 0.20s ==============================
+

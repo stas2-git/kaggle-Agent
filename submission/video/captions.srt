@@ -1,0 +1,95 @@
+1
+00:00:00,500 --> 00:00:09,500
+Routine monthly monitoring of insurance books of business is a critical but repetitive risk-management process.
+
+2
+00:00:09,500 --> 00:00:18,500
+Actuaries and analysts must manually load transactional aggregates, compute key metrics, detect anomalies,
+
+3
+00:00:18,500 --> 00:00:24,500
+decompose them by concentration drivers, and compile explanatory reports.
+
+4
+00:00:24,500 --> 00:00:30,000
+Traditional dashboards visualize these trends, but they stop at charts and do not write explanations.
+
+5
+00:00:30,500 --> 00:00:37,500
+This workflow is highly suited to an agentic approach because it is multi-step, reasoning-driven, and secure.
+
+6
+00:00:37,500 --> 00:00:44,500
+Our agent validates input schema quality, runs safety scans, identifies anomalies, and selects driver slicing tools.
+
+7
+00:00:44,500 --> 00:00:52,500
+To guarantee mathematical correctness, we use a tool-first architecture where deterministic Python tools compute metrics,
+
+8
+00:00:52,500 --> 00:01:00,000
+and the LLM is strictly restricted only to narrative review synthesis.
+
+9
+00:01:00,500 --> 00:01:08,500
+The agent's architecture consists of five modular layers: first, a data layer that ingests synthetic CSV aggregations.
+
+10
+00:01:08,500 --> 00:01:16,500
+Second, a security layer that checks paths and text notes. Third, a deterministic tool layer for metrics calculations.
+
+11
+00:01:16,500 --> 00:01:24,500
+Fourth, an agent reasoning layer that manages Gemini calls. And fifth, an output layer writing report and trace files.
+
+12
+00:01:25,000 --> 00:01:33,000
+Let's look at the pipeline in action. We run the orchestrator tool on a synthetic dataset with a loss ratio spike.
+
+13
+00:01:33,000 --> 00:01:41,000
+The tool validates the columns, calculates metrics, and triggers a high-severity flag because the loss ratio rose to 85%.
+
+14
+00:01:41,000 --> 00:01:49,000
+The agent immediately calls the driver investigation tool to slice the segment by available dimensions.
+
+15
+00:01:49,000 --> 00:01:57,000
+The mathematical breakdown shows that this spike is entirely concentrated in state New York for the 2025 policy year.
+
+16
+00:01:57,000 --> 00:02:07,000
+In the compiled report, we see the executive summary, metrics tables, NY drivers, and actuarial recommended questions.
+
+17
+00:02:07,000 --> 00:02:15,000
+The human review gate flag is set to required due to severity. A full trace JSON is saved for auditability.
+
+18
+00:02:15,500 --> 00:02:23,500
+Security and privacy are vital. The security layer blocks path traversals and screens note fields for prompt-injection attacks.
+
+19
+00:02:23,500 --> 00:02:31,500
+In our test suite, we run deterministic tests to match metric and driver math against YAML expectations.
+
+20
+00:02:31,500 --> 00:02:39,500
+We also run evaluation cases simulating malformed CSVs, notes prompt injections, and secret disclosure requests.
+
+21
+00:02:39,500 --> 00:02:47,500
+Our pytest suite verifies all twenty-five tests pass. Additionally, we run a Gate 5 rebuild test from specs alone.
+
+22
+00:02:48,000 --> 00:02:56,000
+The Actuarial Portfolio Monitoring Agent is not a replacement for professional actuarial opinion or underwriting authority.
+
+23
+00:02:56,000 --> 00:03:04,000
+Instead, it serves as a robust triage assistant that makes routine reviews faster, safer, and thoroughly documented.
+
+24
+00:03:04,000 --> 00:03:12,000
+For future work, we plan to transition to direct BigQuery analytical queries, containerized scheduling, and email alerts. Thank you.

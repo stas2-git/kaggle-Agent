@@ -1,0 +1,35 @@
+segments:
+  - slide_number: 1
+    title: "Title Card"
+    visual: "slides/slide1.png"
+    narration_text: "Routine monthly monitoring of insurance books of business is a critical but repetitive risk-management process. Actuaries and analysts must manually load transactional aggregates, compute key metrics, detect anomalies, decompose them by concentration drivers, and compile explanatory reports. Traditional business intelligence dashboards visualize these trends, but they stop at charts. They do not write the explanation or perform the initial triage, creating a time-consuming bottleneck for risk teams."
+
+  - slide_number: 2
+    title: "Why an Agent"
+    visual: "slides/slide2.png"
+    narration_text: "This workflow is highly suited to an agentic approach because it is multi-step, reasoning-driven, and requires strict security checks. A simple static script cannot dynamically decide how to triage issues. Our agent validates input schema quality, runs safety scans, identifies anomalies, selects the correct driver slicing tools, and compiles findings. To guarantee absolute mathematical correctness, we use a tool-first architecture where deterministic Python tools compute all metrics, and the LLM is restricted only to narrative synthesis."
+
+  - slide_number: 3
+    title: "Five-Layer Architecture"
+    visual: "slides/slide3.png"
+    narration_text: "The agent's architecture consists of five modular layers. First, a data layer that ingests synthetic CSV aggregations. Second, a security layer that checks paths and text notes for prompt injections. Third, a deterministic tool layer that calculates premiums, loss ratios, and written-premium-weighted averages for rate changes, retention, and benchmark adequacy. Fourth, an agent reasoning layer that manages Gemini calls and structured schemas. And fifth, an output layer writing a markdown review memo and a complete JSON trace file."
+
+  - slide_number: 4
+    title: "Live Demo: Pipeline Execution"
+    visual: "demo_cards/run_card.png"
+    narration_text: "Let's look at the pipeline in action. We run the orchestrator tool on a synthetic dataset containing an aggregate loss ratio spike in the Public D&O segment. The tool validates the columns, calculates metrics, and triggers a high-severity flag because the loss ratio rose from fifty percent to eighty-five percent. The agent immediately calls the driver investigation tool to slice the segment by available dimensions."
+
+  - slide_number: 5
+    title: "Live Demo: Actuarial Memo Output"
+    visual: "demo_cards/report_card.png"
+    narration_text: "The mathematical breakdown shows that this spike is entirely concentrated in state New York for the two thousand twenty-five policy year. In the compiled report, we see the executive summary, metrics tables, NY drivers, actuary-facing recommended follow-up questions, and the human review gate flag set to required due to severity. A full trace JSON is saved for auditability."
+
+  - slide_number: 6
+    title: "Rigorous Safety & Verification"
+    visual: "demo_cards/eval_card.png"
+    narration_text: "Security and privacy are vital. The security layer blocks path traversals and screens note fields for prompt-injection attacks. In our test suite, we run deterministic tests to match metric and driver math against YAML expectations. We also run evaluation cases validating CSV checks, prompt injections, secret disclosure requests, and report quality criteria. Our pytest suite verifies all twenty-five tests pass successfully."
+
+  - slide_number: 7
+    title: "Conclusion & Future Roadmap"
+    visual: "slides/slide6.png"
+    narration_text: "The Actuarial Portfolio Monitoring Agent is not a replacement for professional actuarial opinion or underwriting authority. Instead, it serves as a robust triage assistant that makes routine reviews faster, safer, and thoroughly documented. For future work, we plan to transition from flat CSVs to running direct BigQuery analytical queries, GKE-run containerized scheduling, and email alerts. Thank you."

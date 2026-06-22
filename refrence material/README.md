@@ -28,4 +28,4 @@ To keep context windows lightweight and prevent context rot, do not feed all ref
 * **Syllabus & Capstone Rules**: Refer to `reference_texts/capstone/`. Contains project requirements, timelines, syllabus, and course guidelines.
 * **Security & Evals**: Refer to `reference_texts/whitepapers/day4_security_evaluation.txt` and `reference_texts/codelabs/cl4_secure_ai_agent_lifecycle.txt`.
 * **ADK & CLI Deployment**: Refer to `reference_texts/codelabs/cl5_deploy_adk_agent_runtime.txt` and `reference_texts/whitepapers/day5_spec_driven_production_dev.txt`.
-* **Agent Skills & Workflows**: Refer to `reference_texts/whitepapers/day3_agent_skills.txt` and `reference_texts/codelabs/cl4_ambient_agent.txt`.
+* **Agent Skills & Workflows**: Refer to `reference_texts/whitepapers/day3_agent_skills.txt` and `codelabs/CL4 ambient agent/cl4_ambient_agent.txt`.
