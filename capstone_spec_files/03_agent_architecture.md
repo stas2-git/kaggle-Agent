@@ -120,11 +120,13 @@ Human review is required when:
 - The agent confidence score is below threshold.
 - The agent recommends any business action beyond investigation.
 
-## Suggested workflow implementation
+## Required workflow implementation
 
-### Option A: Graph workflow
+Version 0.2 selects Google ADK rather than leaving framework choice open. `portfolio_agent/agent.py` must export a discoverable `root_agent`; the ADK application name must match the `portfolio_agent` directory.
 
-Use a graph workflow with nodes:
+The implementation may use an ADK `Agent` with function tools or an ADK 2.0 `Workflow`. The preferred first migration is one bounded root agent with deterministic tools and callbacks. A graph workflow is appropriate only when explicit conditional edges improve correctness.
+
+Logical workflow nodes:
 
 1. `load_data_node`
 2. `validate_data_node`
@@ -135,11 +137,21 @@ Use a graph workflow with nodes:
 7. `human_review_gate_node`
 8. `report_writer_node`
 
-### Option B: Simple orchestrator
+The current simple Python orchestrator remains temporarily as a regression reference and offline implementation seam. It is not the final agent architecture and must not be presented as model-directed tool use.
 
-Use one Python orchestrator function that calls tools in order and lets the LLM synthesize findings after deterministic calculations.
+### ADK responsibilities
 
-For capstone reliability, Option B is acceptable if the writeup clearly explains the agent loop and tool boundaries.
+- `root_agent`: understand the review request, call only allowed tools, select useful investigation dimensions, and synthesize grounded findings.
+- `App`: bind `root_agent`, session state, callbacks/plugins, and optional resumability.
+- `ToolContext`: hold opaque dataset references and structured intermediate results without placing raw data into prompts.
+- callbacks: initialize state, enforce tool and path policy, sanitize model context, validate outputs, and record timing/status.
+- runner/session service: provide consistent CLI, FastAPI, and evaluation execution.
+
+Do not attach `output_schema` to a tool-calling agent if doing so disables tool calling in the installed ADK version. Use a separate structured synthesis agent/node or validate the final result after the tool-calling phase.
+
+### Agent selection boundary
+
+Deterministic code must always perform loading, validation, calculations, threshold detection, and artifact path enforcement. The agent may choose which allowed driver dimensions to investigate after receiving an anomaly record. A clean portfolio must not call driver investigation tools.
 
 ## Data flow
 
@@ -158,6 +170,13 @@ Final outputs:
 - Markdown report.
 - Trace JSON.
 - Evaluation scorecard.
+- Structured `PortfolioReviewResult` shared by CLI and FastAPI.
+
+## Delivery adapters
+
+`portfolio_agent/run.py` and `portfolio_agent/fast_api_app.py` invoke the same application service. Neither adapter may contain actuarial calculations, threshold logic, prompt policy, or report-validation rules.
+
+Offline mode bypasses model construction entirely and uses deterministic orchestration plus template synthesis. It is a reproducibility path, not an agent-quality evaluation result.
 
 ## Error handling
 

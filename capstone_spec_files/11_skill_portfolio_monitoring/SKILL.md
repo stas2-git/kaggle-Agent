@@ -58,3 +58,18 @@ Load these only when needed:
 - `references/actuarial_review_principles.md`
 - `references/anomaly_thresholds.md`
 - `assets/monthly_review_report_template.md`
+
+## Runtime packaging contract
+
+The canonical runtime copy must live at `skills/portfolio_monitoring/` with this file, its references, and its report template. The implementation must not leave the skill only inside the specification package.
+
+The ADK root agent must incorporate this skill's workflow and safety rules into its instruction/context-loading design. Loading may be implemented through generated instruction context or a dedicated skill loader, but the mechanism must be visible in source and covered by an integration test.
+
+Progressive loading rules:
+
+1. Load the core workflow for every portfolio-review request.
+2. Load `references/anomaly_thresholds.md` only when thresholds or anomaly interpretation are relevant.
+3. Load `references/actuarial_review_principles.md` for synthesis and report-quality guidance.
+4. Load the report template only when creating the final artifact.
+
+The skill provides procedural guidance; it does not calculate metrics, authorize paths, or override deterministic tool results.

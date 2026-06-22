@@ -1,0 +1,968 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Bold;\f2\froman\fcharset0 Times-Italic;
+\f3\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c0\c93333;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid401\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid501\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid6}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Vibecode and Secure an AI Agent Lifecycle with Antigravity and TDD\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 About this codelab\
+\pard\pardeftab720\partightenfactor0
+
+\f2\i\b0\fs24 \cf0 subject
+\f0\i0 Last updated Jun 18, 2026\
+
+\f2\i account_circle
+\f0\i0 Written by Aron Eidelman, Sita Lakshmi Sangameswaran\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#0"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 1. Introduction}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 This lab is part of Kaggle's 
+\f1\b 5-Day AI Agents: Intensive Vibe Coding Course with Google
+\f0\b0 . You can find the additional codelabs and resources available on the {\field{\*\fldinst{HYPERLINK "https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 event site}}.\
+In this codelab, you will build a retail web application with an integrated AI Shopping Assistant using 
+\f1\b Google's Agent Development Kit (ADK)
+\f0\b0 . You will use 
+\f1\b Google Antigravity IDE
+\f0\b0  (Google's agentic IDE) to establish a secure, test-driven development (TDD) workflow.\
+Rather than treating security as a late-stage gate, you will learn to "shift security left" to the point of code inception. You will enforce development standards, automate {\field{\*\fldinst{HYPERLINK "https://owasp.org/www-community/Threat_Modeling_Process#stride-threat--mitigation-techniques"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 STRIDE threat modeling}}, and gate agent actions with git pre-commit hooks and agent-specific execution hooks.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 What you'll do\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f0\b0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Scaffold and build a ADK 2.0 shopping assistant agent using Antigravity IDE and 
+\f3\fs26 agents-cli
+\f0\fs24 .\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Set up project-level secure coding standards using a persistent context file (
+\f3\fs26 CONTEXT.md
+\f0\fs24 ).\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Build and invoke a custom workspace-level STRIDE Threat Modeling Skill in Antigravity IDE.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Enforce security guardrails directly during the TDD Plan Phase.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Write outcome-based security tests in Pytest using Antigravity.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Configure Git pre-commit hooks to automate {\field{\*\fldinst{HYPERLINK "https://semgrep.dev/"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Semgrep}} scans with local remediation loops in Antigravity.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 What you'll need\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0
+\f0\b0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 A web browser such as {\field{\*\fldinst{HYPERLINK "https://www.google.com/chrome/"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Chrome}}\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Familiarity with Python, Pytest, and basic terminal commands\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Google Antigravity IDE
+\f0\b0  installed. See the {\field{\*\fldinst{HYPERLINK "https://antigravity.google/docs/home"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 official website}}.\
+\ls2\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 uv
+\f0\b0  package manager installed. See {\field{\*\fldinst{HYPERLINK "https://docs.astral.sh/uv/getting-started/installation/"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 uv installation guide}}.\
+\ls2\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Git
+\f0\b0  command line tool installed. Git is used exclusively for local version control in this lab, so a GitHub account is not required. See the {\field{\*\fldinst{HYPERLINK "https://github.com/git-guides/install-git"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Git installation guide}}.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 This codelab is for developers of all levels, including beginners. The entire lab will take approximately 60 minutes to complete.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 Set up Authentication & Environment\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\fs24 \cf0 Local Concept Demonstration:
+\f0\b0  Because this lab focuses entirely on demonstrating local development guardrails and pre-commit remediation loops, everything runs locally on your workstation. There is no need to authenticate to Google Cloud or connect your repository to GitHub!\
+Provide your authentication credentials for the agent to call Gemini models. Obtain a standard Gemini API key from {\field{\*\fldinst{HYPERLINK "https://aistudio.google.com/app/apikey"}}{\fldrslt \cf3 \ul \ulc3 \strokec3 Google AI Studio}} and export it in your IDE terminal session:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 export GEMINI_API_KEY="your_api_key_here"\
+export GOOGLE_GENAI_USE_ENTERPRISE=FALSE\
+\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#1"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 2. Setup Workspace and Toolchain}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 First, initialize the project workspace and install the underlying agent management toolchain. To do that, we will prompt Antigravity IDE to automate the setup process.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 Note for Antigravity users:
+\f0\b0  During this codelab, Antigravity may generate implementation plans or display popups before executing commands or writing code. Be sure to review and 
+\f1\b approve
+\f0\b0  these plans or popups to allow Antigravity to proceed with the tasks.\
+
+\f1\b Quota Tip:
+\f0\b0  If you run out of quota during testing or development, you can switch the model in Antigravity to another available model.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Help me set up my local project workspace. Please:\
+1. Create a new directory `~/secure-agent-lab`, navigate into it, initialize\
+\'a0 \'a0a Git repository, and configure my local Git identity (user.name:\
+\'a0 \'a0"Kaggle Student", user.email: "student@example.com").\
+2. Create and activate a Python virtual environment using `uv`.\
+3. Install and verify the `agents-cli` toolchain by running\
+\'a0 \'a0`uvx google-agents-cli setup` and `agents-cli info`.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will execute the necessary terminal commands on your behalf, establishing a clean Git repository and installing the companion ADK skills into your IDE.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#2"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 3. Scaffold the ADK Agent Project}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 In this phase, we guide Antigravity to use 
+\f3\fs26 \strokec2 agents-cli
+\f0\fs24 \strokec2  to scaffold a fully functional ADK 2.0 agent project called 
+\f3\fs26 \strokec2 shopping-assistant
+\f0\fs24 \strokec2 . We will instruct Antigravity to design a retail assistant with a discount redemption tool.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 Note:
+\f0\b0  To show the power of automated gating hooks, in this prompt, we explicitly instruct Antigravity to include a simulated vulnerability: a hardcoded mock API key used for local development.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Use `agents-cli` to scaffold a new ADK 2.0 agent project called\
+`shopping-assistant`. The workflow should act as an AI shopping assistant\
+for a retail store. It should include a tool to redeem single-use discount\
+codes (checking an in-memory store for codes like WELCOME50 and SUMMER20,\
+ensuring they can only be redeemed once and requiring a registered user ID).\
+\
+Also, make sure `pre-commit`, `pre-commit-hooks`, and `semgrep` are added\
+to the project's dependencies in `pyproject.toml` and installed. Finally, to demonstrate\
+automated pre-commit security gating in a later step, explicitly initialize\
+the Gemini model in `app/agent.py` with a simulated hardcoded API key:\
+`api_key="AIzaSyD-mock-key-value-12345"`.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will execute 
+\f3\fs26 \strokec2 agents-cli scaffold create shopping-assistant --adk
+\f0\fs24 \strokec2 , configure 
+\f3\fs26 \strokec2 pyproject.toml
+\f0\fs24 \strokec2 , and implement the agent logic.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#3"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 4. Explore the Agent Code}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 \uc0\u55357 \u56393  
+\f1\b Ask Antigravity to explain the generated code:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Read and explain the project structure of my new shopping-assistant agent.\
+Walk me through how `app/agent.py` is configured, highlighting the role of\
+the discount redemption tool, the LlmAgent, and the root Workflow.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 In the Antigravity IDE, newly created project files are displayed directly in the auxiliary pane (left side). You can view 
+\f3\fs26 \strokec2 shopping-assistant/app/agent.py
+\f0\fs24 \strokec2  there or open it from the IDE file explorer.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 Note:
+\f0\b0  Because Antigravity generates implementations dynamically, the code in your 
+\f3\fs26 \strokec2 app/agent.py
+\f0\fs24 \strokec2  file may be structured slightly differently than the snippet below, but it will share the same core ADK 2.0 concepts.\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 # shopping-assistant/app/agent.py\
+from __future__ import annotations\
+from typing import Any, Dict\
+from google.adk.agents.context import Context\
+from google.adk.apps.app import App\
+from google.adk.events.event import Event\
+from google.adk.workflow import Edge, Workflow\
+from google.adk.workflow.agents.llm_agent import LlmAgent\
+from google.adk.models.google_llm import Gemini\
+from google.adk.workflow.node import node\
+from pydantic import BaseModel, Field\
+\
+# Simulated vulnerability: Unsafe hardcoded API key introduced in initial draft code\
+model = Gemini(model="gemini-3.1-flash-lite", api_key="AIzaSyD-mock-key-value-12345")\
+\
+# In-memory discount redemption store (simulating database state)\
+DISCOUNT_STORE: Dict[str, bool] = \{"WELCOME50": False, "SUMMER20": False\}\
+\
+class DiscountRequest(BaseModel):\
+\'a0 \'a0 code: str = Field(description="The discount code to redeem.")\
+\'a0 \'a0 user_id: str = Field(description="The ID of the user requesting redemption.")\
+\
+def redeem_discount(code: str, user_id: str) -> str:\
+\'a0 \'a0 """Agent Tool: Redeem a single-use discount code for a user."""\
+\'a0 \'a0 if code not in DISCOUNT_STORE:\
+\'a0 \'a0 \'a0 \'a0 return "Error: Invalid discount code."\
+\'a0 \'a0 if DISCOUNT_STORE[code]:\
+\'a0 \'a0 \'a0 \'a0 return "Error: Discount code has already been redeemed."\
+\'a0 \'a0 if not user_id or user_id.startswith("guest_"):\
+\'a0 \'a0 \'a0 \'a0 return "Error: Registered user account required to redeem discounts."\
+\'a0 \'a0 \'a0 \'a0 \
+\'a0 \'a0 DISCOUNT_STORE[code] = True\
+\'a0 \'a0 return f"Success: Discount code \{code\} redeemed successfully for user \{user_id\}."\
+\
+shopping_agent = LlmAgent(\
+\'a0 \'a0 name="ShoppingHelper",\
+\'a0 \'a0 model=model,\
+\'a0 \'a0 instruction="You are a helpful shopping assistant. Use your tools to redeem discount codes for users.",\
+\'a0 \'a0 tools=[redeem_discount]\
+)\
+\
+root_workflow = Workflow(\
+\'a0 \'a0 name="shopping_assistant_workflow",\
+\'a0 \'a0 edges=[*Edge.chain('START', shopping_agent)]\
+)\
+\
+app = App(\
+\'a0 \'a0 name="shopping_assistant",\
+\'a0 \'a0 root_agent=root_workflow\
+)\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 \strokec2 Production Best Practice: Concurrency & Race Conditions\strokec2 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 In our tool logic, we check an in-memory dictionary (
+\f3\fs26 \strokec2 DISCOUNT_STORE
+\f0\fs24 \strokec2 ) and modify its state. In a multi-threaded production environment with a real database, two concurrent requests could both read the code as unredeemed before either write commits, causing a 
+\f1\b double-redemption
+\f0\b0  vulnerability. In production, always use pessimistic locking (e.g., 
+\f3\fs26 \strokec2 .with_for_update()
+\f0\fs24 \strokec2 ) or optimistic versioning to ensure transaction isolation.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Lint the Initial Agent Graph\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To verify that our newly scaffolded agent graph compiles correctly, we can prompt Antigravity to run the linter and test the agent on our behalf.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Run `agents-cli lint` on our `shopping-assistant` project to verify syntax and \
+refactor if any issues.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will execute 
+\f3\fs26 \strokec2 agents-cli lint
+\f0\fs24 \strokec2  and 
+\f3\fs26 \strokec2 agents-cli lint --fix
+\f0\fs24 \strokec2  to fix any formatting or lint issues detected.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#4"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 5. Create Project-Specific Rules}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To prevent overloading your agent's active memory with thousands of pages of generic security documentation\'97which causes context rot and reasoning latency, you must establish a "paved road" of pre-approved secure conventions. In Antigravity IDE, you can establish these guardrails by creating a persistent context file.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create a customization directory named `shopping-assistant/.agents` and\
+create a file `shopping-assistant/.agents/CONTEXT.md` defining our secure\
+coding standards:\
+\
+# Local Project Context & Secure Coding Standards\
+\
+## Core Paved Roads\
+We systematically address common vulnerability classes by guiding the agent\
+to use our pre-configured, secure-by-default helper patterns instead of\
+writing raw implementation logic from scratch.\
+\
+1. **Tool Input Validation**: Every agent tool must validate incoming\
+\'a0 \'a0parameters against strict Pydantic schemas rather than parsing raw\
+\'a0 \'a0dictionaries or strings.\
+2. **No Shell Execution**: Never use `run_command` or raw shell execution\
+\'a0 \'a0tools unless explicitly approved by `hooks.json`.\
+3. **Pre-Commit Remediation Loop**: If a git commit fails due to a pre-commit\
+\'a0 \'a0hook error (such as a Semgrep scan finding), you MUST treat the violation\
+\'a0 \'a0as a refactoring task, apply targeted fixes, run tests to verify no\
+\'a0 \'a0regressions, and attempt to commit again.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will create the 
+\f3\fs26 \strokec2 .agents/
+\f0\fs24 \strokec2  directory and the 
+\f3\fs26 \strokec2 CONTEXT.md
+\f0\fs24 \strokec2  file, displaying it directly in the auxiliary pane for your review.\
+
+\f1\b Caution:
+\f0\b0  Failing to centralize these rules causes the agent to fall back on basic training data, which might result in vulnerable string concatenation or open redirect vectors.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#5"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 6. Configure Local Gating Hooks}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To prevent insecure code or secrets from ever leaving your workstation, configure automated gates at the boundaries of your development environment 
+\f2\i \strokec2 before
+\f0\i0 \strokec2  committing code. We will prompt Antigravity to generate the hook configurations, then install them using the terminal.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 1. Git Pre-Commit Hook\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To ensure our static analysis reliably catches simulated credentials and blocks insecure commits, we will define a custom Semgrep rule and configure a Git pre-commit hook to enforce it.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 Define a Custom Semgrep Rule\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Default Semgrep rules (
+\f3\fs26 \strokec2 --config auto
+\f0\fs24 \strokec2 ) do not flag mock keys containing words like 
+\f3\fs26 \strokec2 "mock"
+\f0\fs24 \strokec2  or hyphens due to low-confidence scoring. To reliably detect our hardcoded API key, we will create a custom local rules file utilizing direct regex scanning instead of generic rules.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create a custom Semgrep rules file `shopping-assistant/.semgrep/rules.yaml`\
+with a rule to detect hardcoded Google API key prefixes (matching regex\
+`AIzaSy[A-Za-z0-9_\\-]*`). Configure it for Python files with an error severity\
+and a clear security warning message.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will create 
+\f3\fs26 \strokec2 shopping-assistant/.semgrep/rules.yaml
+\f0\fs24 \strokec2  defining our custom scanning rule. Review the generated rule definition:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 # shopping-assistant/.semgrep/rules.yaml\
+rules:\
+\'a0 - id: detect-hardcoded-google-api-key\
+\'a0 \'a0 pattern-regex: 'AIzaSy[A-Za-z0-9_\\-]*'\
+\'a0 \'a0 message: "Security Issue: Hardcoded Google API key prefix detected."\
+\'a0 \'a0 languages:\
+\'a0 \'a0 \'a0 - python\
+\'a0 \'a0 severity: ERROR\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 Configure the Pre-Commit Hook\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Next, configure the Git pre-commit hook to run our custom Semgrep rule. When executing hooks in a subdirectory layout, paths to local configs must be relative to the Git repository root directory (
+\f3\fs26 \strokec2 shopping-assistant/.semgrep/rules.yaml
+\f0\fs24 \strokec2 ), not the project subdirectory.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create a `shopping-assistant/.pre-commit-config.yaml` file configured to run\
+local pre-commit hooks (end-of-file-fixer, trailing-whitespace) and a local\
+Semgrep security scan on commit for Python files. Ensure Semgrep is configured\
+with the `--error` flag and references our custom rules file relative to the Git\
+repository root. Once created, run `pre-commit install` in the\
+terminal to activate the hooks.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will generate 
+\f3\fs26 \strokec2 shopping-assistant/.pre-commit-config.yaml
+\f0\fs24 \strokec2  and execute 
+\f3\fs26 \strokec2 pre-commit install
+\f0\fs24 \strokec2  on your behalf. Review the generated configuration:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 # shopping-assistant/.pre-commit-config.yaml\
+repos:\
+\'a0 - repo: local\
+\'a0 \'a0 hooks:\
+\'a0 \'a0 \'a0 - id: end-of-file-fixer\
+\'a0 \'a0 \'a0 \'a0 name: End of File Fixer\
+\'a0 \'a0 \'a0 \'a0 entry: end-of-file-fixer\
+\'a0 \'a0 \'a0 \'a0 language: system\
+\'a0 \'a0 \'a0 \'a0 types: [file]\
+\'a0 \'a0 \'a0 - id: trailing-whitespace\
+\'a0 \'a0 \'a0 \'a0 name: Trailing Whitespace\
+\'a0 \'a0 \'a0 \'a0 entry: trailing-whitespace-fixer\
+\'a0 \'a0 \'a0 \'a0 language: system\
+\'a0 \'a0 \'a0 \'a0 types: [file]\
+\'a0 \'a0 \'a0 - id: semgrep\
+\'a0 \'a0 \'a0 \'a0 name: Semgrep Security Scan\
+\'a0 \'a0 \'a0 \'a0 entry: semgrep --error --config shopping-assistant/.semgrep/rules.yaml\
+\'a0 \'a0 \'a0 \'a0 language: system\
+\'a0 \'a0 \'a0 \'a0 types: [python]\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 Tip:
+\f0\b0  The 
+\f3\fs26 \strokec2 --error
+\f0\fs24 \strokec2  flag is 
+\f1\b critical
+\f0\b0 ; without it, Semgrep will log the security finding to standard output but return exit code 
+\f3\fs26 \strokec2 0
+\f0\fs24 \strokec2  (success by default), which allows the unsafe commit to pass. Pre-commit only blocks commits on non-zero exit codes.\
+This configuration ensures that even if an agent is running in fully autonomous, non-interactive mode, the pre-commit gate will fire and block any commit that fails static analysis scans.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b\fs28 \cf0 Direct Execution Commands (For Manual Verification)\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To verify your static analysis setup manually without triggering a full commit hook cycle, you can execute these checks directly from the terminal.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 Via pre-commit (from the "shopping-assistant" directory):
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 uv run pre-commit run semgrep --all-files\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 Via Semgrep directly (from the "shopping-assistant" directory):
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 uv run semgrep --error --config .semgrep/rules.yaml app/agent.py\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 2. Built-in Antigravity Agent Hook\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 For deeper, mid-trajectory gating, configure an agent hook in 
+\f3\fs26 \strokec2 shopping-assistant/.agents/hooks.json
+\f0\fs24 \strokec2 . Unlike git hooks, agent hooks intercept Antigravity 
+\f2\i \strokec2 before
+\f0\i0 \strokec2  it can run critical tools (like executing shell commands) on your system.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create a `shopping-assistant/.agents/hooks.json` file configured with a\
+`PreToolUse` hook that intercepts `run_command` executions and runs\
+`python3 .agents/scripts/validate_tool_call.py` with a 10-second timeout.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will create 
+\f3\fs26 \strokec2 shopping-assistant/.agents/hooks.json
+\f0\fs24 \strokec2 . Review the generated configuration:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 \{\
+\'a0 "enabled": true,\
+\'a0 "PreToolUse": [\
+\'a0 \'a0 \{\
+\'a0 \'a0 \'a0 "matcher": "run_command",\
+\'a0 \'a0 \'a0 "command": "python3 .agents/scripts/validate_tool_call.py",\
+\'a0 \'a0 \'a0 "timeout": 10\
+\'a0 \'a0 \}\
+\'a0 ]\
+\}\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 Caution:
+\f0\b0  To safely intercept tool executions like 
+\f3\fs26 \strokec2 run_command
+\f0\fs24 \strokec2 , the 
+\f3\fs26 \strokec2 PreToolUse
+\f0\fs24 \strokec2  event definition MUST include the mandatory 
+\f3\fs26 \strokec2 matcher
+\f0\fs24 \strokec2  field. Leaving this out or misconfiguring it can let the agent execute raw, unchecked shell actions.\
+Next, prompt Antigravity to create the underlying tool validation script referenced by our hook.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create the script `shopping-assistant/.agents/scripts/validate_tool_call.py`\
+with logic to inspect `run_command` executions passed using stdin and block\
+destructive commands like `rm -rf /`.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will generate 
+\f3\fs26 \strokec2 shopping-assistant/.agents/scripts/validate_tool_call.py
+\f0\fs24 \strokec2 , similar to the one below. Review the generated validation script:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 # shopping-assistant/.agents/scripts/validate_tool_call.py\
+import sys\
+import json\
+\
+def main():\
+\'a0 \'a0 try:\
+\'a0 \'a0 \'a0 \'a0 context = json.load(sys.stdin)\
+\'a0 \'a0 \'a0 \'a0 command = context.get("tool_args", \{\}).get("CommandLine", "")\
+\'a0 \'a0 \'a0 \'a0 \
+\'a0 \'a0 \'a0 \'a0 if "rm -rf /" in command or "mkfs" in command:\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 print("BLOCKED: Destructive command detected.", file=sys.stderr)\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 sys.exit(1)\
+\'a0 \'a0 \'a0 \'a0 \'a0 \'a0 \
+\'a0 \'a0 \'a0 \'a0 print("APPROVED: Command validation passed.")\
+\'a0 \'a0 \'a0 \'a0 sys.exit(0)\
+\'a0 \'a0 except Exception as e:\
+\'a0 \'a0 \'a0 \'a0 print(f"Validation error: \{e\}", file=sys.stderr)\
+\'a0 \'a0 \'a0 \'a0 sys.exit(1)\
+\
+if __name__ == "__main__":\
+\'a0 \'a0 main()\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Hook Trade-offs\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls3\ilvl0
+\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Git Hooks
+\f0\b0 : Native to version control; run even if an agent runs in fully autonomous, non-interactive mode. However, they can be bypassed using the 
+\f3\fs26 --no-verify
+\f0\fs24  flag during a commit.\
+\ls3\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Agent Hooks
+\f0\b0 : Capture events mid-trajectory to block dangerous tool commands, but they do not protect the repository if a developer bypasses the IDE.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 Local gates reinforce good developer habits and help catch vulnerabilities instantly. Remember, however, that local gates can be bypassed, meaning your remote, isolated CI/CD pipeline remains your ultimate, unbypassable security barrier.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#6"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 7. Implement STRIDE Threat Modeling Skill}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Now, you will grant Antigravity the specialized knowledge of a security architect. Antigravity skills are modular, declarative Markdown directories that instruct the agent how to run multi-step reasoning jobs. Antigravity automatically discovers any skills placed in 
+\f3\fs26 \strokec2 .agents/skills/
+\f0\fs24 \strokec2 .\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Create a local skill directory\
+`shopping-assistant/.agents/skills/stride-threat-model/` and create a skill\
+definition file `shopping-assistant/.agents/skills/stride-threat-model/SKILL.md`\
+with the following content:\
+\
+---\
+name: stride-threat-model\
+description: Performs a systematic STRIDE threat modeling assessment on the\
+current project's codebase and architecture. Use this when starting a new\
+implementation phase or reviewing existing components.\
+---\
+\
+# STRIDE Threat Modeling Skill\
+\
+## Goal\
+Guide the agent to analyze the workspace directory structure, configuration\
+files, and code files to produce a structured `threat_model.md` assessment.\
+\
+## Instructions\
+1. **Analyze System Boundaries**: Map the entry points (tools, workflows,\
+\'a0 \'a0prompts) and data storage layers.\
+2. **STRIDE Evaluation**: Evaluate the system against the six STRIDE pillars:\
+\'a0 \'a0- **Spoofing**: Are caller identity boundaries verified before executing\
+\'a0 \'a0 \'a0sensitive tool logic?\
+\'a0 \'a0- **Tampering**: Can users manipulate data flows, parameters, or underlying\
+\'a0 \'a0 \'a0state?\
+\'a0 \'a0- **Repudiation**: Are critical transactions securely logged?\
+\'a0 \'a0- **Information Disclosure**: Are we risking leakage of PII, internal tokens,\
+\'a0 \'a0 \'a0or raw stack traces?\
+\'a0 \'a0- **Denial of Service**: Are there rate limits on expensive database or LLM\
+\'a0 \'a0 \'a0queries?\
+\'a0 \'a0- **Elevation of Privilege**: Can an unauthenticated user bypass access\
+\'a0 \'a0 \'a0control to reach privileged tool actions?\
+3. **Output**: Generate a highly structured `threat_model.md` saved directly\
+\'a0 \'a0into the workspace root.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will create the custom skill directory and 
+\f3\fs26 \strokec2 SKILL.md
+\f0\fs24 \strokec2  file.\
+Now, let's execute your newly created skill to evaluate your active project graph (
+\f3\fs26 \strokec2 shopping-assistant/app/agent.py
+\f0\fs24 \strokec2 ).\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Run stride-threat-model on our shopping-assistant agent graph.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity matches your intent, loads the threat assessment instructions on-demand from your local skill directory, analyzes your existing 
+\f3\fs26 \strokec2 agent.py
+\f0\fs24 \strokec2  file, and generates a structured 
+\f3\fs26 \strokec2 threat_model.md
+\f0\fs24 \strokec2  directly in your 
+\f3\fs26 \strokec2 shopping-assistant
+\f0\fs24 \strokec2  root. This approach keeps your everyday working context clean and lightweight while giving you instant access to expert security reasoning.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#7"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 8. Gate the TDD Plan Phase}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Before implementing further features or refactoring code, Antigravity utilizes its semantic codebase understanding to map out changes in an 
+\f3\fs26 \strokec2 implementation_plan.md
+\f0\fs24 \strokec2  and a 
+\f3\fs26 \strokec2 task.md
+\f0\fs24 \strokec2  checklist. To force Antigravity to design for security up-front, we configure a system rule in 
+\f3\fs26 \strokec2 .agents/CONTEXT.md
+\f0\fs24 \strokec2  that restricts plan approval.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Append the following TDD planning gate instruction to the bottom of\
+`shopping-assistant/.agents/CONTEXT.md`:\
+\
+## TDD Planning Gate\
+During the Plan phase, you must decompose the workspace task into logical,\
+modular stages. Every implementation plan MUST include a dedicated\
+**Security Boundaries & Assertions** section outlining specific edge cases\
+that could exploit the feature.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will update 
+\f3\fs26 \strokec2 shopping-assistant/.agents/CONTEXT.md
+\f0\fs24 \strokec2  with the new planning gate rule.\
+When you prompt Antigravity to build or refactor a feature in subsequent steps, it will automatically analyze this rule and present an implementation plan with an explicit security breakdown. You will be able to review this plan directly in Antigravity's interactive dialog or auxiliary pane, where you must click 
+\f1\b Proceed
+\f0\b0  or 
+\f1\b Approve
+\f0\b0  before code generation begins.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Test the Planning Gate (Optional)\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To observe this planning gate in action right now, try prompting Antigravity with one of the following feature requests. Instead of immediately generating code, Antigravity will enter the Plan phase and present an 
+\f3\fs26 \strokec2 implementation_plan.md
+\f0\fs24 \strokec2  featuring a detailed 
+\f1\b Security Boundaries & Assertions
+\f0\b0  breakdown (e.g., identifying race conditions, unauthorized privilege escalation, or negative point values) for your review!\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity (Choose one to test):
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Plan a new agent tool `award_loyalty_points` that awards points to a user's\
+account after a successful purchase.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Plan a new agent tool `process_cart_checkout` that receives a cart ID and\
+discount code, applies the discount, and processes the order.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Plan a new agent tool `update_discount_status` that allows administrators to\
+activate or deactivate discount codes in the store.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#8"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 9. Write Isolated, Outcome-Based Tests}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Now we guide Antigravity to write comprehensive security tests for our existing ADK agent tools. To ensure our security tests are resilient and realistic, we structure them based on two core principles:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls4\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Assert on outcomes, not interactions
+\f0\b0 : Assert on final return strings and state mutations instead of writing fragile mocks that spy on internal helper calls.\
+\ls4\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Enforce Strict Guardrails
+\f0\b0 : Verify that tools enforce explicit business logic boundaries (like single-use redemption and registered user rules).\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 \uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Use `agents-cli` and pytest to generate an outcome-based security test suite\
+in `shopping-assistant/tests/test_agent.py`. Inspect `app/agent.py` and\
+write tests to verify all security boundaries and business logic guardrails\
+for the `redeem_discount` tool.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will generate 
+\f3\fs26 \strokec2 shopping-assistant/tests/test_agent.py
+\f0\fs24 \strokec2 , similar to the one below. Review the generated test file:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 # shopping-assistant/tests/test_agent.py\
+import pytest\
+from app.agent import redeem_discount, DISCOUNT_STORE\
+\
+@pytest.fixture(autouse=True)\
+def reset_store():\
+\'a0 \'a0 """Ensure strict test isolation by resetting in-memory store state before each test run."""\
+\'a0 \'a0 DISCOUNT_STORE["WELCOME50"] = False\
+\'a0 \'a0 DISCOUNT_STORE["SUMMER20"] = False\
+\'a0 \'a0 yield\
+\'a0 \'a0 DISCOUNT_STORE["WELCOME50"] = False\
+\'a0 \'a0 DISCOUNT_STORE["SUMMER20"] = False\
+\
+def test_discount_code_can_only_be_redeemed_once():\
+\'a0 \'a0 """Verify a user cannot submit a request reusing a single-use code."""\
+\'a0 \'a0 # First redemption - should succeed\
+\'a0 \'a0 res_one = redeem_discount("WELCOME50", "user_123")\
+\'a0 \'a0 assert "Success" in res_one\
+\'a0 \'a0 assert DISCOUNT_STORE["WELCOME50"] is True\
+\'a0 \'a0 \
+\'a0 \'a0 # Second redemption trying to reuse the same code\
+\'a0 \'a0 res_two = redeem_discount("WELCOME50", "user_456")\
+\'a0 \'a0 assert "Error: Discount code has already been redeemed" in res_two\
+\
+def test_discount_redemption_rejects_invalid_code():\
+\'a0 \'a0 """Verify that unknown discount codes are hard-blocked."""\
+\'a0 \'a0 res = redeem_discount("INVALID999", "user_123")\
+\'a0 \'a0 assert "Error: Invalid discount code" in res\
+\
+def test_discount_redemption_rejects_guest_accounts():\
+\'a0 \'a0 """Verify that unauthenticated guest accounts cannot redeem discounts."""\
+\'a0 \'a0 res = redeem_discount("SUMMER20", "guest_999")\
+\'a0 \'a0 assert "Error: Registered user account required" in res\
+\'a0 \'a0 assert DISCOUNT_STORE["SUMMER20"] is False\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Verify TDD GREEN Phase\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To verify that our newly generated security tests pass successfully against our existing 
+\f3\fs26 \strokec2 agent.py
+\f0\fs24 \strokec2  implementation, prompt Antigravity to execute pytest on your behalf.\
+\uc0\u55357 \u56393  
+\f1\b Prompt to Antigravity:
+\f0\b0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Run `uv run pytest tests/test_agent.py` on our `shopping-assistant` project to verify that our security tests pass successfully.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 What to expect:
+\f0\b0  Antigravity will execute 
+\f3\fs26 \strokec2 uv run pytest tests/test_agent.py
+\f0\fs24 \strokec2  in the terminal. All test cases pass successfully. The logical application boundaries are now secure, but we must make sure our static scanner catches the hardcoded API key during commit.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#9"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 10. Verify Gating and Agent Self-Correction}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Now that tests are green, you enter the 
+\f1\b Refactor and Commit Phase
+\f0\b0 . This is where our local security scans and pre-commit hooks verify that no repo leaves the workstation with vulnerabilities, and Antigravity demonstrates its autonomous self-correction capabilities.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b \cf0 Commit Hygiene:
+\f0\b0  Do not use the 
+\f3\fs26 \strokec2 --no-verify
+\f0\fs24 \strokec2  flag when executing the commit command! We specifically want the pre-commit hook to fire so you can observe Semgrep intercept the simulated API key leak.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 In your terminal, navigate to the project directory and commit the code using 
+\f3\fs26 uv run
+\f0\fs24  to ensure local pre-commit hook binaries are active on your PATH:\uc0\u8232 \u8232 
+\f3\fs26 cd ~/secure-agent-lab/shopping-assistant\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 git add .\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	3	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 uv run git commit -m "feat: implement shopping assistant agent"\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	4	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	5	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Observe that the commit fails because the Git pre-commit hook runs Semgrep automatically:\uc0\u8232 \u8232 
+\f3\fs26 Semgrep Security Scan....................................................Failed\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	6	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 - hookid: semgrep\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	7	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	8	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2   app/agent.py\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	9	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2   Security Issue: Hardcoded Google API key prefix detected.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	10	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	11	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Guided by the 
+\f1\b Pre-Commit Remediation Loop
+\f0\b0  rule configured in 
+\f3\fs26 .agents/CONTEXT.md
+\f0\fs24 , Antigravity automatically intercepts the pre-commit failure in the IDE terminal, reads the Semgrep error logs, and starts a refactoring step to move from a hardcoded API key to retrieving the key securely.\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	12	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Review the refactored code generated by Antigravity in 
+\f3\fs26 shopping-assistant/app/agent.py
+\f0\fs24  to resolve the API key leak.\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	13	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Antigravity automatically runs 
+\f3\fs26 pytest
+\f0\fs24  to verify the tests are still green.\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	14	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Antigravity attempts the commit again on your behalf. Provided your local Git identity is configured and a repo is initialized, the scan passes, and the commit succeeds!\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 This demonstrates the core power of combining TDD with local pre-commit hooks and agent loops. Instead of waiting for a remote CI/CD failure, the agent is kept accountable locally, refactoring its code to be secure-by-default before it is ever pushed.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/secure-agentic-coding#10"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 \strokec3 11. Run and Test the Agent Locally}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Now that the security boundaries are verified and committed, run the ADK agent locally using your exported Gemini API key to interact with it in the local playground.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls6\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 In your terminal, ensure your Gemini API Key is exported in your environment:\uc0\u8232 \u8232 
+\f3\fs26 echo $GEMINI_API_KEY # Verify your key is exported\
+\ls6\ilvl0
+\f0\fs24 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\ls6\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	3	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Launch the local development playground for your agent:\uc0\u8232 \u8232 
+\f3\fs26 cd ~/secure-agent-lab/shopping-assistant\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls6\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	4	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 agents-cli playground\
+\ls6\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	5	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f0\fs24 You should see output indicating the local playground server is running on port 8080:\uc0\u8232 \u8232 
+\f3\fs26 * Serving ADK Playground\
+\ls6\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	6	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 * Running on http://127.0.0.1:8080/dev-ui/?app=app\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls6\ilvl0
+\f0\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	7	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\ls6\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	8	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Open the provided URL in your web browser to start chatting with your Shopping Assistant agent interactively. Try asking it to redeem a discount code:\uc0\u8232 \u8232 
+\f3\fs26 Can you redeem the discount code WELCOME50 for user user_123?\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls6\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	9	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f0\fs24 The agent will process your request using Gemini model execution and attempt to redeem the discount.
+\f1\b Note:
+\f0\b0  Because Antigravity generates tool logic dynamically, your agent's implementation of the registered user check may vary. If the agent rejects 
+\f3\fs26 user_123
+\f0\fs24  as unregistered (e.g., 
+\f3\fs26 User ID 'user_123' is not registered
+\f0\fs24 ), ask the agent which user IDs are registered in its store (or check 
+\f3\fs26 app/agent.py
+\f0\fs24 ), and retry with a valid registered user ID!\uc0\u8232 \
+}

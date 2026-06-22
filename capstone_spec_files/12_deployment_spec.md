@@ -6,14 +6,16 @@ The MVP should be easy for judges to run locally. Cloud deployment is optional a
 
 ## Recommended deployment stages
 
-### Stage 1: Local command-line demo
+### Stage 1: Local ADK and command-line demo
 
 This is the primary target.
 
 Expected command:
 
 ```bash
-python -m portfolio_agent.run --input data/synthetic_portfolio_monthly.csv --latest-month 2026-06
+make install
+make run-offline
+agents-cli run "Review the approved loss-ratio-spike demo portfolio for 2026-06."
 ```
 
 Expected outputs:
@@ -23,35 +25,36 @@ outputs/reports/portfolio_review_2026_06.md
 outputs/traces/run_2026_06_001.json
 ```
 
-### Stage 2: Local web/demo UI
+### Stage 2: Local FastAPI adapter
 
 Optional but useful for the video.
 
-Possible approaches:
-- Streamlit app.
-- FastAPI endpoint with simple HTML page.
-- Static HTML report viewer.
+Required endpoints:
 
-Minimum UI:
-- Upload/select demo dataset.
-- Click "Run Review".
-- Show agent status, findings, human review flag, and report.
+- `GET /healthz`
+- `GET /readyz`
+- `POST /api/reviews`
+
+The first version may be API-only. A dashboard or static report viewer remains optional.
 
 ### Stage 3: Cloud deployment
 
 Optional stretch goal.
 
 Possible approaches:
-- Cloud Run app for a simple dashboard.
-- Agent Runtime for managed agent hosting.
-- Pub/Sub-style event trigger if following the course codelab pattern.
+- Agent Runtime for interactive/session-based ADK hosting.
+- Cloud Run for FastAPI and optional Pub/Sub/Eventarc ambient trigger endpoints.
+- GKE only if operational requirements justify it.
+
+Cloud deployment requires explicit approval and is not part of this specification-edit phase.
 
 ## Local environment
 
 Required:
 - Python 3.11+
-- `uv` or `pip`
+- `uv`
 - Git
+- Agents CLI compatible with the generated manifest
 
 Optional:
 - Gemini API key or other model provider key
@@ -62,15 +65,19 @@ Optional:
 Use `.env.example`:
 
 ```bash
-# Optional. Required only if using live LLM calls.
-GEMINI_API_KEY=
+# Optional. Required only for an online local model call.
+GOOGLE_API_KEY=
 
-# Set to false for consumer/developer API usage if applicable.
-GOOGLE_GENAI_USE_ENTERPRISE=FALSE
+# False for AI Studio/local development; true for Vertex AI.
+GOOGLE_GENAI_USE_VERTEXAI=false
+
+GOOGLE_CLOUD_PROJECT=
+GOOGLE_CLOUD_LOCATION=global
 
 # Runtime config
 PORTFOLIO_AGENT_DATA_DIR=data
 PORTFOLIO_AGENT_OUTPUT_DIR=outputs
+PORTFOLIO_AGENT_MODE=online
 ```
 
 Never commit `.env`.
@@ -80,7 +87,12 @@ Never commit `.env`.
 ```text
 portfolio-monitoring-agent/
 ├── README.md
+├── .agents-cli-spec.md
+├── agents-cli-manifest.yaml
+├── Makefile
+├── Dockerfile
 ├── pyproject.toml
+├── uv.lock
 ├── .gitignore
 ├── .env.example
 ├── specs/
@@ -90,37 +102,47 @@ portfolio-monitoring-agent/
 ├── portfolio_agent/
 │   ├── run.py
 │   ├── agent.py
+│   ├── adk_tools.py
+│   ├── callbacks.py
+│   ├── config.py
+│   ├── fast_api_app.py
 │   ├── tools.py
 │   ├── schemas.py
 │   ├── security.py
 │   ├── reporting.py
 │   └── tracing.py
+├── skills/
+│   └── portfolio_monitoring/
 ├── tests/
-│   ├── test_tools.py
-│   ├── test_security.py
+│   ├── unit/
+│   ├── integration/
 │   └── eval/
+│       ├── datasets/
+│       └── eval_config.yaml
 ├── outputs/
 │   ├── reports/
 │   └── traces/
-└── .agents/
-    ├── CONTEXT.md
-    └── skills/
+└── artifacts/
+    ├── traces/
+    └── grade_results/
 ```
 
 ## Build commands
 
 ```bash
-uv venv
-source .venv/bin/activate
-uv pip install -e .
-python -m portfolio_agent.run --input data/synthetic_portfolio_monthly.csv --latest-month 2026-06
+make install
+make run-offline
+make api
+agents-cli run "Review the approved demo portfolio for 2026-06."
 ```
 
 ## Test commands
 
 ```bash
-pytest
-make eval
+make test
+make integration
+agents-cli eval generate
+agents-cli eval grade
 ```
 
 ## Security scan commands
@@ -140,6 +162,16 @@ A judge should be able to:
 4. See a generated report.
 5. Run tests/evals.
 6. Understand the architecture from README and specs.
+7. Run the core offline demo without credentials or network access.
+8. Observe genuine ADK function-call/function-response events in an online trace.
+
+## FastAPI contract
+
+FastAPI is a transport adapter. It invokes the same application service as the CLI and must not duplicate actuarial calculations, tool policy, prompts, or report logic. Container startup must bind to `0.0.0.0` and the `PORT` environment variable, defaulting to `8080`.
+
+## Ambient execution constraint
+
+If scheduled or event-driven execution is added, use ADK trigger endpoints on Cloud Run or GKE. Do not specify Agent Runtime as the host for Pub/Sub/Eventarc trigger endpoints. Infrastructure remains optional.
 
 ## Deployment non-goals
 

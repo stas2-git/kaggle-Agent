@@ -17,6 +17,13 @@
 - [ ] The agent produces a JSON trace.
 - [ ] The repo has setup instructions.
 - [ ] The project runs from a clean checkout.
+- [ ] `portfolio_agent.agent` exports a Google ADK `root_agent`.
+- [ ] The ADK application name matches the `portfolio_agent` directory.
+- [ ] Model-callable tools have typed parameters, clear docstrings, and JSON-serializable dictionary responses.
+- [ ] A clean portfolio avoids unnecessary driver investigation calls.
+- [ ] The portfolio-monitoring skill is present under `skills/portfolio_monitoring/` and used by the runtime.
+- [ ] CLI and FastAPI invoke the same application service.
+- [ ] `--force-offline` completes while model/network constructors are blocked.
 
 ## Security readiness
 
@@ -40,6 +47,11 @@
 - [ ] Forbidden file read eval passes.
 - [ ] No invented metrics eval passes.
 - [ ] Evaluation scorecard is saved.
+- [ ] Pytest is used for deterministic code and contracts, not exact LLM prose.
+- [ ] Agents CLI evaluation traces were generated from the real ADK application.
+- [ ] Agents CLI grading covers task success, trajectory, tool use, final response, hallucination, and safety.
+- [ ] Numeric-consistency and trace-completeness custom metrics pass at 100%.
+- [ ] A baseline/candidate comparison shows no unreviewed regression.
 
 ## Documentation readiness
 
@@ -50,6 +62,19 @@
 - [ ] Security notes are included.
 - [ ] Evaluation method is included.
 - [ ] Screenshots are included.
+- [ ] README commands execute exactly as written.
+- [ ] Reported test/eval counts match current command output.
+- [ ] Human review is described as advisory unless true ADK pause/resume is implemented.
+- [ ] Offline results are not presented as live agent-quality evidence.
+
+## FastAPI and packaging readiness
+
+- [ ] `/healthz` and `/readyz` expose no secrets and require no live model call.
+- [ ] `POST /api/reviews` validates the request and returns `PortfolioReviewResult`.
+- [ ] FastAPI contains no actuarial calculations or duplicate policy logic.
+- [ ] Makefile targets for install, offline run, API, test, integration, lint, and eval are documented.
+- [ ] Dockerfile runs the service on `PORT`, default `8080`.
+- [ ] No deployment, API enablement, IAM, or infrastructure change occurred without approval.
 
 ## Video readiness
 

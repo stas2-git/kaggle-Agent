@@ -2,6 +2,10 @@
 
 Prepared: 2026-06-20
 
+Current architecture amendment: version 0.2, defined in `24_codelab_alignment_upgrade.md`.
+
+Agents CLI source of truth: `../.agents-cli-spec.md`.
+
 This package is a full set of specification files for a Kaggle AI Agents Intensive Vibe Coding capstone project.
 The project is framed as an **Agents for Business** submission: an AI agent that monitors a portfolio or book of business, detects material changes, investigates likely drivers, and produces an actuary-ready review note.
 
@@ -60,6 +64,9 @@ The capstone should explicitly demonstrate at least three course concepts. This 
 | `21_risk_register.md` | Project risks and mitigations. |
 | `22_output_report_template.md` | Expected final report format. |
 | `23_spec_adequacy_and_build_gates.md` | Build governance covering spec readiness, vertical-slice gates, golden tests, eval gates, fresh-context rebuilds, and submission readiness. |
+| `24_codelab_alignment_upgrade.md` | Controlling delta for the in-place ADK, FastAPI, active-skill, offline-mode, and evaluation upgrade. |
+
+`ALL_SPECS_COMBINED.md` is an archived version 0.1 compilation and must not be used for the ADK upgrade until it is regenerated after implementation verification.
 
 ## Recommended implementation style
 
@@ -68,13 +75,15 @@ The capstone should explicitly demonstrate at least three course concepts. This 
 
 Start local. Use synthetic CSV files and deterministic Python tools first. Then add the LLM layer for reasoning and narrative generation. This keeps the demo reliable and makes the agent's value clear without depending on private data or external systems.
 
-Suggested MVP stack:
+Target MVP stack after the version 0.2 amendment:
 - Python 3.11+
 - Pandas for deterministic metric calculation
-- A graph-style agent workflow using ADK or an equivalent agent framework
+- Google ADK with a discoverable `root_agent`
+- Agents CLI project structure and agent-behavior evaluation
+- FastAPI as an adapter over the same ADK application used by the CLI
 - JSON/YAML schemas for tool inputs and outputs
 - Markdown report output
-- Local evaluation scripts
+- Pytest for deterministic code and Agents CLI generate/grade for agent behavior
 - Optional web dashboard or static HTML report
 
 ## Suggested build order
@@ -82,9 +91,12 @@ Suggested MVP stack:
 1. Create synthetic portfolio data.
 2. Implement deterministic tools.
 3. Implement the agent workflow.
-4. Add the portfolio-monitoring skill.
-5. Add behavior tests and evaluation cases.
-6. Add security checks and prompt-injection tests.
-7. Generate demo report.
-8. Record video.
-9. Submit Kaggle writeup, video, and public project link.
+4. Enhance the existing repository into the Agents CLI structure.
+5. Add the ADK root agent, callbacks, and JSON-safe tool adapters.
+6. Activate the portfolio-monitoring skill in the runtime skill directory.
+7. Add a true offline mode and FastAPI adapter.
+8. Add behavior tests and Agents CLI evaluation cases.
+9. Add security checks and prompt-injection tests.
+10. Generate demo report and verified trace.
+11. Regenerate the video and writeup from verified behavior.
+12. Submit the writeup, video, and public project link.

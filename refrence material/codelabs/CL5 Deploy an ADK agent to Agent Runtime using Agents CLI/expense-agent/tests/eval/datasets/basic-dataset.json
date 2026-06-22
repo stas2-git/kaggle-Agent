@@ -1,0 +1,26 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "low_value_auto_approval",
+      "expense": {
+        "amount": 50,
+        "submitter": "user@example.com",
+        "category": "meals",
+        "description": "Lunch",
+        "date": "2026-06-04"
+      },
+      "human_decision": null
+    },
+    {
+      "eval_case_id": "high_value_human_review",
+      "expense": {
+        "amount": 150,
+        "submitter": "user@example.com",
+        "category": "meals",
+        "description": "Client dinner",
+        "date": "2026-06-04"
+      },
+      "human_decision": "approve"
+    }
+  ]
+}

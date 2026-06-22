@@ -1,0 +1,5 @@
+project_id            = "your-gcp-project-id"
+region                = "us-west1"
+agent_runtime_id      = "1234567890123456789"
+dashboard_image       = "us-west1-docker.pkg.dev/your-gcp-project-id/apps/expense-manager-dashboard:latest"
+allow_unauthenticated = false

@@ -162,3 +162,55 @@ driver_result:
       contribution_to_change: number
       notes: string
 ```
+
+### Review request schema
+
+```yaml
+portfolio_review_request:
+  dataset_path: string
+  latest_month: string
+  execution_mode: online | offline
+  threshold_profile: string
+  requested_dimensions: list[string] | null
+```
+
+### Investigation plan schema
+
+The model may select dimensions but may not alter anomalies or metric values.
+
+```yaml
+investigation_plan:
+  anomaly_ids: list[string]
+  dimensions_by_anomaly: map[string, list[string]]
+  rationale_by_anomaly: map[string, string]
+```
+
+Allowed dimensions are limited to schema-approved grouping fields. Unknown dimensions fail validation before tool execution.
+
+### Human review decision schema
+
+```yaml
+human_review_decision:
+  required: boolean
+  reasons: list[string]
+  status: not_required | pending
+  recommended_reviewer: string | null
+  review_questions: list[string]
+```
+
+`pending` means a person should review the advisory report. It does not mean the ADK session is paused. Interactive pause/resume requires a separately specified consequential action.
+
+### Review result schema
+
+```yaml
+portfolio_review_result:
+  run_id: string
+  session_id: string
+  status: success | validation_failed | security_blocked | error
+  execution_mode: online | offline
+  report_path: string | null
+  trace_path: string
+  anomalies: list[anomaly]
+  human_review: human_review_decision
+  summary: string
+```

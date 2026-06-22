@@ -654,3 +654,21 @@ Cold-rebuild only at milestones.
 
 A spec is not adequate because it is long.  
 A spec is adequate because another agent can build from it, tests can verify it, and failures create clear updates rather than confusion.
+
+---
+
+## 18. Gate 7 — ADK Codelab-Alignment Upgrade
+
+Gate 7 applies after the original vertical slice and is controlled by `24_codelab_alignment_upgrade.md`. It upgrades the existing implementation rather than invalidating the proven deterministic core.
+
+Required sub-gates:
+
+1. **7A — Truth reconciliation**: README commands, test counts, trace claims, active skill, and human-review terminology match the current repository.
+2. **7B — Offline reproducibility**: `--force-offline` succeeds with model/network constructors blocked.
+3. **7C — ADK runtime**: Agents CLI recognizes the project; `root_agent` and app import; real function-call/function-response events are produced.
+4. **7D — Security callbacks**: unauthorized tools, paths, dimensions, and workflow order are blocked and traced.
+5. **7E — Adapter parity**: CLI and FastAPI return equivalent structured results for identical offline input.
+6. **7F — Agent evaluation**: `agents-cli eval generate` and `agents-cli eval grade` produce saved artifacts above all configured thresholds.
+7. **7G — Submission reconciliation**: writeup, screenshots, video, and readiness report are regenerated from verified behavior.
+
+Gate 7 evidence must be written to `artifacts/gate_results/gate_7_adk_upgrade.md` and include exact commands, outputs, versions, failures, fixes, and remaining optional work. A prepared mock memo is not evidence for ADK behavior. Cloud deployment is not part of Gate 7 and must not occur without explicit approval.

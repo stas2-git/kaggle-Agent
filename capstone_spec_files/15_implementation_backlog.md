@@ -120,3 +120,37 @@
 ### Prompt 5: Implement evaluations
 
 "Create local eval datasets and scripts according to `specs/09_evaluation_spec.yaml`. Generate traces and a scorecard."
+
+## Milestone 11: ADK codelab-alignment upgrade
+
+This milestone is controlled by `24_codelab_alignment_upgrade.md` and modifies the existing project rather than rebuilding it.
+
+- [ ] Reconcile README commands, test counts, trace claims, and human-review terminology.
+- [ ] Run `agents-cli info` and record whether `agents-cli scaffold enhance .` is required.
+- [ ] Add `.agents-cli-spec.md` and reviewed Agents CLI project artifacts.
+- [ ] Add `config.py` and a true zero-network `--force-offline` mode.
+- [ ] Copy the portfolio-monitoring skill to `skills/portfolio_monitoring/` and verify runtime use.
+- [ ] Add JSON-safe ADK wrappers around existing deterministic tools.
+- [ ] Add ADK safety/trace callbacks.
+- [ ] Export `root_agent` and create the `portfolio_agent` ADK application.
+- [ ] Route the CLI through the shared application service.
+- [ ] Add `fast_api_app.py` with health, readiness, and review endpoints.
+- [ ] Add Makefile, Dockerfile, manifest, and dependency updates.
+- [ ] Add unit/integration tests for callbacks, offline isolation, sessions, events, and adapter parity.
+- [ ] Add Agents CLI eval datasets and `eval_config.yaml`.
+- [ ] Generate and grade real ADK traces; compare results after fixes.
+- [ ] Regenerate the readiness report, writeup, screenshots, and video from verified behavior.
+
+### Upgrade implementation prompts
+
+#### Prompt 6: Reproducibility and scaffold enhancement
+
+"Read `24_codelab_alignment_upgrade.md`, preserve all deterministic tools, inspect the existing Agents CLI state, add the reviewed project structure, and implement a zero-network offline path. Do not add ADK orchestration until the existing test suite and offline integration tests pass."
+
+#### Prompt 7: ADK runtime
+
+"Implement `root_agent`, the ADK application, tool adapters, callbacks, and runtime skill integration exactly as specified. Preserve deterministic calculations. Produce genuine function-call/function-response events and add integration tests without asserting LLM prose."
+
+#### Prompt 8: FastAPI and evaluation
+
+"Add the thin FastAPI adapter, verify CLI/API offline parity, create Agents CLI eval datasets/config, run generate and grade, and record actual scores. Do not deploy or modify cloud resources."

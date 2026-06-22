@@ -1,8 +1,19 @@
 # Tool Contracts for Actuarial Portfolio Monitoring Agent
 # These contracts are implementation guidance. They define tool boundaries, permissions, inputs, outputs, and safety rules.
 
-version: 0.1
+version: 0.2
 project: actuarial-portfolio-monitoring-agent
+runtime:
+  framework: google_adk
+  app_name: portfolio_agent
+  root_agent_export: portfolio_agent.agent.root_agent
+  contract_rules:
+    - exposed_function_tools_have_typed_parameters_and_clear_docstrings
+    - exposed_function_tools_return_json_serializable_dicts
+    - tool_context_is_not_described_to_the_model
+    - model_cannot_supply_raw_dataframe_or_output_paths
+    - opaque_refs_resolve_only_inside_authorized_runtime_state
+    - all_tool_calls_emit_adk_function_call_and_function_response_events
 principles:
   - deterministic_tools_calculate_numbers
   - llm_interprets_tool_outputs_only
@@ -32,6 +43,9 @@ tools:
       - path_not_allowed
       - csv_parse_error
     human_approval_required: false
+    adk_exposure: model_callable
+    prerequisites: []
+    idempotent: true
 
   validate_portfolio_data:
     purpose: Validate schema, required columns, data types, and basic data quality.
@@ -57,6 +71,9 @@ tools:
       - invalid_data_type
       - empty_dataset
     human_approval_required: false
+    adk_exposure: model_callable
+    prerequisites: [load_portfolio_data]
+    idempotent: true
 
   calculate_portfolio_metrics:
     purpose: Calculate deterministic portfolio metrics by valuation month and selected dimensions.
@@ -68,7 +85,7 @@ tools:
       group_by:
         type: list[string]
         required: true
-        default: [valuation_month, business_segment]
+        adapter_default: [valuation_month, business_segment]
     outputs:
       metrics_ref: string
       metrics_records: list[object]
@@ -77,6 +94,9 @@ tools:
       - divide_by_zero
       - missing_metric_column
     human_approval_required: false
+    adk_exposure: model_callable
+    prerequisites: [validate_portfolio_data_passed]
+    idempotent: true
 
   detect_anomalies:
     purpose: Compare latest period to comparison periods and identify material movements.
@@ -99,6 +119,9 @@ tools:
       - no_comparison_period
       - invalid_threshold_config
     human_approval_required: false
+    adk_exposure: model_callable
+    prerequisites: [calculate_portfolio_metrics]
+    idempotent: true
 
   investigate_anomaly_drivers:
     purpose: Decompose an anomaly across dimensions to identify likely contributors.
@@ -113,7 +136,7 @@ tools:
       dimensions:
         type: list[string]
         required: true
-        default: [business_segment, coverage, state, policy_year, underwriter]
+        allowed_values: [business_segment, coverage, state, policy_year, underwriter]
       top_n:
         type: integer
         required: false
@@ -126,6 +149,9 @@ tools:
       - anomaly_not_found
       - dimension_not_available
     human_approval_required: false
+    adk_exposure: model_callable
+    prerequisites: [detect_anomalies_returned_matching_anomaly_id]
+    idempotent: true
 
   synthesize_review_findings:
     purpose: Use LLM reasoning to summarize tool outputs into evidence-based review findings.
@@ -148,6 +174,9 @@ tools:
       - use_conservative_language
       - flag_data_quality_limitations
     human_approval_required: false
+    adk_exposure: separate_structured_agent_or_validated_node
+    prerequisites: [data_quality_available, anomalies_available]
+    idempotent: false
 
   generate_report:
     purpose: Write final markdown report artifact to approved local output folder.
@@ -168,6 +197,9 @@ tools:
       - output_path_not_allowed
       - file_write_error
     human_approval_required: false
+    adk_exposure: runtime_only
+    prerequisites: [validated_review_result]
+    idempotent: true
 
   write_trace:
     purpose: Write run trace JSON for observability and evaluation.
@@ -184,6 +216,9 @@ tools:
       - output_path_not_allowed
       - json_serialization_error
     human_approval_required: false
+    adk_exposure: callback_or_runtime_only
+    prerequisites: [run_initialized]
+    idempotent: true
 
   send_report_email:
     purpose: Optional future action to send a report to stakeholders.
@@ -201,3 +236,34 @@ tools:
       - never_send_without_explicit_user_confirmation
       - show_final_email_before_sending
       - validate_recipient_allowlist
+
+callbacks:
+  before_agent:
+    responsibilities:
+      - initialize_required_session_state
+      - assign_run_and_execution_mode_metadata
+  before_model:
+    responsibilities:
+      - include_only_sanitized_structured_tool_results
+      - block_prompt_disclosure_and_instruction_override_requests
+  before_tool:
+    responsibilities:
+      - enforce_tool_allowlist
+      - validate_prerequisites_and_arguments
+      - enforce_path_and_dimension_allowlists
+  after_tool:
+    responsibilities:
+      - validate_json_serializable_contract
+      - redact_untrusted_text
+      - record_status_duration_and_sanitized_summaries
+  after_model:
+    responsibilities:
+      - reject_invented_numeric_claims
+      - block_binding_business_actions
+      - validate_review_result_before_artifact_write
+
+offline_contract:
+  model_or_network_initialization_allowed: false
+  deterministic_tools_reused: true
+  synthesis: deterministic_template
+  evidence_value: reproducibility_only

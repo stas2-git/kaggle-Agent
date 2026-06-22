@@ -1,0 +1,439 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Bold;\f2\froman\fcharset0 Times-Italic;
+\f3\fmodern\fcharset0 Courier;\f4\fnil\fcharset0 AppleColorEmoji;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c0\c0\c93333;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid501\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid601\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid7}
+{\list\listtemplateid8\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat3\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid701\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid8}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}{\listoverride\listid8\listoverridecount0\ls8}}
+\margl1440\margr1440\vieww12700\viewh10460\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+Deploy an ADK agent to Agent Runtime using Agents CLI\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 About this codelab\
+\pard\pardeftab720\partightenfactor0
+
+\f2\i\b0\fs24 \cf0 subject
+\f0\i0 Last updated Jun 18, 2026\
+
+\f2\i account_circle
+\f0\i0 Written by Toni Klopfenstein\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#0"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 1. Overview}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 This lab is part of Kaggle's 
+\f1\b 5-Day AI Agents: Intensive Vibe Coding Course with Google
+\f0\b0 . You can find the additional codelabs and resources available on the {\field{\*\fldinst{HYPERLINK "https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google"}}{\fldrslt \cf3 \ul \ulc3 event site}}.\
+In this codelab, you transition an 
+\f1\b ADK 2.0 agent
+\f0\b0  from a local development environment into a production-grade deployment. You will use 
+\f3\fs26 agents-cli
+\f0\fs24  to package, verify, and host your graph-based workflow live on {\field{\*\fldinst{HYPERLINK "https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/runtime"}}{\fldrslt 
+\f1\b \cf3 \ul \ulc3 Agent Runtime}} on Google Cloud.\
+To explore this deployment process, you will build a local prototype of the 
+\f1\b Ambient Expense Agent
+\f0\b0  from scratch before deploying it to the cloud. (For a deeper dive into designing this agent's core logic, see the foundational codelabs on the {\field{\*\fldinst{HYPERLINK "https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google"}}{\fldrslt \cf3 \ul \ulc3 Kaggle event site}}). The Ambient Expense Agent streamlines employee expense reporting by instantly approving standard claims while flagging larger expenses for human-in-the-loop review. Under the hood, it uses an 
+\f1\b ADK 2.0 graph-based workflow
+\f0\b0  to coordinate these automated approvals and risk analysis steps.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 What you'll learn\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f0\b0\fs24 \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+How to prepare your local 
+\f1\b Ambient Expense Agent
+\f0\b0  project for cloud hosting.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+How to scaffold the necessary deployment descriptors and production wrappers.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+How to perform dry-runs and deploy your code directly to 
+\f1\b Agent Runtime
+\f0\b0 .\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+How to monitor your production agent's execution traces using Cloud Trace.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 What you'll need\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0
+\f0\b0\fs24 \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+An active Google Cloud project with billing enabled.\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+The {\field{\*\fldinst{HYPERLINK "https://cloud.google.com/sdk/docs/install"}}{\fldrslt \cf3 \ul \ulc3 gcloud SDK}} installed and authenticated.\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+The {\field{\*\fldinst{HYPERLINK "https://docs.astral.sh/uv/getting-started/installation/"}}{\fldrslt \cf3 \ul \ulc3 uv}} package manager installed.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf3 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}{\field{\*\fldinst{HYPERLINK "https://antigravity.google/download"}}{\fldrslt \expnd0\expndtw0\kerning0
+\ul Google Antigravity IDE}}\cf0 \expnd0\expndtw0\kerning0
+ installed.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Prerequisites\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 This codelab assumes you are comfortable with:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls3\ilvl0\cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Navigating your system using a terminal.\
+\ls3\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Basic Python development concepts.\
+\ls3\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Fundamental Google Cloud concepts.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\cf0 \
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#1"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 2. Set up your Google Cloud Environment}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Before deploying, you must configure your Google Cloud project and enable the necessary APIs.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Help me set up my Google Cloud environment. Connect to my project\
+`YOUR_PROJECT_ID` in the global region, authenticate, and enable the necessary\
+generative platform APIs (aiplatform.googleapis.com, cloudtrace.googleapis.com,\
+cloudbuild.googleapis.com, agentregistry.googleapis.com).\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it will propose and run the necessary 
+\f3\fs26 gcloud
+\f0\fs24  terminal commands to configure your project and enable the services. During the authentication step, Antigravity will display an authorization URL in the terminal. Click the link to sign in via your web browser and grant access. Once you complete the browser sign-in, Antigravity will resume execution to set your project environment variables and enable the required APIs.\
+Note: If this is a new project, gcloud may prompt you to enable the Service Usage API first. Follow the link provided in the terminal to enable it in the Cloud console if requested.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#2"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 3. Set up Agents CLI & ADK Skills}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 For Antigravity to build and deploy ADK agents well, it needs the 
+\f1\b ADK skill set
+\f0\b0 . These are bundled references for the ADK API, project scaffolding, the 
+\f3\fs26 agents-cli
+\f0\fs24  deployment workflow, and evaluation. Installing the 
+\f3\fs26 agents-cli
+\f0\fs24  toolchain also installs these skills into your coding agent, equipping it to manage your agent's full lifecycle from local scaffolding to cloud deployment.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Copy-paste the following prompt to Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Install the agents-cli toolchain and its ADK skills so you can help me build\
+an ADK agent. Run "uvx google-agents-cli setup", then confirm with\
+"agents-cli info" and tell me which skills are now available.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it runs 
+\f3\fs26 uvx google-agents-cli setup
+\f0\fs24  in the terminal to install the CLI and its companion skills. It then runs 
+\f3\fs26 agents-cli info
+\f0\fs24  to verify the installation and lists the newly installed domain skills (such as 
+\f3\fs26 google-agents-cli-deploy
+\f0\fs24  and 
+\f3\fs26 google-agents-cli-workflow
+\f0\fs24 ) directly in the chat.\
+
+\f1\b Note for Antigravity users:
+\f0\b0  During this codelab, Antigravity may generate implementation plans or display popups before executing commands or writing code. Be sure to review and 
+\f1\b approve
+\f0\b0  these plans or popups to allow Antigravity to proceed with the tasks.\
+
+\f1\b Quota Tip:
+\f0\b0  If you run out of quota during testing or development, switch the model in Antigravity to another available model.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#3"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 4. Create your agent project}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 With your cloud environment configured and your CLI skills installed, you are ready to generate the local codebase for your agent. In this step, you use Antigravity to scaffold a fully functional Ambient Expense Agent prototype compatible with ADK 2.0.\
+
+\f1\b Note for Kaggle 5 days of AI Agents Users
+\f0\b0 : If you successfully completed this {\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/vibecode-ambient-expense-agent"}}{\fldrslt \cf3 \ul \ulc3 Vibecode Ambient Expense Agent Codelab}} for Day 4 and prefer to deploy your existing custom agent codebase, you can skip this scaffolding step and go to the next step.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Use Agents CLI to build a local prototype for an ambient expense agent that\
+streamlines employee expense reporting by instantly approving standard claims\
+while flagging larger expenses for review. Ensure the graph workflow is\
+compatible with ADK 2.0 and includes an `auto_approve` node that automatically\
+approves expenses under $100, and a `review_agent` node that triggers a\
+human-in-the-loop pause (`RequestInput`) for expenses of $100 or more.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it leverages the newly installed scaffolding skills to run 
+\f3\fs26 agents-cli scaffold create expense-agent --adk
+\f0\fs24  in the terminal. It will then verify and adjust the generated prototype code to ensure your 
+\f3\fs26 expense-agent
+\f0\fs24  correctly implements the 
+\f3\fs26 $100
+\f0\fs24  auto-approval threshold and human-in-the-loop review flow within its {\field{\*\fldinst{HYPERLINK "https://adk.dev/"}}{\fldrslt \cf3 \ul \ulc3 Agent Development Kit (ADK)}} graph workflow.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#4"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 5. Prepare for Production Deployment}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/runtime"}}{\fldrslt 
+\f0\b0\fs24 \cf3 \ul \ulc3 Agent Runtime}}
+\f0\b0\fs24  is a fully managed Google Cloud service that lets you deploy, manage, and scale AI agents in production. Agent Runtime handles the operational complexities of hosting, offering a stateful environment with features like session management, long-term memory, and secure code execution sandboxes.\
+\pard\pardeftab720\sa298\partightenfactor0
+
+\f1\b\fs36 \cf0 Why Deploy to Agent Runtime?\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 When building agents locally with Antigravity, your agent runs on your local machine against 
+\f3\fs26 localhost
+\f0\fs24 . While great for rapid prototyping, local agents stop running the moment you close your laptop.\
+Deploying your agent to Agent Runtime moves your workflow into a fully managed, always-on Google Cloud environment. This establishes a secure, live backend endpoint that remains active 24/7. In the next codelab, you will build a web frontend that connects directly to this cloud endpoint, giving your agent a public URL.\
+Furthermore, Agent Runtime provides dedicated infrastructure optimized specifically for AI agents\'97offering built-in capabilities such as:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls4\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Managed Stateful Execution:
+\f0\b0  Built-in session management and long-term memory persistence across conversational turns.\
+\ls4\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Secure Sandboxing:
+\f0\b0  Safely executes dynamic tool calls and agent-generated code in isolated environments.\
+\ls4\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+Enterprise Observability:
+\f0\b0  Out-of-the-box telemetry streaming directly to Cloud Trace and Cloud Logging.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 To host your agent on Agent Runtime, you must enhance your local project directory with production descriptors, schemas, and endpoint wrappers.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Scaffold the production deployment files for Agent Runtime.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it runs 
+\f3\fs26 agents-cli scaffold enhance --deployment-target agent_runtime --yes
+\f0\fs24  in your project root. This command scans your directory and automatically generates:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0
+\f3\fs26 \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+app/agent_runtime_app.py
+\f0\fs24 : The production-grade service wrapper.\
+\ls5\ilvl0
+\f3\fs26 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+deployment_metadata.json
+\f0\fs24 : The layout schema used by Agent Runtime to spin up resources.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 Your core agent logic in 
+\f3\fs26 app/agent.py
+\f0\fs24  remains completely untouched and preserved.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#5"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 6. Packaging and Local Verification}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Before initiating a cloud upload, lock your packages and run a local dry-run to identify potential dependency conflicts.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Lock my python dependencies and run a dry-run deployment to check for any\
+configuration or dependency issues.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it first runs 
+\f3\fs26 uv lock
+\f0\fs24  in the terminal to generate a deterministic lockfile, ensuring consistent library versions in the cloud. It then executes 
+\f3\fs26 agents-cli deploy --dry-run
+\f0\fs24  to verify configuration validity and preview the deployment steps without provisioning cloud resources. You can review the dry-run output in the terminal to confirm all files and settings are correct.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#6"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 7. Deploy to Agent Runtime}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Deploy your Ambient Expense Agent to Agent Runtime.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Deploy this agent to Agent Runtime.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it activates the 
+\f3\fs26 google-agents-cli-deploy
+\f0\fs24  skill and runs 
+\f3\fs26 agents-cli deploy --project YOUR_PROJECT_ID --region us-west1
+\f0\fs24 . The packaging, upload, and Agent Runtime provisioning process typically takes 
+\f1\b 5\'9610 minutes
+\f0\b0 . Antigravity will monitor the deployment progress in the terminal, and once completed, it displays your live endpoint URL.\
+
+\f4 \uc0\u55357 \u56481 
+\f0  
+\f1\b Pro Tip (Manage Timeout Windows):
+\f0\b0  If you prefer not to lock up your terminal during long deployments, you can instruct Antigravity to use the 
+\f3\fs26 --no-wait
+\f0\fs24  flag to start the deployment asynchronously, and check progress later using 
+\f3\fs26 agents-cli deploy --status
+\f0\fs24 .\
+If you have issues deploying your agent, consider using a different region. The {\field{\*\fldinst{HYPERLINK "https://cloud.withgoogle.com/region-picker/"}}{\fldrslt \cf3 \ul \ulc3 Google Cloud Region Picker tool}} can help you determine the best region for your project based on latency, price, and carbon footprint.\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#7"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 8. Test your Agent}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 Once your agent is deployed, you can verify that it automatically approves small expenses, and properly flags for a human-in-the-loop verification for larger expenses.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity to verify the live deployed engine:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Test my deployed Agent Runtime engine with two test cases: first a standard\
+meal expense of $50 to verify automatic approval, and second, a client dinner\
+expense of $150 to verify that the human-in-the-loop pause is triggered.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\b\fs24 \cf0 Note:
+\f0\b0  When Antigravity runs this test prompt against your live endpoint, if it encounters any deployment or execution errors, it will automatically attempt to debug the issue, apply the necessary code fixes, and redeploy the agent for you.\
+Alternatively, you can test your agent manually using the {\field{\*\fldinst{HYPERLINK "https://console.cloud.google.com/agent-platform/deployments"}}{\fldrslt \cf3 \ul \ulc3 Cloud Console Playground preview}}. To open the Playground:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls6\ilvl0\cf0 \kerning1\expnd0\expndtw0 {\listtext	1	}\expnd0\expndtw0\kerning0
+In the Google Cloud Console, use the navigation menu to select 
+\f1\b Agent Platform
+\f0\b0  > 
+\f1\b Deployments
+\f0\b0 .\
+\ls6\ilvl0\kerning1\expnd0\expndtw0 {\listtext	2	}\expnd0\expndtw0\kerning0
+Select your deployed agent from the deployments list.\
+\ls6\ilvl0\kerning1\expnd0\expndtw0 {\listtext	3	}\expnd0\expndtw0\kerning0
+Click the 
+\f1\b Playground
+\f0\b0  button to open the interactive test chat interface.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f4 \cf0 \uc0\u55357 \u56393 
+\f0  
+\f1\b To test the Auto-Approval(<$100)
+\f0\b0 , paste the following JSON payload into the chat box:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 \{"data": \{"amount": 50.0, "submitter": "user@example.com", "category": "meals", "description": "Lunch", "date": "2026-06-04"\}\}\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 You should receive a JSON response showing the output of the 
+\f3\fs26 auto_approve
+\f0\fs24  node with status "approved".\
+
+\f4 \uc0\u55357 \u56393 
+\f0  
+\f1\b To test the Human-in-the-Loop (HITL) flow
+\f0\b0 , paste the following JSON payload.\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 \{"data": \{"amount": 150.0, "submitter": "user@example.com", "category": "meals", "description": "Client dinner", "date": "2026-06-04"\}\}\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 This will trigger the review_agent, emit the warning alert, and then pause execution, yielding a 
+\f3\fs26 RequestInput
+\f0\fs24  (Human-in-the-loop) asking for approval,\
+\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#8"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 9. Monitor and Observe your Production Agent}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 With Agent Runtime, telemetry is automatically wired. Every interaction, model call, and tool execution streams real-time logs and spans to your project.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls7\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 {\listtext	1	}\expnd0\expndtw0\kerning0
+Inspect Traces
+\f0\b0 : Open the {\field{\*\fldinst{HYPERLINK "https://console.cloud.google.com/traces"}}{\fldrslt \cf3 \ul \ulc3 Cloud Trace Console}} to audit live transaction maps, model latencies, and tool execution steps.\
+\ls7\ilvl0
+\f1\b \kerning1\expnd0\expndtw0 {\listtext	2	}\expnd0\expndtw0\kerning0
+Audit Logs
+\f0\b0 : Use {\field{\*\fldinst{HYPERLINK "https://console.cloud.google.com/logs"}}{\fldrslt \cf3 \ul \ulc3 Cloud Logging}} to inspect real-time standard output and diagnostic stack traces.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls8\ilvl0
+\f1\b \cf0 \kerning1\expnd0\expndtw0 {\listtext	3	}\expnd0\expndtw0\kerning0
+Aggregate Analytics
+\f0\b0 : If the 
+\f3\fs26 --bq-analytics
+\f0\fs24  flag was enabled during scaffolding, query your logs inside BigQuery using SQL to view approval ratios and conversational turn trends.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 The following SQL query provides an example for calculating approval ratios. You can prompt Antigravity to customize this query for your specific project and BigQuery dataset:\
+\pard\pardeftab720\sa298\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#9"}}{\fldrslt 
+\f1\b\fs36 \cf3 \ul \ulc3 10. (Optional) Verify Registration in Agent Registry}}
+\f1\b\fs36 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b0\fs24 \cf0 To allow other services, developers, or agents in your organization to safely discover and consume your expense agent, it must be registered in the enterprise {\field{\*\fldinst{HYPERLINK "https://docs.cloud.google.com/agent-registry/overview"}}{\fldrslt 
+\f1\b \cf3 \ul \ulc3 Agent Registry}} (Gemini Enterprise).\
+Because you deployed your agent to Agent Runtime, it is automatically registered in the Agent Registry. Any future updates or deletions of your agent in Agent Runtime will automatically sync to the Agent Registry as well.\
+
+\f4 \uc0\u55357 \u56393 
+\f0  Prompt Antigravity to verify your agent's automatic registration:\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 Verify that my deployed expense agent is automatically registered in the Gemini\
+Enterprise Agent Registry.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 When Antigravity executes this prompt, it runs 
+\f3\fs26 agents-cli publish gemini-enterprise --list
+\f0\fs24  in the terminal. This queries the Agent Registry and lists all registered Gemini Enterprise agents in your project, allowing you to confirm that your Ambient Expense Agent is active and discoverable across your organization.\
+}

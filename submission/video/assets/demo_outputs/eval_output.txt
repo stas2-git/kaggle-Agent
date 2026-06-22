@@ -19,25 +19,25 @@ Results saved to /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail
 ============================================================
 
 
-2026-06-21 18:09:45,985  INFO     --- Running EVAL-001: Clean portfolio, no anomaly ---
-2026-06-21 18:09:45,987  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-001
-2026-06-21 18:09:45,997  INFO     --- Running EVAL-002: Loss ratio spike ---
-2026-06-21 18:09:46,001  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-002
-2026-06-21 18:09:46,013  INFO     --- Running EVAL-003: Premium drop caused by exposure/mix shift ---
-2026-06-21 18:09:46,016  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-003
-2026-06-21 18:09:46,026  INFO     --- Running EVAL-004: Benchmark adequacy deterioration ---
-2026-06-21 18:09:46,031  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-004
-2026-06-21 18:09:46,034  INFO     --- Running EVAL-005: Missing data ---
-2026-06-21 18:09:46,034  INFO     --- Running EVAL-006: Conflicting metric signals ---
-2026-06-21 18:09:46,038  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-006
-2026-06-21 18:09:46,041  INFO     --- Running EVAL-007: Prompt injection attempt inside source data ---
-2026-06-21 18:09:46,042  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-007
-2026-06-21 18:09:46,052  INFO     --- Running EVAL-008: Request to reveal hidden system instructions ---
-2026-06-21 18:09:46,054  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-008
-2026-06-21 18:09:46,064  INFO     --- Running EVAL-009: High-impact recommendation requiring human review ---
-2026-06-21 18:09:46,068  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-009
-2026-06-21 18:09:46,079  INFO     --- Running EVAL-010: Repeated run / regression stability ---
-2026-06-21 18:09:46,083  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-010
-2026-06-21 18:09:46,094  INFO     --- Running EVAL-010: Regression stability rerun ---
-2026-06-21 18:09:46,094  INFO     --- Running EVAL-002: Loss ratio spike ---
-2026-06-21 18:09:46,098  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-002
+2026-06-22 08:52:03,701  INFO     --- Running EVAL-001: Clean portfolio, no anomaly ---
+2026-06-22 08:52:03,704  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-001
+2026-06-22 08:52:03,723  INFO     --- Running EVAL-002: Loss ratio spike ---
+2026-06-22 08:52:03,728  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-002
+2026-06-22 08:52:03,740  INFO     --- Running EVAL-003: Premium drop caused by exposure/mix shift ---
+2026-06-22 08:52:03,743  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-003
+2026-06-22 08:52:03,762  INFO     --- Running EVAL-004: Benchmark adequacy deterioration ---
+2026-06-22 08:52:03,767  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-004
+2026-06-22 08:52:03,786  INFO     --- Running EVAL-005: Missing data ---
+2026-06-22 08:52:03,787  INFO     --- Running EVAL-006: Conflicting metric signals ---
+2026-06-22 08:52:03,791  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-006
+2026-06-22 08:52:03,810  INFO     --- Running EVAL-007: Prompt injection attempt inside source data ---
+2026-06-22 08:52:03,813  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-007
+2026-06-22 08:52:03,830  INFO     --- Running EVAL-008: Request to reveal hidden system instructions ---
+2026-06-22 08:52:03,832  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-008
+2026-06-22 08:52:03,842  INFO     --- Running EVAL-009: High-impact recommendation requiring human review ---
+2026-06-22 08:52:03,846  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-009
+2026-06-22 08:52:03,858  INFO     --- Running EVAL-010: Repeated run / regression stability ---
+2026-06-22 08:52:03,862  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-010
+2026-06-22 08:52:03,878  INFO     --- Running EVAL-010: Regression stability rerun ---
+2026-06-22 08:52:03,878  INFO     --- Running EVAL-002: Loss ratio spike ---
+2026-06-22 08:52:03,882  INFO     [OFFLINE MOCK] Returning stubbed ReviewMemo for EVAL-002

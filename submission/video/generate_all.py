@@ -5,6 +5,7 @@ import argparse
 import subprocess
 import yaml
 import shutil
+import json
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -461,6 +462,7 @@ def main():
     parser = argparse.ArgumentParser(description="Audio-Driven Video Automation Pipeline")
     parser.add_argument("--voice", default="Samantha", help="Voice override for macOS 'say' (default: Samantha)")
     parser.add_argument("--rate", type=int, default=170, help="Speech rate override in WPM (default: 170)")
+    parser.add_argument("--audio-source", default="auto", choices=["auto", "xtts", "chattts", "gemini", "say"], help="Explicitly select audio segments source to use (default: auto)")
     args = parser.parse_args()
     
     create_directories()
@@ -484,14 +486,86 @@ def main():
         seg_data = yaml.safe_load(f)
     segments = seg_data["segments"]
     
-    # 4. Load Gemini segment audios if available, otherwise fall back to local macOS say
+    # 4. Load premium segment audios (Gemini or local ChatTTS) if available, otherwise fall back to local macOS say
+    xtts_segments_dir = os.path.join(ASSETS_DIR, "xtts_segments")
+    xtts_metadata_path = os.path.join(xtts_segments_dir, "metadata.json")
+    
     gemini_segments_dir = os.path.join(ASSETS_DIR, "gemini_segments")
     gemini_metadata_path = os.path.join(gemini_segments_dir, "metadata.json")
     
+    chattts_segments_dir = os.path.join(ASSETS_DIR, "chattts_segments")
+    chattts_metadata_path = os.path.join(chattts_segments_dir, "metadata.json")
+    
+    use_xtts_segments = False
+    xtts_durations = []
+    
+    if (args.audio_source in ["auto", "xtts"]) and os.path.exists(xtts_metadata_path):
+        try:
+            with open(xtts_metadata_path, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            # Verify all expected segment files exist in xtts_segments
+            all_files_exist = True
+            temp_durations = []
+            for i in range(1, len(segments) + 1):
+                mp3_name = f"seg_{i}.mp3"
+                wav_name = f"seg_{i}.wav"
+                mp3_path = os.path.join(xtts_segments_dir, mp3_name)
+                wav_path = os.path.join(xtts_segments_dir, wav_name)
+                
+                if os.path.exists(mp3_path):
+                    dur = get_format_duration(mp3_path)
+                    temp_durations.append((mp3_path, dur))
+                elif os.path.exists(wav_path):
+                    dur = get_format_duration(wav_path)
+                    temp_durations.append((wav_path, dur))
+                else:
+                    all_files_exist = False
+                    break
+            
+            if all_files_exist:
+                use_xtts_segments = True
+                xtts_durations = temp_durations
+                print("\nPremium local XTTS v2 voice-cloned segment files detected and verified.")
+        except Exception as e:
+            print(f"Warning: Could not parse XTTS metadata: {e}")
+
+    use_chattts_segments = False
+    chattts_durations = []
+    
+    if not use_xtts_segments and (args.audio_source in ["auto", "chattts"]) and os.path.exists(chattts_metadata_path):
+        try:
+            with open(chattts_metadata_path, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            # Verify all expected segment files exist in chattts_segments
+            all_files_exist = True
+            temp_durations = []
+            for i in range(1, len(segments) + 1):
+                mp3_name = f"seg_{i}.mp3"
+                wav_name = f"seg_{i}.wav"
+                mp3_path = os.path.join(chattts_segments_dir, mp3_name)
+                wav_path = os.path.join(chattts_segments_dir, wav_name)
+                
+                if os.path.exists(mp3_path):
+                    dur = get_format_duration(mp3_path)
+                    temp_durations.append((mp3_path, dur))
+                elif os.path.exists(wav_path):
+                    dur = get_format_duration(wav_path)
+                    temp_durations.append((wav_path, dur))
+                else:
+                    all_files_exist = False
+                    break
+            
+            if all_files_exist:
+                use_chattts_segments = True
+                chattts_durations = temp_durations
+                print("\nPremium local ChatTTS segment files detected and verified.")
+        except Exception as e:
+            print(f"Warning: Could not parse ChatTTS metadata: {e}")
+
     use_gemini_segments = False
     gemini_durations = []
     
-    if os.path.exists(gemini_metadata_path):
+    if not use_xtts_segments and not use_chattts_segments and (args.audio_source in ["auto", "gemini"]) and os.path.exists(gemini_metadata_path):
         try:
             with open(gemini_metadata_path, "r", encoding="utf-8") as f:
                 meta = json.load(f)
@@ -526,9 +600,18 @@ def main():
     model_used = "N/A"
     voice_used = args.voice
     
-    if use_gemini_segments:
-        print("\nCopying Gemini TTS segment audios to temp directory...")
-        for idx, (src_path, dur) in enumerate(gemini_durations, 1):
+    use_premium_segments = use_xtts_segments or use_chattts_segments or use_gemini_segments
+    
+    if use_premium_segments:
+        print("\nCopying premium segment audios to temp directory...")
+        if use_xtts_segments:
+            source_durations = xtts_durations
+        elif use_chattts_segments:
+            source_durations = chattts_durations
+        else:
+            source_durations = gemini_durations
+            
+        for idx, (src_path, dur) in enumerate(source_durations, 1):
             dst_mp3_path = os.path.join(TEMP_SEGMENTS_DIR, f"seg_{idx}.mp3")
             if src_path.endswith(".wav"):
                 # Convert WAV to MP3 using ffmpeg
@@ -542,16 +625,39 @@ def main():
             segment_durations.append(dur)
             
         # Parse metadata details for report
-        try:
-            with open(gemini_metadata_path, "r", encoding="utf-8") as f:
-                meta = json.load(f)
-            audio_source = meta.get("source", "Gemini API TTS (Segment-Based)")
-            model_used = meta.get("model", "gemini-3.1-flash-tts-preview")
-            voice_used = meta.get("voice", "Kore")
-        except Exception:
-            audio_source = "Gemini API TTS (Segment-Based)"
-            model_used = "gemini-3.1-flash-tts-preview"
-            voice_used = "Kore"
+        if use_xtts_segments:
+            try:
+                with open(xtts_metadata_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                audio_source = meta.get("source", "Local XTTS v2 Cloned Voice")
+                model_used = meta.get("model", "XTTS v2 Core")
+                voice_used = meta.get("voice", "Combined Reference Voice")
+            except Exception:
+                audio_source = "Local XTTS v2 Cloned Voice"
+                model_used = "XTTS v2 Core"
+                voice_used = "Combined Reference Voice"
+        elif use_chattts_segments:
+            try:
+                with open(chattts_metadata_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                audio_source = meta.get("source", "Local ChatTTS")
+                model_used = meta.get("model", "ChatTTS Core v0.2")
+                voice_used = meta.get("voice", "Seed 888")
+            except Exception:
+                audio_source = "Local ChatTTS"
+                model_used = "ChatTTS Core v0.2"
+                voice_used = "Seed 888"
+        else:
+            try:
+                with open(gemini_metadata_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                audio_source = meta.get("source", "Gemini API TTS (Segment-Based)")
+                model_used = meta.get("model", "gemini-3.1-flash-tts-preview")
+                voice_used = meta.get("voice", "Kore")
+            except Exception:
+                audio_source = "Gemini API TTS (Segment-Based)"
+                model_used = "gemini-3.1-flash-tts-preview"
+                voice_used = "Kore"
             
     else:
         # Fall back to macOS 'say'
@@ -561,12 +667,12 @@ def main():
     total_audio_duration = sum(segment_durations)
     
     # Check for manual single-file override narration audio (MP3 has priority, then WAV)
-    # This is only active if we are NOT using the premium Gemini segment files
+    # This is only active if we are NOT using the premium segment files
     override_mp3 = os.path.join(ASSETS_DIR, "narration_override.mp3")
     override_wav = os.path.join(ASSETS_DIR, "narration_override.wav")
     
     override_path = None
-    if not use_gemini_segments:
+    if not use_premium_segments:
         if os.path.exists(override_mp3):
             override_path = override_mp3
         elif os.path.exists(override_wav):
@@ -620,9 +726,9 @@ def main():
         narration_duration = override_total_duration
         
     else:
-        # Segment-based mode (either Gemini segments or macOS say segments)
-        if use_gemini_segments:
-            print("\nUsing Gemini segment-based narration mode...")
+        # Segment-based mode (Gemini, ChatTTS or macOS say segments)
+        if use_premium_segments:
+            print(f"\nUsing premium segment-based narration mode ({audio_source})...")
         else:
             print("\nUsing standard macOS 'say' narration mode...")
             

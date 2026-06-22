@@ -11,6 +11,8 @@ Included:
 - Report generation.
 - Trace generation.
 - Evaluation scripts.
+- ADK tool selection, callbacks, sessions, and events.
+- Local FastAPI review endpoint.
 
 Excluded:
 - Production database access.
@@ -41,6 +43,12 @@ Excluded:
 | Information disclosure | Agent reads `.env` or local private files. | Secrets leak. | Path allowlist; no arbitrary file reads. | Path traversal test. |
 | Denial of service | Huge CSV overwhelms local run. | Demo fails or slows. | File size limit; row count cap for MVP. | Oversized file test. |
 | Elevation of privilege | User asks agent to execute shell or send email. | Side effects outside scope. | Tool allowlist; disable external actions. | Forbidden tool test. |
+| Spoofing | HTTP client submits a path or state identifier it does not own. | Unauthorized dataset access. | Approved dataset references, path policy, and authentication before public deployment. | API authorization/path test. |
+| Tampering | Model supplies an unsupported dimension or alters a prior anomaly ID. | Misleading investigation. | Before-tool callback validates dimensions, prerequisites, and anomaly IDs against session state. | Tool-argument policy test. |
+| Repudiation | Model/tool event occurs without matching trace correlation. | Agent trajectory cannot be proven. | Preserve ADK function-call/response IDs, session ID, run ID, and callback policy events. | Trace-correlation test. |
+| Information disclosure | Health/readiness response exposes configuration or key presence. | Secret or infrastructure disclosure. | Fixed response schema and redacted readiness reasons. | Endpoint response test. |
+| Denial of service | Repeated API review requests exhaust model quota or memory. | Demo/service unavailable. | Local-only default, request limits, timeouts, bounded rows, and concurrency controls. | Request-limit test. |
+| Elevation of privilege | Prompt persuades the model to call a runtime-only report/trace writer with a chosen path. | Arbitrary file write. | Keep writer tools runtime-only and derive paths server-side. | Forbidden model-tool test. |
 
 ## Agent-specific abuse cases
 
@@ -102,3 +110,8 @@ The project is acceptable when:
 - External side effects are disabled or human-approved.
 - Trace files show tool calls and review gates.
 - Security eval cases pass.
+- ADK callbacks block unauthorized tool names, paths, dimensions, and workflow order.
+- Offline mode completes while model/network constructors are blocked.
+- CLI and API security policies are identical because both use the same service.
+- FastAPI health/readiness responses expose no environment values.
+- Trace events correlate each function call with its response without logging raw secrets or full data.

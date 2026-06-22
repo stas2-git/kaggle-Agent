@@ -56,6 +56,10 @@ The MVP must support:
 7. Producing a markdown review report.
 8. Generating a trace file of tool calls and decisions.
 9. Running evaluation cases from a small synthetic dataset.
+10. Running through a Google ADK application that exports `root_agent`.
+11. Providing both CLI and FastAPI adapters over the same review service.
+12. Providing a credential-free offline demo that performs no model or network call.
+13. Loading the portfolio-monitoring skill as runtime procedural guidance.
 
 ## Future scope
 
@@ -126,6 +130,13 @@ Acceptance criteria:
 | FR-008 | Support local evaluation cases. | Must |
 | FR-009 | Provide optional HTML dashboard. | Should |
 | FR-010 | Provide optional cloud deployment path. | Could |
+| FR-011 | Export an ADK `root_agent` and application named `portfolio_agent`. | Must |
+| FR-012 | Expose deterministic calculations through schema-bound, JSON-safe ADK tool adapters. | Must |
+| FR-013 | Let the agent select relevant driver dimensions only after deterministic anomaly detection. | Must |
+| FR-014 | Provide `--force-offline` with zero network/model initialization. | Must |
+| FR-015 | Provide FastAPI health, readiness, and review endpoints over the shared application service. | Must |
+| FR-016 | Package and use the `portfolio-monitoring` Agent Skill at runtime. | Must |
+| FR-017 | Preserve review-required status as a structured advisory decision; do not claim interactive approval. | Must |
 
 ## Non-functional requirements
 
@@ -137,6 +148,14 @@ Acceptance criteria:
 | NFR-004 | Transparency | All tool calls captured in trace |
 | NFR-005 | Evaluation | Automated eval scorecard included |
 | NFR-006 | Simplicity | MVP must be demoable in under 5 minutes |
+| NFR-007 | Framework visibility | ADK root agent, tools, callbacks, sessions, and events are inspectable in source and traces |
+| NFR-008 | Offline isolation | Offline mode passes with network/model constructors blocked |
+| NFR-009 | Adapter parity | CLI and FastAPI return equivalent structured results for identical offline input |
+| NFR-010 | Truthful documentation | Commands, counts, and feature claims match verified implementation evidence |
+
+## Architecture amendment
+
+`24_codelab_alignment_upgrade.md` controls the version 0.2 implementation. The existing deterministic functions remain the numeric authority. ADK owns bounded orchestration; FastAPI and the CLI must not duplicate calculations or policy logic.
 
 ## Success metrics
 

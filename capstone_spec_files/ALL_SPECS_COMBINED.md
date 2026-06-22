@@ -1,4 +1,6 @@
-# All Specs Combined: Actuarial Portfolio Monitoring Agent
+# All Specs Combined: Actuarial Portfolio Monitoring Agent — Archived Version 0.1
+
+> **Do not use this compiled file for the ADK upgrade.** It predates the version 0.2 architecture amendment and contains superseded alternatives. Use `.agents-cli-spec.md`, `00_README_SPEC_INDEX.md`, and `24_codelab_alignment_upgrade.md`, followed by the individual canonical specifications. Regenerate this combined artifact only after the upgraded implementation and documentation are verified.
 
 
 

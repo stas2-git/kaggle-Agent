@@ -24,10 +24,8 @@ The public repository should let a judge or reviewer understand, install, run, a
 ```bash
 git clone <repo-url>
 cd portfolio-monitoring-agent
-uv venv
-source .venv/bin/activate
-uv pip install -e .
-python -m portfolio_agent.run --input data/eval/loss_ratio_spike.csv --latest-month 2026-06
+make install
+make run-offline
 ```
 
 Expected output:
@@ -62,6 +60,10 @@ Acceptable:
 - [ ] Output report generated.
 - [ ] Trace generated.
 - [ ] No private credentials required for local demo.
+- [ ] Offline demo performs zero model/network calls.
+- [ ] `agents-cli info` recognizes the project manifest.
+- [ ] CLI and FastAPI offline results satisfy the same schema.
+- [ ] README test/eval counts are current rather than hardcoded historical values.
 
 ## Suggested repository tree
 
@@ -73,14 +75,43 @@ portfolio-monitoring-agent/
 ├── .gitignore
 ├── .env.example
 ├── AGENTS.md
+├── .agents-cli-spec.md
+├── agents-cli-manifest.yaml
+├── Makefile
+├── Dockerfile
 ├── specs/
 ├── data/
 ├── portfolio_agent/
+│   ├── agent.py
+│   ├── adk_tools.py
+│   ├── callbacks.py
+│   ├── config.py
+│   ├── fast_api_app.py
+│   └── run.py
+├── skills/portfolio_monitoring/
 ├── tests/
+│   ├── unit/
+│   ├── integration/
+│   └── eval/
 ├── outputs/.gitkeep
 ├── artifacts/.gitkeep
 └── media/
 ```
+
+## Required command contract
+
+```bash
+make install       # uv sync
+make run-offline   # credential-free deterministic demo
+make run           # online CLI/ADK demo
+make api           # local FastAPI adapter
+make test          # deterministic unit tests
+make integration   # ADK/API/offline integration tests
+make lint          # formatting, lint, and type checks
+make eval          # agents-cli eval generate + grade
+```
+
+The README must not document a target until it exists and has been executed successfully in the current checkout.
 
 ## License note
 

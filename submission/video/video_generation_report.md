@@ -6,17 +6,17 @@ This report summaries the execution and outcomes of the audio-driven video gener
 - **Pytest Suite**: PASS ✅
 - **Offline Evaluations**: PASS ✅
 - **Vertical-Slice Review Run**: PASS ✅
-- **Voiceover TTS Source**: `local macOS say`
-- **Model Used**: `N/A`
-- **Voice / Config Name**: `Samantha`
+- **Voiceover TTS Source**: `Gemini API TTS (Segment-Based)`
+- **Model Used**: `gemini-3.1-flash-tts-preview`
+- **Voice / Config Name**: `Kore`
 - **Speech Rate (macOS Say only)**: `170 WPM`
 - **Final Video Assembler**: PASS ✅
 - **Security Secret Audit Scan**: PASS ✅
 
 ## 2. Timing Measurements & Bounds Checks
-- **Narration Audio Duration**: 198.675 seconds
-- **Final Video Duration**: 198.596 seconds
-- **Absolute Duration Difference**: 0.079 seconds
+- **Narration Audio Duration**: 213.463 seconds
+- **Final Video Duration**: 213.400 seconds
+- **Absolute Duration Difference**: 0.063 seconds
 - **Duration Boundary Status**: PASS (Within 1.0s limit) ✅
 - **Video Output Path**: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/submission/video/draft_demo_video.mp4`
 
@@ -35,10 +35,7 @@ This report summaries the execution and outcomes of the audio-driven video gener
 ## 4. Security Audit Findings
 - **Result**: SUCCESS. No raw API keys, AIza key signatures, or un-scrubbed `.env` references were found.
 
-## 5. Gemini TTS Fallback Note
-- **Note**: The Gemini API TTS generation script `generate_gemini_tts.py` was executed. The API request returned a model preview/availability warning: `Developer instruction is not enabled for this model` or experienced response latency. As designed, the pipeline did not break and fell back cleanly to the local macOS segment-based `say` audio track generator (Samantha @ 170 WPM).
-
-## 6. Verification Commands
+## 5. Verification Commands
 Confirm outputs locally using:
 - Pytest passing verification: `uv run pytest`
 - Check generated trace exists: `ls outputs/traces/`

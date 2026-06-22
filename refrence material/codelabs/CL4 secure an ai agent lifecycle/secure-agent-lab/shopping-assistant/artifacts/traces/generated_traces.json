@@ -1,0 +1,160 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "registered_user_redemption",
+      "agent_data": {
+        "agents": {
+          "shopping_helper": {
+            "agent_id": "shopping_helper",
+            "agent_type": "LlmAgent",
+            "instruction": "Use deterministic redemption tools and report outcomes."
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Redeem discount code WELCOME50 for registered user user_123."
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adYO8ylf",
+                        "args": {
+                          "code": "WELCOME50",
+                          "user_id": "user_123"
+                        },
+                        "name": "redeem_discount"
+                      },
+                      "thought_signature": "EjQKMgEMOdbHf_NBxGHR10Uc-_wChNOzYgawl5hcZoxC1aT7ZnME2SvfTLaNOg5MqEIt6AMr"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adYO8ylf",
+                        "name": "redeem_discount",
+                        "response": {
+                          "result": "Success: Discount code WELCOME50 redeemed successfully for user user_123."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "The discount code WELCOME50 has been successfully redeemed for user_123.",
+                      "thought_signature": "EjQKMgEMOdbHWn486YIJcwXsjPSsUxaDPgNYnj4D9ACEal4E_V6hBuMiWkwHIas5mlA-blQp"
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "guest_redemption_rejected",
+      "agent_data": {
+        "agents": {
+          "shopping_helper": {
+            "agent_id": "shopping_helper",
+            "agent_type": "LlmAgent",
+            "instruction": "Use deterministic redemption tools and report outcomes."
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Redeem discount code SUMMER20 for guest_999."
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "GYDU1SeW",
+                        "args": {
+                          "user_id": "guest_999",
+                          "code": "SUMMER20"
+                        },
+                        "name": "redeem_discount"
+                      },
+                      "thought_signature": "EjQKMgEMOdbHZ9FpZFXMKpjNFA3fJeoR-bykemevg8VyRvfxV463-9zRrMQjPi7BpxIZAYVO"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "GYDU1SeW",
+                        "name": "redeem_discount",
+                        "response": {
+                          "result": "Error: Registered user account required to redeem discounts."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "shopping_helper",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "The discount code SUMMER20 could not be redeemed because guest_999 is not a registered user account. Please use a registered user account to redeem discount codes.",
+                      "thought_signature": "EjQKMgEMOdbHuTd9YcC0TpGbQp51S2lZYmMAAiyKG8ip5i73P8Mx_6KwRRZ4Jn-SMWRiNrK6"
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

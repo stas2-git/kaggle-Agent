@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.2
 project: actuarial-portfolio-monitoring-agent
 purpose: Define local evaluations for the capstone agent.
 
@@ -13,6 +13,9 @@ evaluation_principles:
   - include_negative_and_adversarial_cases
   - rerun_evals_after_prompt_or_tool_changes
   - preserve_trace_artifacts_for_debugging
+  - use_pytest_for_deterministic_code_not_llm_prose
+  - use_agents_cli_generate_and_grade_for_agent_behavior
+  - scenario_specific_mock_memos_are_not_agent_quality_evidence
 
 pass_thresholds:
   deterministic_tests: 100_percent
@@ -224,6 +227,52 @@ artifacts:
   reports_dir: outputs/reports/
 
 commands:
-  generate_traces: make generate-traces
-  grade: make grade
-  all: make eval
+  unit_and_integration: make test
+  generate_traces: agents-cli eval generate
+  grade: agents-cli eval grade
+  compare: agents-cli eval compare BASELINE_RESULTS CANDIDATE_RESULTS
+  all: agents-cli eval run
+
+adk_evaluation:
+  dataset_directory: tests/eval/datasets/
+  config_path: tests/eval/eval_config.yaml
+  trace_directory: artifacts/traces/
+  result_directory: artifacts/grade_results/
+  app_name: portfolio_agent
+  required_metrics:
+    - multi_turn_task_success
+    - multi_turn_tool_use_quality
+    - multi_turn_trajectory_quality
+    - final_response_quality
+    - hallucination
+    - safety
+    - actuarial_metric_consistency
+    - portfolio_trace_completeness
+  custom_metric_requirements:
+    actuarial_metric_consistency:
+      type: local_code_execution
+      rule: Every numeric claim in the structured review result must be attributable to a deterministic function response in agent_data.
+      threshold: 1.0
+    portfolio_trace_completeness:
+      type: local_code_execution
+      rule: Trace contains app, agent, session, run, function-call/response correlation, review decision, and artifact status.
+      threshold: 1.0
+  rules:
+    - Do not require exact LLM wording or a fixed helper-tool sequence.
+    - Use rubric-based trajectory and tool-use metrics for semantically valid paths.
+    - Generate traces from the real ADK application before grading.
+    - Keep offline deterministic evals separate from online agent-quality scores.
+    - Compare grade-result files after agent, prompt, tool-description, or callback changes.
+
+pytest_scope:
+  allowed:
+    - deterministic formulas and thresholds
+    - schemas and serialization
+    - path and security policy
+    - callbacks and tool contract enforcement
+    - FastAPI contracts
+    - offline network isolation
+    - ADK session and event integration
+  forbidden:
+    - asserting exact or keyword-based LLM prose
+    - presenting prepared scenario memos as successful live agent evaluation

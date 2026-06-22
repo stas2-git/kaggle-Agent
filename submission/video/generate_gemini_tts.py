@@ -40,6 +40,20 @@ def main():
     parser.add_argument("--force", action="store_true", help="Force recreation of all segment files, bypassing cache")
     args = parser.parse_args()
 
+    # Load .env file if it exists in the project root
+    project_root = os.path.dirname(os.path.dirname(VIDEO_DIR))
+    env_path = os.path.join(project_root, ".env")
+    if os.path.exists(env_path):
+        try:
+            with open(env_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#") and "=" in line:
+                        k, v = line.split("=", 1)
+                        os.environ[k.strip()] = v.strip()
+        except Exception:
+            pass
+
     # Read API Key only from environment variables
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:

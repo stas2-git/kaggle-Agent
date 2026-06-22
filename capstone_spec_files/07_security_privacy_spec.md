@@ -127,3 +127,34 @@ Suggested pre-commit checks:
 | User asks to send email | Agent refuses or drafts only. |
 | Hardcoded fake API key in code | Secret scan fails. |
 | High-severity anomaly | Human review required. |
+
+## ADK callback enforcement
+
+Version 0.2 moves cross-cutting policy into ADK callbacks while preserving the existing deterministic security functions.
+
+| Hook | Enforcement |
+|---|---|
+| `before_agent_callback` | Initialize safe state, run ID, execution mode, and empty security flags. |
+| `before_model_callback` | Permit only sanitized structured results; block prompt disclosure and instruction override requests. |
+| `before_tool_callback` | Enforce exact tool allowlist, workflow prerequisites, typed arguments, path containment, and allowed dimensions. |
+| `after_tool_callback` | Validate response schema, redact unsafe text, record duration/status, and reject corrupt numeric output. |
+| `after_model_callback` | Reject unsupported numeric claims, binding recommendations, leaked instructions, and unsafe output. |
+
+Callbacks must fail closed for unauthorized paths or tools. They may not silently replace calculation failures with plausible values.
+
+## FastAPI boundary
+
+- API handlers accept a dataset reference, not an arbitrary filesystem path outside the approved roots.
+- First release does not require file uploads.
+- Request size, content type, and concurrency limits must be configured before uploads or public access are added.
+- Health endpoints must never return secrets or raw configuration.
+- Error responses must use controlled messages and retain details only in sanitized traces.
+- Authentication is not required for localhost-only development; it is required before any public deployment.
+
+## Offline-mode guarantee
+
+Offline mode must not instantiate a Gemini, Vertex AI, or other network client. A test must block model/network constructors and prove the full demo still produces a deterministic report and trace.
+
+## Human-review terminology
+
+`requires_human_review` is an advisory control because the MVP performs no consequential action. Documentation must not describe this flag as an approval that pauses or resumes a session. If a future side-effecting tool is introduced, use ADK tool confirmation or resumability and specify authorization, correlation, audit, and idempotency first.

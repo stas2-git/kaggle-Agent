@@ -15,8 +15,8 @@ This directory provides automated scripts and specifications to compile the pres
 * `video_asset_checklist.md`: Visual and audio assets checklist.
 * `captions.srt`: Subtitle tracks.
 * `generate_gemini_tts.py`: **Gemini TTS Generator**. Calls Gemini API TTS to produce a premium narration file.
+* `generate_chattts.py`: **ChatTTS Generator**. Calls ChatTTS locally to generate premium narration files for all slides.
 * `generate_all.py`: **Primary Orchestrator**. Runs tests/evals, compiles segment audios, renders segment-specific video clips matching audio lengths, and stitches them.
-* `generate_video.py`: Slide card drawer and basic video compiler.
 * `assets/`: Contains generated slides, output logs, and compiled narration.
 
 ---
@@ -40,7 +40,27 @@ uv run python submission/video/generate_all.py --voice Daniel --rate 165
 
 ---
 
-## 2. Optional Gemini API TTS (Recommended)
+## 2. Premium Local Voiceover Generation using ChatTTS (Recommended)
+
+To compile the video using the highly realistic, open-source ChatTTS model running locally on your Mac:
+
+### Step 1: Generate ChatTTS Voice Segments
+Run the local generation script:
+```bash
+uv run python submission/video/generate_chattts.py
+```
+*This will load the model, generate all 7 slide segments locally with a consistent speaker voice (locked using seed 888), and save them under `assets/chattts_segments/`.*
+
+### Step 2: Run the Orchestrator
+Run the primary compiler script:
+```bash
+uv run python submission/video/generate_all.py
+```
+*The orchestrator automatically detects these premium segments, measures their durations, renders the slides to match their lengths exactly, and stitches the final video.*
+
+---
+
+## 3. Optional Gemini API TTS
 
 You can generate a premium voiceover narration track using the Gemini API. 
 
