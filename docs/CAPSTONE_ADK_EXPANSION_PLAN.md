@@ -261,11 +261,11 @@ Offline mode must:
 
 ### Required tests
 
-- [ ] Offline loss-ratio demo completes.
-- [ ] Model/client constructors patched to raise are never called.
-- [ ] No model-call event appears in the trace.
-- [ ] Report and trace artifacts exist.
-- [ ] Existing online behavior is preserved.
+- [x] Offline loss-ratio demo completes.
+- [x] Model/client constructors patched to raise are never called.
+- [x] No model-call event appears in the trace.
+- [x] Report and trace artifacts exist.
+- [x] Existing online behavior is preserved.
 
 ### Verification
 

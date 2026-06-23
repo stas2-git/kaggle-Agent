@@ -53,3 +53,15 @@ class ReviewMemo(BaseModel):
     recommended_followups: List[str] = Field(..., description="Concise follow-up questions for underwriters or managers")
     confidence: float = Field(..., description="Agent confidence score (1 to 5 scale)")
     requires_human_review: bool = Field(..., description="True if manual review or pricing adjustment is recommended")
+
+class PortfolioReviewResult(BaseModel):
+    run_id: str = Field(..., description="Unique run identifier")
+    valuation_month: str = Field(..., description="Valuation month reviewed")
+    execution_mode: Literal["online", "offline"] = Field(..., description="Execution mode used for synthesis")
+    status: Literal["complete", "failed", "security_blocked"] = Field(..., description="Review run status")
+    requires_human_review: bool = Field(..., description="True when deterministic thresholds require human review")
+    human_review_reasons: List[str] = Field(default_factory=list, description="Deterministic reasons for review")
+    anomaly_count: int = Field(..., description="Number of detected anomalies")
+    report_path: str = Field(..., description="Generated report artifact path")
+    trace_path: str = Field(..., description="Generated trace artifact path")
+    memo: ReviewMemo = Field(..., description="Synthesized review memo")

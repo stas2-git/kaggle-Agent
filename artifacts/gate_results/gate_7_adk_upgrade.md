@@ -270,3 +270,86 @@ Checked 42 packages in 0.69ms
 ## Phase 1 gate decision
 
 PASS. Agents CLI recognizes the repository, the existing deterministic project behavior is preserved, and the full current test suite passes. Phase 2 may begin after this checkpoint is saved.
+
+---
+
+## Phase 2: Offline configuration and shared review service
+
+Date: 2026-06-22  
+Decision: PASS
+
+## Scope
+
+Phase 2 introduced a genuine credential-free offline path before ADK orchestration. The CLI now routes through a shared service boundary and supports `--force-offline`.
+
+## Files changed
+
+```text
+.env.example
+docs/CAPSTONE_ADK_EXPANSION_PLAN.md
+artifacts/gate_results/gate_7_adk_upgrade.md
+portfolio_agent/config.py
+portfolio_agent/run.py
+portfolio_agent/schemas.py
+portfolio_agent/service.py
+tests/integration/test_offline_mode.py
+```
+
+## Verification
+
+Offline command:
+
+```bash
+uv run python -m portfolio_agent.run \
+  --input tests/golden/loss_ratio_spike.csv \
+  --latest-month 2026-06 \
+  --force-offline
+```
+
+Result:
+
+```text
+Run complete.
+Mode: offline
+Severity: High
+Human review required: Yes
+Human review reasons: high_severity_anomaly, deterministic_threshold_requires_review
+```
+
+Targeted tests:
+
+```bash
+uv run pytest tests/integration/test_offline_mode.py -q
+```
+
+Result:
+
+```text
+3 passed
+```
+
+Full test suite:
+
+```bash
+uv run pytest -q
+```
+
+Result:
+
+```text
+18 passed in 0.51s
+```
+
+## Confirmed behaviors
+
+- Offline loss-ratio demo completes.
+- Offline path reuses real deterministic loading, validation, metrics, anomaly, driver, report, and trace functions.
+- Offline mode does not construct a Gemini client when the constructor is patched to raise.
+- Offline trace records `execution_mode: offline`.
+- Offline trace contains `offline_synthesis_started` and does not contain `model_synthesis_started`.
+- Report and trace artifacts are produced.
+- Existing online synthesis boundary remains callable through the shared service.
+
+## Phase 2 gate decision
+
+PASS. Offline reproducibility is implemented and tested, and all previously passing tests still pass.
