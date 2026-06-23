@@ -159,14 +159,29 @@ agents-cli scaffold enhance . \
 
 ### Review before accepting generated changes
 
-- [ ] `portfolio_agent/tools.py` was not replaced.
-- [ ] `portfolio_agent/schemas.py` was not replaced.
-- [ ] The model configuration was not silently changed.
-- [ ] `.env` values were preserved.
-- [ ] Existing tests and datasets remain present.
-- [ ] `agents-cli-manifest.yaml` points to `portfolio_agent`.
-- [ ] `App`/application naming matches `portfolio_agent`.
-- [ ] No deployment or CI/CD infrastructure was introduced.
+- [x] `portfolio_agent/tools.py` was not replaced.
+- [x] `portfolio_agent/schemas.py` was not replaced.
+- [x] The model configuration was not silently changed.
+- [x] `.env` values were preserved.
+- [x] Existing tests and datasets remain present.
+- [x] `agents-cli-manifest.yaml` points to `portfolio_agent`.
+- [x] `App`/application naming matches `portfolio_agent`.
+- [x] No deployment or CI/CD infrastructure was introduced.
+- [x] Package imports remain safe before `root_agent` exists.
+- [x] Generated placeholder ADK runner/server tests are removed or quarantined until Phase 6/8.
+
+### Phase 1 repair rule
+
+If scaffold enhancement succeeds but the test gate fails because generated files assume later-phase behavior, repair only the compatibility boundary needed for Phase 1:
+
+- keep `agents-cli-manifest.yaml`, `AGENTS.md`, Dockerfile, and eval-layout files;
+- do not rewrite actuarial tools or synthesis logic;
+- do not add a fake `root_agent` just to satisfy placeholder tests;
+- do not initialize Google auth, model clients, or network clients at package import time;
+- make `portfolio_agent/__init__.py` side-effect-light; and
+- delete or quarantine scaffold sample tests that require a live ADK root agent or server before those phases are implemented.
+
+These repairs are part of Phase 1 because the objective is project recognition plus preservation of the existing deterministic baseline.
 
 ### Verification
 

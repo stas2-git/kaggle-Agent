@@ -95,6 +95,10 @@ portfolio-monitoring-agent/
 
 `agents-cli scaffold enhance .` is the preferred way to introduce standard Agents CLI files during implementation. Generated changes must be reviewed before they replace existing configuration.
 
+Phase 1 scaffolding is a structure-recognition step only. If the scaffold generates placeholder tests, package imports, or server files that assume a completed `root_agent`, live ADK runner, Google Cloud credentials, or FastAPI review API before those phases are implemented, treat them as reference material and either remove them or quarantine them until the matching implementation phase. Phase 1 must preserve the existing deterministic test suite rather than forcing Phase 6/8 behavior early.
+
+Package imports must remain side-effect-light during the transition. Importing `portfolio_agent.tools`, `portfolio_agent.security`, or other deterministic modules must not require importing a not-yet-built ADK `app`, initializing Google credentials, or constructing model/network clients.
+
 ## 5. Target agent design
 
 ### 5.1 Root agent
