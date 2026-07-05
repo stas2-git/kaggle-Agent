@@ -13,7 +13,7 @@ File changed:
 - `project_build/tests/test_tools.py`
 - `project_build/tests/unit/test_extended_anomalies.py` (new)
 
-Reason: Gate 5 fresh-context rebuild v2 (`project_build/artifacts/rebuilds/fresh_rebuild_v2.md`)
+Reason: Gate 5 fresh-context rebuild v2 (`project_build/artifacts/rebuilds/v2/fresh_rebuild_v2.md`)
 found 8 spec ambiguities/drifts that a builder with no access to the real implementation had
 to guess at. Reconciling the specs against the actual implementation surfaced one further,
 more significant gap: the data spec's anomaly-threshold table documented six anomaly checks

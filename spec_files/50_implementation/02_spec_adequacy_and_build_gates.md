@@ -394,8 +394,12 @@ artifacts/gate_results/gate_4_agent_evals.md
 **Required Artifact:**
 
 ```text
-artifacts/rebuilds/fresh_rebuild_vX.md
+artifacts/rebuilds/vX/fresh_rebuild_vX.md
 ```
+
+Each rebuild attempt gets its own subfolder (`vX/`) holding the report plus any isolated
+spec-only bundle and rebuilt workspace it produced, so reports and their working code stay
+together and successive attempts don't mix files in one flat directory.
 
 The artifact must include:
 
