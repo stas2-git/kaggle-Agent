@@ -1,6 +1,6 @@
-# Notes
+# Build Notes
 
-Working notes live here so they do not compete with the canonical specs, reference material, or public submission assets. This folder is organized as a pyramid: short guidance first, summaries second, full notes last.
+This is the build/architecture history for this project's own implementation (ADK alignment, architecture decisions) - not course or assignment material. See [`../../assignment_details/README.md`](../../assignment_details/README.md) for the course/capstone context this project responds to. Working notes live here so they do not compete with the canonical specs, reference material, or public submission assets. This folder is organized as a pyramid: short guidance first, summaries second, full notes last.
 
 ## Start Here
 
@@ -14,7 +14,7 @@ Working notes live here so they do not compete with the canonical specs, referen
 ## Folder Map
 
 ```text
-assignment_details/20_notes/
+project_build/notes/
 |-- 10_start_here/   # Read-first orientation
 |-- 20_summaries/    # Short summaries of long notes
 `-- 30_full_notes/   # Original long-form work-session notes

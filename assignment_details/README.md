@@ -53,17 +53,20 @@ For this capstone, that means the portfolio-monitoring agent should read as a sm
 
 ## Where To Find Details
 
-Open subfolders only when the current task needs more evidence than this page provides.
+This folder is organized by topic, not by document type. Each topic folder has a `README.md` with the extracted high-level notes, and a `details/` subfolder with the source text, original documents, specs, or runnable code behind it. Open `details/` only when the current task needs more evidence than the topic overview provides.
+
+| Topic | Overview | Details |
+|---|---|---|
+| Course whitepapers (concepts, days 1-5) | [`whitepapers/README.md`](whitepapers/README.md) | [`whitepapers/details/`](whitepapers/details/) |
+| Course codelabs (implementation patterns) | [`codelabs/README.md`](codelabs/README.md) | [`codelabs/details/`](codelabs/details/) - specs, instructions, and runnable projects |
+| Capstone assignment (rules, baseline, submission) | [`capstone_project/README.md`](capstone_project/README.md) | [`capstone_project/details/`](capstone_project/details/) |
 
 | Need | Read |
 |---|---|
 | Runnable app, commands, tests, and outputs | [`../project_build/README.md`](../project_build/README.md) |
 | Canonical product, architecture, data, tool, quality, and submission specs | [`../spec_files/00_README_SPEC_INDEX.md`](../spec_files/00_README_SPEC_INDEX.md) |
 | Kaggle writeup, video assets, and final checklist | [`../submission/README.md`](../submission/README.md) |
-| Assignment/course quality bar in one compact layer | [`30_reference_material/10_extracted_guides/`](30_reference_material/10_extracted_guides/) |
-| Course and capstone source text for targeted retrieval | [`30_reference_material/20_searchable_reference_texts/`](30_reference_material/20_searchable_reference_texts/) |
-| Runnable copies of the course codelabs | [`30_reference_material/30_runnable_codelab_projects/`](30_reference_material/30_runnable_codelab_projects/) |
-| Build-session notes and architecture summaries | [`20_notes/README.md`](20_notes/README.md) |
+| This project's own build-session notes and architecture history (not course material) | [`../project_build/notes/README.md`](../project_build/notes/README.md) |
 | Superseded or packaged artifacts | [`90_archive/README.md`](90_archive/README.md) |
 
 ## LLM Reading Rule
@@ -71,17 +74,18 @@ Open subfolders only when the current task needs more evidence than this page pr
 Do not review this whole folder by default.
 
 1. Read this README first.
-2. If judging capstone readiness, read [`30_reference_material/10_extracted_guides/00_capstone_baseline_expectations.md`](30_reference_material/10_extracted_guides/00_capstone_baseline_expectations.md).
-3. If checking submission mechanics, read [`30_reference_material/10_extracted_guides/03_submission_requirements.md`](30_reference_material/10_extracted_guides/03_submission_requirements.md).
-4. If checking course alignment, read [`30_reference_material/10_extracted_guides/01_course_concepts.md`](30_reference_material/10_extracted_guides/01_course_concepts.md) and [`30_reference_material/10_extracted_guides/02_codelab_lessons.md`](30_reference_material/10_extracted_guides/02_codelab_lessons.md).
-5. Use searchable source text or runnable codelab projects only to verify a specific claim or implementation pattern.
+2. If judging capstone readiness, read [`capstone_project/README.md`](capstone_project/README.md).
+3. If checking submission mechanics, read [`capstone_project/SUBMISSION_REQUIREMENTS.md`](capstone_project/SUBMISSION_REQUIREMENTS.md).
+4. If checking course alignment, read [`whitepapers/README.md`](whitepapers/README.md) and [`codelabs/README.md`](codelabs/README.md).
+5. Use the `details/` subfolder under any topic only to verify a specific claim or implementation pattern.
 
 ## Folder Map
 
 ```text
 assignment_details/
-|-- README.md               # This assignment brief and reading guide
-|-- 20_notes/               # Working plans, architecture notes, and build history
-|-- 30_reference_material/  # Course/codelab/reference pyramid
-`-- 90_archive/             # Superseded or packaged artifacts
+|-- README.md           # This assignment brief and reading guide
+|-- whitepapers/        # Course concept whitepapers: overview + source text/PDFs
+|-- codelabs/           # Course codelabs: overview + specs, instructions, runnable projects
+|-- capstone_project/   # Capstone assignment: overview + source text/PDFs
+`-- 90_archive/         # Superseded or packaged artifacts
 ```

@@ -2,7 +2,7 @@
 
 The local capstone reference says the submitted artifact is a Kaggle Writeup with attached media and a public project link.
 
-Read the baseline first: [`00_capstone_baseline_expectations.md`](00_capstone_baseline_expectations.md)
+Read the baseline first: [`README.md`](README.md)
 
 ## Required Items
 
@@ -34,6 +34,6 @@ Read the baseline first: [`00_capstone_baseline_expectations.md`](00_capstone_ba
 
 ## Local Submission Package
 
-- Checklist: [`../../../submission/00_SUBMISSION_CHECKLIST.md`](../../../submission/00_SUBMISSION_CHECKLIST.md)
-- Writeup draft: [`../../../submission/01_writeup/kaggle_writeup_draft.md`](../../../submission/01_writeup/kaggle_writeup_draft.md)
-- Video package: [`../../../submission/02_video/`](../../../submission/02_video/)
+- Checklist: [`../../submission/00_SUBMISSION_CHECKLIST.md`](../../submission/00_SUBMISSION_CHECKLIST.md)
+- Writeup draft: [`../../submission/01_writeup/kaggle_writeup_draft.md`](../../submission/01_writeup/kaggle_writeup_draft.md)
+- Video package: [`../../submission/02_video/`](../../submission/02_video/)
