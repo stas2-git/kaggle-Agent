@@ -16,7 +16,7 @@ Read the capstone baseline first: [`../capstone_project/README.md`](../capstone_
 
 ## CL4 Ambient Agent
 
-- Useful pattern: event-driven intake, scheduled review, stateful agent work, and traceable outputs.
+- Useful pattern: Pub/Sub event-driven intake, paused human review, stateful agent work, and traceable outputs.
 - Capstone relevance: portfolio monitoring can run as a recurring review workflow rather than a one-off chat.
 - Spec: [`details/specs/cl4_ambient_agent_spec.md`](details/specs/cl4_ambient_agent_spec.md)
 

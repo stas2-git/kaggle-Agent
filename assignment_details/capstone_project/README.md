@@ -57,8 +57,8 @@ Original capstone wording, rules, and timeline: [`details/`](details/)
 | Document | Purpose |
 |---|---|
 | [`details/highlevel_summary.txt`](details/highlevel_summary.txt) | Course outline, daily topics, and learning goals. |
-| [`details/capstone_project_spec.txt`](details/capstone_project_spec.txt) | Tracks, required deliverables, and project expectations. |
-| [`details/capstone_rules.txt`](details/capstone_rules.txt) | Competition rules, grading, timeline, and submission mechanics. |
-| [`details/extra_notes.txt`](details/extra_notes.txt) | Practical README, demo video, and write-up advice. |
+| [`details/capstone_project_spec.txt`](details/capstone_project_spec.txt) | Tracks, required deliverables, evaluation rubric, judges, and timeline. |
+| [`details/capstone_rules.txt`](details/capstone_rules.txt) | Competition legal terms: eligibility, data use, prizes, and IP/winner obligations. |
+| [`details/extra_notes.txt`](details/extra_notes.txt) | Codelab excerpt on automated linting and local Agents CLI evaluation (not writeup/demo advice). |
 | [`details/agent_building_methods_extraction.txt`](details/agent_building_methods_extraction.txt) | Agent architecture, prompting, routing, and coordination patterns. |
 | [`details/source_documents/`](details/source_documents/) | Original PDF/RTF files, for formatting or image verification. |

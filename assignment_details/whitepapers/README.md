@@ -24,7 +24,7 @@ Read the capstone baseline first: [`../capstone_project/README.md`](../capstone_
 ## How This Project Uses Those Ideas
 
 - Specs in [`../../spec_files/`](../../spec_files/) are the source of truth.
-- `portfolio_agent/` is the runnable implementation of those specs.
+- [`../../project_build/portfolio_agent/`](../../project_build/portfolio_agent/) is the runnable implementation of those specs.
 - Tests and eval files show measurable behavior instead of relying only on demo screenshots.
 - Submission material explains the learning journey and points reviewers to the evidence.
 

@@ -44,7 +44,7 @@ The codelabs set the expected project floor. They were more substantial than toy
 
 The most relevant examples were:
 
-- an ambient expense agent with event intake, scheduled review, state, ADK orchestration, and traceable outputs;
+- an ambient expense agent with event-driven (Pub/Sub) intake, paused human review, state, ADK orchestration, and traceable outputs;
 - a secure shopping-agent lifecycle with input validation, prompt-injection handling, secret detection, sanitization, review gates, tests, and threat controls;
 - an ADK Agent Runtime deployment project using Agents CLI, packaging, Terraform, and operational checks;
 - a frontend for an ADK agent with human-in-the-loop event correlation, session resume, dashboard behavior, Cloud Run, and Pub/Sub wiring.

@@ -6,7 +6,7 @@ These documents are the highest-value implementation references in this library.
 
 | Spec | Use it for | Runnable project |
 |---|---|---|
-| [`cl4_ambient_agent_spec.md`](cl4_ambient_agent_spec.md) | Ambient agents, event ingestion, scheduling, graph orchestration, state, and tracing. | [`ambient-expense-agent`](../runnable_projects/CL4%20ambient%20agent/ambient-expense-agent/) |
+| [`cl4_ambient_agent_spec.md`](cl4_ambient_agent_spec.md) | Ambient agents, Pub/Sub event ingestion, graph orchestration, state, and tracing. | [`ambient-expense-agent`](../runnable_projects/CL4%20ambient%20agent/ambient-expense-agent/) |
 | [`cl4_secure_agent_lifecycle_spec.md`](cl4_secure_agent_lifecycle_spec.md) | Layered security, callbacks, validation, policy enforcement, human approval, and evaluation. | [`shopping-assistant`](../runnable_projects/CL4%20secure%20an%20ai%20agent%20lifecycle/secure-agent-lab/shopping-assistant/) |
 | [`cl5_agent_runtime_deployment_spec.md`](cl5_agent_runtime_deployment_spec.md) | Agents CLI workflow, deployable ADK shape, Terraform, Agent Runtime, IAM, rollout, and rollback. | [`expense-agent`](../runnable_projects/CL5%20Deploy%20an%20ADK%20agent%20to%20Agent%20Runtime%20using%20Agents%20CLI/expense-agent/) |
 | [`cl5_agent_frontend_spec.md`](cl5_agent_frontend_spec.md) | Manager dashboard, unresolved interrupt detection, exact session resume, Cloud Run, and Pub/Sub. | [`submission_frontend`](../runnable_projects/CL5%20Vibecode%20and%20Deploy%20a%20Frontend%20for%20an%20ADK%20agent/submission_frontend/) |
