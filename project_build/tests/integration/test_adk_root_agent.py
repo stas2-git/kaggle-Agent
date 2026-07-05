@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from portfolio_agent.config import load_config
+from portfolio_agent.support.config import load_config
 from portfolio_agent.service import review_portfolio
 
 

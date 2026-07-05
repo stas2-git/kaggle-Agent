@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from typing import List, Dict, Any
-from portfolio_agent.schemas import ReviewMemo, AnomalyRecord, DriverResult, MetricsRecord
+from portfolio_agent.core.schemas import ReviewMemo, AnomalyRecord, DriverResult, MetricsRecord
 
 def compile_markdown_report(
     memo: ReviewMemo,

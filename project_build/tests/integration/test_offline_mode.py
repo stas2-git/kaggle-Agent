@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from portfolio_agent.config import load_config
+from portfolio_agent.support.config import load_config
 from portfolio_agent.service import review_portfolio
 
 
@@ -86,7 +86,7 @@ def test_offline_cli_writes_report_and_trace(monkeypatch, tmp_path):
 
 
 def test_online_mode_keeps_existing_model_synthesis_boundary(monkeypatch, tmp_path):
-    from portfolio_agent.schemas import ReviewMemo
+    from portfolio_agent.core.schemas import ReviewMemo
 
     calls = []
 

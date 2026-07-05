@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from portfolio_agent.security import validate_file_path, scan_text_for_injection, SecurityError
+from portfolio_agent.core.security import validate_file_path, scan_text_for_injection, SecurityError
 
 def test_validate_file_path(tmp_path):
     # 1. Create a dummy workspace layout

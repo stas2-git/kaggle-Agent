@@ -8,9 +8,9 @@ from collections.abc import MutableMapping
 from typing import Any
 from uuid import uuid4
 
-from portfolio_agent import adk_tools
-from portfolio_agent.config import APPLICATION_NAME, DEFAULT_MODEL_NAME
-from portfolio_agent.security import SecurityError, scan_text_for_injection, validate_file_path
+from portfolio_agent.adk import adk_tools
+from portfolio_agent.support.config import APPLICATION_NAME, DEFAULT_MODEL_NAME
+from portfolio_agent.core.security import SecurityError, scan_text_for_injection, validate_file_path
 
 
 TOOL_ALLOWLIST = {

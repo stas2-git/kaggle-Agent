@@ -70,18 +70,64 @@ The agent should compare:
 
 For MVP, latest vs previous month is sufficient. Prior-year comparison is a strong enhancement.
 
+### Prior month selection rule
+
+The comparison "prior month" is the calendar month immediately before `latest_month`
+(`YYYY-MM` minus one calendar month, wrapping December to January of the prior year), not
+the nearest earlier month actually present in the data. If a segment/month combination has
+no row for that exact prior month (for example, a data gap), the comparison for that segment
+is silently skipped rather than falling back to an earlier available month. This is a known
+MVP limitation: non-consecutive monthly data will under-report anomalies rather than error.
+
+### Golden test tolerance
+
+Deterministic golden/regression comparisons use:
+
+- Currency and count metrics (premium, loss, claim count): absolute tolerance `1e-2`.
+- Ratio and index metrics (loss ratio, benchmark adequacy, rate change, retention, all
+  anomaly/driver contribution values): absolute tolerance `1e-4`.
+
+Any new golden fixture or test must state which tolerance class each asserted field belongs
+to if it is not one of the metrics listed above.
+
 ## Anomaly thresholds
 
-Default threshold config:
+Default threshold config. "Direction" states which direction of movement fires the anomaly.
+"Detection method" states whether the check compares the **current value to a fixed absolute
+level** or the **change (delta) from the prior month**.
 
-| Metric | Moderate threshold | Severe threshold |
-|---|---:|---:|
-| Loss ratio change | +10 pts | +20 pts |
-| Written premium change | +/-15% | +/-30% |
-| Claim count change | +25% | +50% |
-| Rate change deterioration | -5 pts | -10 pts |
-| Benchmark adequacy deterioration | -0.05 | -0.10 |
-| Retention decrease | -10% | -25% |
+| Metric | Direction | Detection method | Moderate threshold | Severe threshold |
+|---|---|---|---:|---:|
+| Loss ratio change | Increase only | Delta (points) vs. prior month | +10 pts | +20 pts |
+| Written premium change | Either direction (±) | Delta (%) vs. prior month | +/-15% | +/-30% |
+| Claim count change | Increase only | Delta (%) vs. prior month | +25% | +50% |
+| Rate change deterioration | Decrease only | Delta (points) in `rate_change_pct` vs. prior month | -5 pts | -10 pts |
+| Benchmark adequacy deterioration | Decrease only | **Absolute index level** of `benchmark_adequacy` in the current month (not a delta from prior) | current value < 0.90 | current value < 0.80 |
+| Retention decrease | Decrease only | Delta (%) vs. prior month | -10% | -25% |
+
+Benchmark adequacy is intentionally evaluated as an absolute-index check rather than a
+delta, because an adequacy index below 0.90/0.80 is a standalone pricing concern regardless
+of whether it moved gradually or suddenly. This metric's anomaly `metric` value is
+`rate_adequacy` (see Anomaly schema below), and it always sets `requires_human_review: true`
+regardless of severity, because adequacy findings are pricing-related.
+
+### Driver contribution formulas
+
+`contribution_to_change` in the Driver result schema is computed differently depending on
+the anomaly's metric type. Let `cur`/`pri` mean the current/prior period, `k` mean a single
+dimension value (e.g. one state), and `total` mean the sum/aggregate across the whole
+segment being decomposed:
+
+- **Ratio metrics** (`loss_ratio`):
+  `contribution_k = (loss_cur_k / earned_cur_total) - (loss_pri_k / earned_pri_total)`
+- **Additive metrics** (`written_premium`, `claim_count`):
+  `contribution_k = (value_cur_k - value_pri_k) / value_pri_total`
+- **Premium-weighted-average metrics** (`rate_adequacy`, `rate_change`, `avg_retention`):
+  `contribution_k = (share_cur_k * metric_cur_k) - (share_pri_k * metric_pri_k)`, where
+  `share_k = written_premium_k / written_premium_total` for that period.
+
+Contributors within a dimension are sorted by descending absolute `contribution_to_change`
+and truncated to the top 5.
 
 ## Data validation rules
 
@@ -137,8 +183,8 @@ metrics_record:
 
 ```yaml
 anomaly:
-  anomaly_id: string
-  metric: string
+  anomaly_id: string          # e.g. "ANOM_2026-06_Public_D&O_LR"
+  metric: loss_ratio | written_premium | claim_count | rate_change | rate_adequacy | avg_retention
   business_segment: string
   current_value: number
   prior_value: number
@@ -149,12 +195,16 @@ anomaly:
   requires_human_review: boolean
 ```
 
+**Field aliasing note:** golden/eval fixtures may reference this field as `anomaly_type` for
+readability. There is no separate `anomaly_type` field in the schema or implementation — it
+is always the same value as `metric`.
+
 ### Driver result schema
 
 ```yaml
 driver_result:
   anomaly_id: string
-  dimension: string
+  dimension: string            # one of: business_segment, coverage, state, underwriter, policy_year
   top_contributors:
     - value: string
       current_value: number
@@ -162,6 +212,20 @@ driver_result:
       contribution_to_change: number
       notes: string
 ```
+
+**Field aliasing note:** golden/eval fixtures may reference `contribution_to_change` as
+`contribution` for readability. They are the same value; `contribution_to_change` is the
+canonical field name.
+
+**Dimension selection (no single "top driver" is chosen):** driver investigation does not
+pick one winning dimension. The tool computes an independent `driver_result` for **every**
+requested dimension (default: `coverage`, `state`, `underwriter`, `policy_year`), and within
+each dimension ranks contributors by descending absolute `contribution_to_change`. The
+generated report presents findings grouped **by dimension**, not as a single ranked list
+across dimensions. If a builder needs one headline driver value for narrative purposes, they
+must choose their own cross-dimension selection rule (e.g. largest absolute contribution
+across all computed dimensions) — the spec does not mandate one, because the MVP report
+format does not require it.
 
 ### Review request schema
 
@@ -189,28 +253,60 @@ Allowed dimensions are limited to schema-approved grouping fields. Unknown dimen
 
 ### Human review decision schema
 
-```yaml
-human_review_decision:
-  required: boolean
-  reasons: list[string]
-  status: not_required | pending
-  recommended_reviewer: string | null
-  review_questions: list[string]
+Implemented as `human_review_reasons: list[string]` plus `requires_human_review: boolean` on
+the review result (see below), computed centrally, deterministically, and after anomaly
+detection/synthesis — not as a separate object. Reasons are a de-duplicated subset of:
+
+```text
+high_severity_anomaly              # any detected anomaly has severity == "high"
+deterministic_threshold_requires_review   # any anomaly's own requires_human_review is true
+data_quality_warnings               # validation produced one or more warnings
 ```
 
-`pending` means a person should review the advisory report. It does not mean the ADK session is paused. Interactive pause/resume requires a separately specified consequential action.
+`requires_human_review` means a person should review the advisory report. It does not mean
+the ADK session is paused. Interactive pause/resume is out of MVP scope (see
+`10_core/02_agent_architecture.md`).
+
+### Review memo schema (LLM/offline synthesis output)
+
+```yaml
+review_memo:
+  report_title: string
+  valuation_month: string
+  executive_summary: string
+  finding_details:
+    - anomaly_id: string
+      metric: string
+      segment: string
+      observations: string
+      likely_cause_hypothesis: string
+  recommended_followups: list[string]
+  confidence: number       # 1.0-5.0 scale
+  requires_human_review: boolean
+```
+
+**Confidence scoring rule (MVP):** in offline mode, `confidence` is a fixed deterministic
+value — `4.0` if data validation produced no warnings, otherwise `3.0`. There is no other
+computed confidence signal in the MVP. In online mode, `confidence` is self-reported by the
+model as part of its structured output, on the same 1.0-5.0 scale, with no deterministic
+override or calibration. A confidence value below `3.0` adds an informational line to the
+generated report's human-review-reasons narrative, but does **not** by itself set
+`requires_human_review` — that flag is driven only by anomaly severity and data-quality
+warnings (see Human review decision schema above). Building a real deterministic confidence
+calibration is a documented backlog item, not part of the current MVP contract.
 
 ### Review result schema
 
 ```yaml
 portfolio_review_result:
   run_id: string
-  session_id: string
-  status: success | validation_failed | security_blocked | error
+  valuation_month: string
   execution_mode: online | offline
-  report_path: string | null
+  status: complete | failed | security_blocked
+  requires_human_review: boolean
+  human_review_reasons: list[string]
+  anomaly_count: integer
+  report_path: string
   trace_path: string
-  anomalies: list[anomaly]
-  human_review: human_review_decision
-  summary: string
+  memo: review_memo
 ```

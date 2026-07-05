@@ -2,7 +2,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from portfolio_agent.config import load_config
+from portfolio_agent.support.config import load_config
 from portfolio_agent.fast_api_app import app
 from portfolio_agent.service import review_portfolio
 

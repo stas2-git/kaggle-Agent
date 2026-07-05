@@ -1,7 +1,7 @@
 import inspect
 import json
 
-from portfolio_agent import adk_tools
+from portfolio_agent.adk import adk_tools
 
 
 class FakeToolContext:

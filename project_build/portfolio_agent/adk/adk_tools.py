@@ -8,8 +8,8 @@ from uuid import uuid4
 from google.adk.tools import ToolContext
 from pydantic import BaseModel
 
-from portfolio_agent.config import load_config
-from portfolio_agent.tools import (
+from portfolio_agent.support.config import load_config
+from portfolio_agent.core.tools import (
     calculate_portfolio_metrics as calculate_metrics_engine,
     detect_anomalies as detect_anomalies_engine,
     investigate_anomaly_drivers as investigate_drivers_engine,

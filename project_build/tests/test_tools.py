@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
-from portfolio_agent.tools import calculate_portfolio_metrics, detect_anomalies, investigate_anomaly_drivers
-from portfolio_agent.schemas import MetricsRecord, AnomalyRecord
+from portfolio_agent.core.tools import calculate_portfolio_metrics, detect_anomalies, investigate_anomaly_drivers
+from portfolio_agent.core.schemas import MetricsRecord, AnomalyRecord
 
 def test_calculate_portfolio_metrics():
     # 1. Mock DataFrame
@@ -70,7 +70,7 @@ def test_detect_anomalies():
         written_premium=100000.0,
         earned_premium=100000.0,
         incurred_loss=85000.0,  # LR = 85% (+35 pts spike)
-        claim_count=3,
+        claim_count=1,  # held flat so this test isolates the loss-ratio anomaly only
         account_count=10,
         loss_ratio=0.85,
         rate_change_pct=0.05,

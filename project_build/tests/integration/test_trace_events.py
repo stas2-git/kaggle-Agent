@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-from portfolio_agent.config import load_config
+from portfolio_agent.support.config import load_config
 from portfolio_agent.service import review_portfolio
-from portfolio_agent.tracing import TraceLogger
+from portfolio_agent.observability.tracing import TraceLogger
 
 
 def test_offline_trace_contains_enriched_event_schema(tmp_path):

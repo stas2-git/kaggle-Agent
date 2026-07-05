@@ -6,7 +6,7 @@ This folder is the runnable capstone project. Run Python, pytest, Agents CLI, Do
 
 ```text
 project_build/
-|-- portfolio_agent/          # ADK/Python implementation
+|-- portfolio_agent/          # ADK/Python implementation - see portfolio_agent/README.md
 |-- tests/                    # Unit, integration, golden, and eval tests
 |-- data/                     # Synthetic portfolio datasets
 |-- skills/                   # Runtime Agent Skills

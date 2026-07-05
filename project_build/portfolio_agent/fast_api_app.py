@@ -8,9 +8,9 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from portfolio_agent.config import APPLICATION_NAME, load_config
-from portfolio_agent.schemas import PortfolioReviewResult
-from portfolio_agent.security import SecurityError
+from portfolio_agent.support.config import APPLICATION_NAME, load_config
+from portfolio_agent.core.schemas import PortfolioReviewResult
+from portfolio_agent.core.security import SecurityError
 from portfolio_agent.service import review_portfolio
 
 

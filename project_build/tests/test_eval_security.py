@@ -1,7 +1,7 @@
 import os
 import pytest
-from portfolio_agent.security import validate_file_path, scan_text_for_injection, SecurityError
-from portfolio_agent.tools import validate_portfolio_data
+from portfolio_agent.core.security import validate_file_path, scan_text_for_injection, SecurityError
+from portfolio_agent.core.tools import validate_portfolio_data
 import pandas as pd
 from pathlib import Path
 

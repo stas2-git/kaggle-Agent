@@ -2,14 +2,14 @@ from pathlib import Path
 
 import pytest
 
-from portfolio_agent.security import SecurityError, validate_file_path
-from portfolio_agent.skill_context import (
+from portfolio_agent.core.security import SecurityError, validate_file_path
+from portfolio_agent.support.skill_context import (
     PORTFOLIO_SKILL_DIR,
     SkillContextError,
     build_review_instruction_context,
     load_portfolio_monitoring_reference,
 )
-from portfolio_agent.tools import (
+from portfolio_agent.core.tools import (
     calculate_portfolio_metrics,
     detect_anomalies,
     load_portfolio_data,

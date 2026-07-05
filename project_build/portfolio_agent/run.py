@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 
-from portfolio_agent.security import SecurityError
+from portfolio_agent.core.security import SecurityError
 from portfolio_agent.service import review_portfolio
 
 

@@ -2,13 +2,13 @@ import yaml
 import pytest
 import pandas as pd
 from pathlib import Path
-from portfolio_agent.tools import (
+from portfolio_agent.core.tools import (
     load_portfolio_data,
     calculate_portfolio_metrics,
     detect_anomalies,
     investigate_anomaly_drivers
 )
-from portfolio_agent.schemas import MetricsRecord, AnomalyRecord
+from portfolio_agent.core.schemas import MetricsRecord, AnomalyRecord
 
 GOLDEN_DIR = Path(__file__).parent / "golden"
 

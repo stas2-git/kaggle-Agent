@@ -5,17 +5,17 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from portfolio_agent.config import PortfolioAgentConfig, load_config
-from portfolio_agent.reporting import compile_markdown_report
-from portfolio_agent.schemas import (
+from portfolio_agent.support.config import PortfolioAgentConfig, load_config
+from portfolio_agent.core.reporting import compile_markdown_report
+from portfolio_agent.core.schemas import (
     AnomalyRecord,
     DriverResult,
     FindingDetail,
     PortfolioReviewResult,
     ReviewMemo,
 )
-from portfolio_agent.tracing import TraceLogger
-from portfolio_agent.tools import (
+from portfolio_agent.observability.tracing import TraceLogger
+from portfolio_agent.core.tools import (
     calculate_portfolio_metrics,
     detect_anomalies,
     investigate_anomaly_drivers,

@@ -2,7 +2,7 @@ import inspect
 from pathlib import Path
 
 from portfolio_agent import run
-from portfolio_agent.schemas import PortfolioReviewResult, ReviewMemo
+from portfolio_agent.core.schemas import PortfolioReviewResult, ReviewMemo
 
 
 def _fake_result(mode: str = "offline") -> PortfolioReviewResult:

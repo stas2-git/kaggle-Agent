@@ -11,8 +11,8 @@ import pandas as pd
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(levelname)-8s %(message)s")
 log = logging.getLogger("eval_runner")
 
-from portfolio_agent.security import SecurityError
-from portfolio_agent.tools import (
+from portfolio_agent.core.security import SecurityError
+from portfolio_agent.core.tools import (
     load_portfolio_data,
     validate_portfolio_data,
     calculate_portfolio_metrics,
@@ -20,8 +20,8 @@ from portfolio_agent.tools import (
     investigate_anomaly_drivers
 )
 from portfolio_agent.agent import synthesize_review_findings
-from portfolio_agent.reporting import compile_markdown_report
-from portfolio_agent.schemas import ReviewMemo, FindingDetail
+from portfolio_agent.core.reporting import compile_markdown_report
+from portfolio_agent.core.schemas import ReviewMemo, FindingDetail
 
 # Setup paths
 EVAL_DIR = Path(__file__).parent

@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
-from portfolio_agent.security import validate_file_path, scan_text_for_injection
-from portfolio_agent.schemas import MetricsRecord, AnomalyRecord, DriverResult, DriverContributor
+from portfolio_agent.core.security import validate_file_path, scan_text_for_injection
+from portfolio_agent.core.schemas import MetricsRecord, AnomalyRecord, DriverResult, DriverContributor
 
 def load_portfolio_data(file_path: str, workspace_root: str = None) -> pd.DataFrame:
     """
@@ -224,6 +224,65 @@ def detect_anomalies(metrics: List[MetricsRecord], latest_month: str) -> List[An
                 )
             )
 
+        # Check Claim Count Anomaly (+25% moderate, +50% severe, increase only)
+        if prior.claim_count > 0:
+            cc_change_pct = (cur.claim_count - prior.claim_count) / prior.claim_count
+            if cc_change_pct >= 0.25:
+                severity = "high" if cc_change_pct >= 0.50 else "moderate"
+                anomalies.append(
+                    AnomalyRecord(
+                        anomaly_id=f"ANOM_{latest_month}_{segment.replace(' ', '_')}_CC",
+                        metric="claim_count",
+                        business_segment=segment,
+                        current_value=float(cur.claim_count),
+                        prior_value=float(prior.claim_count),
+                        absolute_change=float(cur.claim_count - prior.claim_count),
+                        percent_change=cc_change_pct,
+                        severity=severity,
+                        explanation=f"Claim count increased by {cc_change_pct * 100:.1f}% (from {prior.claim_count} to {cur.claim_count}).",
+                        requires_human_review=True if severity == "high" else False
+                    )
+                )
+
+        # Check Rate Change Deterioration (-5 pts moderate, -10 pts severe, decrease only)
+        rc_change = cur.rate_change_pct - prior.rate_change_pct
+        if rc_change <= -0.05:
+            severity = "high" if rc_change <= -0.10 else "moderate"
+            anomalies.append(
+                AnomalyRecord(
+                    anomaly_id=f"ANOM_{latest_month}_{segment.replace(' ', '_')}_RC",
+                    metric="rate_change",
+                    business_segment=segment,
+                    current_value=cur.rate_change_pct,
+                    prior_value=prior.rate_change_pct,
+                    absolute_change=rc_change,
+                    percent_change=rc_change / prior.rate_change_pct if prior.rate_change_pct != 0 else 0.0,
+                    severity=severity,
+                    explanation=f"Rate change deteriorated by {abs(rc_change) * 100:.1f} percentage points (from {prior.rate_change_pct * 100:.1f}% to {cur.rate_change_pct * 100:.1f}%).",
+                    requires_human_review=True if severity == "high" else False
+                )
+            )
+
+        # Check Retention Decrease (-10% moderate, -25% severe, decrease only)
+        if prior.avg_retention > 0:
+            ret_change_pct = (cur.avg_retention - prior.avg_retention) / prior.avg_retention
+            if ret_change_pct <= -0.10:
+                severity = "high" if ret_change_pct <= -0.25 else "moderate"
+                anomalies.append(
+                    AnomalyRecord(
+                        anomaly_id=f"ANOM_{latest_month}_{segment.replace(' ', '_')}_RET",
+                        metric="avg_retention",
+                        business_segment=segment,
+                        current_value=cur.avg_retention,
+                        prior_value=prior.avg_retention,
+                        absolute_change=cur.avg_retention - prior.avg_retention,
+                        percent_change=ret_change_pct,
+                        severity=severity,
+                        explanation=f"Average retention decreased by {abs(ret_change_pct) * 100:.1f}% (from {prior.avg_retention:,.0f} to {cur.avg_retention:,.0f}).",
+                        requires_human_review=True if severity == "high" else False
+                    )
+                )
+
     return anomalies
 
 def investigate_anomaly_drivers(df: pd.DataFrame, anomaly: AnomalyRecord, dimensions: List[str] = None) -> List[DriverResult]:
@@ -321,29 +380,29 @@ def investigate_anomaly_drivers(df: pd.DataFrame, anomaly: AnomalyRecord, dimens
             # Group by dimension and calculate average or weighted average benchmark_adequacy
             cur_grp_wp = df_cur.groupby(dim)["written_premium"].sum()
             pri_grp_wp = df_pri.groupby(dim)["written_premium"].sum()
-            
+
             # Using groupby-apply to calculate weighted average
             cur_grp_ba = df_cur.groupby(dim).apply(lambda g: np.average(g["benchmark_adequacy"], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g["benchmark_adequacy"].mean())
             pri_grp_ba = df_pri.groupby(dim).apply(lambda g: np.average(g["benchmark_adequacy"], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g["benchmark_adequacy"].mean())
-            
+
             total_cur_wp = df_cur["written_premium"].sum()
             total_pri_wp = df_pri["written_premium"].sum()
-            
+
             all_vals = set(cur_grp_ba.index).union(set(pri_grp_ba.index))
-            
+
             for val in all_vals:
                 cur_ba = float(cur_grp_ba.loc[val]) if val in cur_grp_ba.index else 0.0
                 pri_ba = float(pri_grp_ba.loc[val]) if val in pri_grp_ba.index else 0.0
-                
+
                 cur_wp = float(cur_grp_wp.loc[val]) if val in cur_grp_wp.index else 0.0
                 pri_wp = float(pri_grp_wp.loc[val]) if val in pri_grp_wp.index else 0.0
-                
+
                 # Weighted contribution to the change in benchmark adequacy
                 cur_share = cur_wp / total_cur_wp if total_cur_wp > 0 else 0.0
                 pri_share = pri_wp / total_pri_wp if total_pri_wp > 0 else 0.0
-                
+
                 contrib = (cur_ba * cur_share) - (pri_ba * pri_share)
-                
+
                 contributors.append(
                     DriverContributor(
                         value=str(val),
@@ -351,6 +410,65 @@ def investigate_anomaly_drivers(df: pd.DataFrame, anomaly: AnomalyRecord, dimens
                         prior_value=pri_ba,
                         contribution_to_change=float(contrib),
                         notes=f"Change: {cur_ba - pri_ba:+.2f}"
+                    )
+                )
+        elif metric == "claim_count":
+            # Additive metric: same pattern as written_premium
+            cur_grp = df_cur.groupby(dim)["claim_count"].sum()
+            pri_grp = df_pri.groupby(dim)["claim_count"].sum()
+            total_pri_cc = df_pri["claim_count"].sum()
+
+            all_vals = set(cur_grp.index).union(set(pri_grp.index))
+
+            for val in all_vals:
+                cur_cc = cur_grp.loc[val] if val in cur_grp.index else 0.0
+                pri_cc = pri_grp.loc[val] if val in pri_grp.index else 0.0
+
+                contrib = (cur_cc - pri_cc) / total_pri_cc if total_pri_cc > 0 else 0.0
+
+                contributors.append(
+                    DriverContributor(
+                        value=str(val),
+                        current_value=float(cur_cc),
+                        prior_value=float(pri_cc),
+                        contribution_to_change=float(contrib),
+                        notes=f"Change: {cur_cc - pri_cc:+,.0f}"
+                    )
+                )
+        elif metric in ("rate_change", "avg_retention"):
+            # Premium-weighted-average metric: same pattern as rate_adequacy, parametrized by column
+            value_col = "rate_change_pct" if metric == "rate_change" else "avg_retention"
+
+            cur_grp_wp = df_cur.groupby(dim)["written_premium"].sum()
+            pri_grp_wp = df_pri.groupby(dim)["written_premium"].sum()
+
+            cur_grp_val = df_cur.groupby(dim).apply(lambda g: np.average(g[value_col], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g[value_col].mean())
+            pri_grp_val = df_pri.groupby(dim).apply(lambda g: np.average(g[value_col], weights=g["written_premium"]) if g["written_premium"].sum() > 0 else g[value_col].mean())
+
+            total_cur_wp = df_cur["written_premium"].sum()
+            total_pri_wp = df_pri["written_premium"].sum()
+
+            all_vals = set(cur_grp_val.index).union(set(pri_grp_val.index))
+
+            for val in all_vals:
+                cur_v = float(cur_grp_val.loc[val]) if val in cur_grp_val.index else 0.0
+                pri_v = float(pri_grp_val.loc[val]) if val in pri_grp_val.index else 0.0
+
+                cur_wp = float(cur_grp_wp.loc[val]) if val in cur_grp_wp.index else 0.0
+                pri_wp = float(pri_grp_wp.loc[val]) if val in pri_grp_wp.index else 0.0
+
+                cur_share = cur_wp / total_cur_wp if total_cur_wp > 0 else 0.0
+                pri_share = pri_wp / total_pri_wp if total_pri_wp > 0 else 0.0
+
+                contrib = (cur_v * cur_share) - (pri_v * pri_share)
+
+                contributors.append(
+                    DriverContributor(
+                        value=str(val),
+                        current_value=cur_v,
+                        prior_value=pri_v,
+                        contribution_to_change=float(contrib),
+                        notes=f"Change: {cur_v - pri_v:+.4f}"
                     )
                 )
 

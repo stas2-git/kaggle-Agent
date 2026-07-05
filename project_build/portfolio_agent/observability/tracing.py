@@ -3,7 +3,7 @@ import datetime
 from pathlib import Path
 from typing import List, Dict, Any
 
-from portfolio_agent.config import APPLICATION_NAME
+from portfolio_agent.support.config import APPLICATION_NAME
 
 class TraceLogger:
     """
