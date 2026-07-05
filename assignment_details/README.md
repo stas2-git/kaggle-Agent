@@ -28,38 +28,23 @@ The capstone must visibly apply at least three course concepts. The local projec
 
 ## Course Depth
 
-The course was not just a prompt-writing overview. It moved from vibe-coded prototypes toward production-grade agent engineering:
-
-| Day | Course focus | Capstone implication |
-|---|---|---|
-| 1 | Intent-driven development, context engineering, Antigravity, AI Studio, Cloud Run | The repository should explain the intended behavior before relying on code alone. |
-| 2 | Tool interoperability, MCP, A2A, A2UI, AP2/UCP, CLI workflows | The agent should use bounded tools and structured interfaces rather than free-form reasoning for everything. |
-| 3 | Agent skills, progressive disclosure, Agents CLI, ADK | Reusable context and domain knowledge should be organized so agents load only what they need. |
-| 4 | Security, human review, local evaluation, prompt-injection defenses, threat scans | Safety, tests, evals, and review boundaries are part of the assignment, not optional polish. |
-| 5 | Spec-driven production development, deployment, frontend integration, Agent Runtime | A strong capstone should have specs, reproducible setup, packaging/deployment notes, and a credible demo path. |
+The course was not just a prompt-writing overview. It moved from vibe-coded prototypes toward production-grade agent engineering across 5 days. See [`whitepapers/README.md`](whitepapers/README.md) for the day-by-day concepts and the specific protocols/frameworks each day introduced.
 
 ## Example Level From The Course
 
-The codelabs set the expected project floor. They were more substantial than toy scripts and included runnable agent workspaces, tool boundaries, security checks, evaluation, deployment paths, and reviewer-facing workflows.
-
-The most relevant examples were:
-
-- an ambient expense agent with event-driven (Pub/Sub) intake, paused human review, state, ADK orchestration, and traceable outputs;
-- a secure shopping-agent lifecycle with input validation, prompt-injection handling, secret detection, sanitization, review gates, tests, and threat controls;
-- an ADK Agent Runtime deployment project using Agents CLI, packaging, Terraform, and operational checks;
-- a frontend for an ADK agent with human-in-the-loop event correlation, session resume, dashboard behavior, Cloud Run, and Pub/Sub wiring.
+The codelabs set the expected project floor. They were more substantial than toy scripts and included runnable agent workspaces, tool boundaries, security checks, evaluation, deployment paths, and reviewer-facing workflows. See [`codelabs/README.md`](codelabs/README.md) for what each codelab covers and its capstone relevance.
 
 For this capstone, that means the portfolio-monitoring agent should read as a small reviewable agent system: deterministic computation where facts matter, LLM synthesis only where reasoning adds value, explicit security boundaries, tests/evals, observable traces, and a clear README/demo story.
 
 ## Where To Find Details
 
-This folder is organized by topic, not by document type. Each topic folder has a `README.md` with the extracted high-level notes, and a `details/` subfolder with the source text, original documents, specs, or runnable code behind it. Open `details/` only when the current task needs more evidence than the topic overview provides.
+This folder is organized by topic, not by document type. Each topic's dense, reusable material is pulled up next to `details/` rather than buried inside it — [`whitepapers/notes/`](whitepapers/notes/) and [`codelabs/specs/`](codelabs/specs/). `details/` holds the raw source text, original documents, and runnable code. Open `details/` only when the current task needs more evidence than the overview and its notes/specs already provide.
 
-| Topic | Overview | Details |
-|---|---|---|
-| Course whitepapers (concepts, days 1-5) | [`whitepapers/README.md`](whitepapers/README.md) | [`whitepapers/details/`](whitepapers/details/) |
-| Course codelabs (implementation patterns) | [`codelabs/README.md`](codelabs/README.md) | [`codelabs/details/`](codelabs/details/) - specs, instructions, and runnable projects |
-| Capstone assignment (rules, baseline, submission) | [`capstone_project/README.md`](capstone_project/README.md) | [`capstone_project/details/`](capstone_project/details/) |
+| Topic | Overview | Dense reference | Raw source |
+|---|---|---|---|
+| Course whitepapers (concepts, days 1-5) | [`whitepapers/README.md`](whitepapers/README.md) | [`whitepapers/notes/`](whitepapers/notes/) | [`whitepapers/details/`](whitepapers/details/) |
+| Course codelabs (implementation patterns) | [`codelabs/README.md`](codelabs/README.md) | [`codelabs/specs/`](codelabs/specs/) | [`codelabs/details/`](codelabs/details/) - instructions and runnable projects |
+| Capstone assignment (rules, baseline, submission) | [`capstone_project/README.md`](capstone_project/README.md) | - | [`capstone_project/details/`](capstone_project/details/) |
 
 | Need | Read |
 |---|---|
@@ -84,8 +69,8 @@ Do not review this whole folder by default.
 ```text
 assignment_details/
 |-- README.md           # This assignment brief and reading guide
-|-- whitepapers/        # Course concept whitepapers: overview + source text/PDFs
-|-- codelabs/           # Course codelabs: overview + specs, instructions, runnable projects
+|-- whitepapers/        # Course concept whitepapers: overview + notes/ (dense) + details/ (raw source/PDFs)
+|-- codelabs/           # Course codelabs: overview + specs/ (dense) + details/ (instructions, runnable projects)
 |-- capstone_project/   # Capstone assignment: overview + source text/PDFs
 `-- 90_archive/         # Superseded or packaged artifacts
 ```

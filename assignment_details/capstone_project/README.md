@@ -10,28 +10,35 @@ The capstone should demonstrate:
 
 - a clear agent purpose and problem statement;
 - a spec-first structure that explains requirements, architecture, contracts, quality, and submission;
-- deterministic tools for factual or numeric work;
-- an LLM role limited to reasoning, routing, or synthesis where it adds value;
-- security boundaries for file paths, untrusted text, secrets, and risky actions;
-- observable traces or logs that show what the agent did;
-- tests for deterministic behavior and evals for agent behavior;
-- reproducible local setup and run commands;
 - a public README that a reviewer can follow;
 - a video/writeup story that shows the agent working, not only describes it.
 
-## Expected Agent-Level Features
+The implementation-level bar — tools, deterministic/LLM split, guardrails, evaluation, observability, reproducibility, deployment awareness — is the table below, with a concrete codelab-sourced example for each so "the bar" isn't abstract.
 
-Based on the codelabs, a strong submission should make these patterns visible where relevant:
+## Expected Agent-Level Features & Low-Hanging Fruit
 
-| Pattern | Baseline expectation |
-|---|---|
-| ADK or agent structure | There is a recognizable root agent or equivalent orchestration boundary. |
-| Tools | Tools have bounded inputs/outputs and do the factual work. |
-| Guardrails | The project has validation, policy checks, or human-review triggers. |
-| Evaluation | There are tests and eval cases that can fail for meaningful reasons. |
-| Observability | Runs produce traceable evidence, not only final prose. |
-| Reproducibility | The project can run locally with synthetic or safe data. |
-| Deployment awareness | Even if not deployed, packaging and deployment constraints are documented. |
+Based on the codelabs, a strong submission should make these patterns visible where relevant. The third column is not aspirational — it's what a codelab already built, so it's a low-cost addition, not a research problem.
+
+| Pattern | Baseline expectation | Codelab-sourced example |
+|---|---|---|
+| ADK or agent structure | A recognizable root agent or equivalent orchestration boundary. | The workflow is declared as a graph of single-responsibility nodes (`security_screen → route_expense → auto_approve` / `review_agent → request_approval`), not nested control flow. (CL4 Ambient Agent, CL5 Deployment) |
+| Tools & data contracts | Tools have bounded inputs/outputs and do the factual work. | Typed Pydantic schemas at every tool/model boundary, including LLM output; one input-normalization function that collapses every transport (dict / JSON string / base64-in-Pub/Sub) into a single internal schema at the boundary. (CL4 Ambient Agent, CL5 Deployment) |
+| Deterministic/LLM split | The model reasons or synthesizes; code owns anything that must be reproducible and auditable. | Code owns thresholds/routing/auto-approval eligibility and the LLM can never downgrade a route; a cheap deterministic filter runs before every LLM call (cost-aware gating). (CL4 both, CL5 Deployment) |
+| Guardrails | The project has validation, policy checks, or human-review triggers. | Safety-precedence routing (security checks evaluated before business-value routing); "never let the model supply authoritative identity"; a secret-scanning pre-commit gate; a STRIDE threat-model pass producing `threat_model.md`. (CL4 Ambient Agent, CL4 Secure Lifecycle) |
+| Human-in-the-loop | Sensitive actions pause for an authorized human decision. | `RequestInput`/interrupt pattern with a unique `interrupt_id`, resumed only on exact interrupt-ID match — never on session/timestamp/"latest event," which is the #1 failure mode both specs call out. (CL4 Ambient Agent, CL5 Frontend) |
+| Evaluation | There are tests and eval cases that can fail for meaningful reasons. | 4-5 named scenarios (clean/auto path, threshold edge, high-risk path, malformed/injected input, security containment) graded by LLM-as-judge rubrics, kept separate from deterministic pytest. (CL4 both) |
+| Observability | Runs produce traceable evidence, not only final prose. | Structured per-decision log fields (event/run ID, decision path, `decision_source`, latency, final status) — never raw prompts or PII. (CL4 Ambient Agent, CL4 Secure Lifecycle) |
+| Reproducibility | The project can run locally with synthetic or safe data. | Every codelab ships local run instructions and a synthetic dataset; no live credentials required to exercise the core logic. |
+| Deployment awareness | Even if not deployed, packaging and deployment constraints are documented. | A pre-deploy gate checklist (tests pass, evals meet threshold, region/identity/secrets reviewed, explicit human approval) plus a documented fix-forward rollback plan, since Agent Runtime has no traffic-shifting rollback. (CL5 Deployment) |
+
+For the full reasoning behind each example — algorithms, code shapes, and each spec's extended "production gaps" and fill-in-the-blank "capstone adaptation" worksheet — go straight to the spec:
+
+- [`../codelabs/specs/cl4_ambient_agent_spec.md`](../codelabs/specs/cl4_ambient_agent_spec.md)
+- [`../codelabs/specs/cl4_secure_agent_lifecycle_spec.md`](../codelabs/specs/cl4_secure_agent_lifecycle_spec.md)
+- [`../codelabs/specs/cl5_agent_runtime_deployment_spec.md`](../codelabs/specs/cl5_agent_runtime_deployment_spec.md)
+- [`../codelabs/specs/cl5_agent_frontend_spec.md`](../codelabs/specs/cl5_agent_frontend_spec.md)
+
+Live build status (what's already implemented vs. still open) belongs in [`../../project_build/notes/`](../../project_build/notes/), not here — this checklist documents what the course demonstrated is feasible, not this project's current state.
 
 ## Capstone-Specific Interpretation
 
