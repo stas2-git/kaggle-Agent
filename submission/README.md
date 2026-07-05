@@ -6,8 +6,9 @@ This folder contains the public-facing Kaggle submission materials and video-gen
 submission/
 |-- 00_SUBMISSION_CHECKLIST.md
 |-- 01_writeup/      # Kaggle writeup draft
-|-- 02_video/        # Demo video scripts, generated assets, and render pipeline
-`-- 03_voice_lab/    # Local voice experiments used to support narration
+`-- 02_video/        # Demo video: entry point, scripts, docs, assets, and archived
+                      # voice/TTS experiments (including former 03_voice_lab/) - see
+                      # 02_video/README.md
 ```
 
 Start with [`00_SUBMISSION_CHECKLIST.md`](00_SUBMISSION_CHECKLIST.md), then review [`01_writeup/kaggle_writeup_draft.md`](01_writeup/kaggle_writeup_draft.md) for the written submission and [`02_video/README.md`](02_video/README.md) for the video pipeline.

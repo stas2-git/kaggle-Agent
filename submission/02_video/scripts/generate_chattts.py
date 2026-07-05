@@ -19,7 +19,7 @@ import torch
 import ChatTTS
 
 # Paths
-VIDEO_DIR = os.path.dirname(os.path.abspath(__file__))
+VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORKSPACE_ROOT = os.path.dirname(os.path.dirname(VIDEO_DIR))
 ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
 CHATTTS_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "chattts_segments")

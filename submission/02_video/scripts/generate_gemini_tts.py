@@ -9,7 +9,7 @@ from google import genai
 from google.genai import types
 
 # Paths
-VIDEO_DIR = os.path.dirname(os.path.abspath(__file__))
+VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
 GEMINI_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "gemini_segments")
 

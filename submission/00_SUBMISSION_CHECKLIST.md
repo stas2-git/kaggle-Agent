@@ -15,8 +15,8 @@ The local capstone reference says a valid submission needs a Kaggle Writeup, Med
 ## Local Files To Review
 
 - Writeup draft: [`01_writeup/kaggle_writeup_draft.md`](01_writeup/kaggle_writeup_draft.md)
-- Video script: [`02_video/video_script.md`](02_video/video_script.md)
-- Video runbook: [`02_video/demo_runbook.md`](02_video/demo_runbook.md)
+- Video script: [`02_video/docs/video_script.md`](02_video/docs/video_script.md)
+- Video runbook: [`02_video/docs/demo_runbook.md`](02_video/docs/demo_runbook.md)
 - Video assets and generated renders: [`02_video/`](02_video/)
 
 ## Suggested Final Pass

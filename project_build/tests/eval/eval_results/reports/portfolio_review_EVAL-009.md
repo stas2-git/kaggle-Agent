@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_009_87  
+**Run ID:** eval_EVAL_009_30  
 **Status:** High Anomaly  
 **Human review required:** Yes
 
@@ -49,7 +49,7 @@ High-impact pricing and rate action proposed. Requesting manual actuarial valida
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_009_87.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_009_30.json`
 - Dataset: `data/eval/loss_ratio_spike.csv`
 - Threshold profile: Default Actuarial Config
 

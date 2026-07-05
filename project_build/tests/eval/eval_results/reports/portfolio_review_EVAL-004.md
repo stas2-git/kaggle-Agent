@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_004_11  
+**Run ID:** eval_EVAL_004_78  
 **Status:** High Anomaly  
 **Human review required:** Yes
 
@@ -77,7 +77,7 @@ Implemented rate changes are falling behind benchmark actuarial requirements.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_004_11.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_004_78.json`
 - Dataset: `data/eval/benchmark_deterioration.csv`
 - Threshold profile: Default Actuarial Config
 

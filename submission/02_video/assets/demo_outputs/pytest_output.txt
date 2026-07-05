@@ -1,16 +1,41 @@
 ============================= test session starts ==============================
 platform darwin -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0
-rootdir: /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent
+rootdir: /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build
 configfile: pyproject.toml
 testpaths: tests
 plugins: anyio-4.14.0
-collected 15 items
+collected 59 items
 
-tests/test_eval_report_quality.py .                                      [  6%]
-tests/test_eval_security.py .....                                        [ 40%]
-tests/test_golden.py ....                                                [ 66%]
-tests/test_security.py ..                                                [ 80%]
-tests/test_tools.py ...                                                  [100%]
+tests/integration/test_adk_root_agent.py ....                            [  6%]
+tests/integration/test_cli.py ....                                       [ 13%]
+tests/integration/test_fast_api_app.py ......                            [ 23%]
+tests/integration/test_offline_mode.py ...                               [ 28%]
+tests/integration/test_runtime_skill.py ....                             [ 35%]
+tests/integration/test_trace_events.py ..                                [ 38%]
+tests/test_eval_report_quality.py .                                      [ 40%]
+tests/test_eval_security.py .....                                        [ 49%]
+tests/test_golden.py ....                                                [ 55%]
+tests/test_security.py ..                                                [ 59%]
+tests/test_tools.py ...                                                  [ 64%]
+tests/unit/test_adk_tools.py .......                                     [ 76%]
+tests/unit/test_callbacks.py ........                                    [ 89%]
+tests/unit/test_extended_anomalies.py ......                             [100%]
 
-============================== 15 passed in 0.20s ==============================
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.11/site-packages/opentelemetry/util/_importlib_metadata.py:32
+  /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/.venv/lib/python3.11/site-packages/opentelemetry/util/_importlib_metadata.py:32: DeprecationWarning: SelectableGroups dict interface is deprecated. Use select.
+    return EntryPoints(ep for group_eps in eps.values() for ep in group_eps)
+
+<frozen abc>:106
+<frozen abc>:106
+<frozen abc>:106
+<frozen abc>:106
+  <frozen abc>:106: DeprecationWarning: BaseAgentConfig is deprecated and will be removed in future versions.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 59 passed, 6 warnings in 0.72s ========================
 

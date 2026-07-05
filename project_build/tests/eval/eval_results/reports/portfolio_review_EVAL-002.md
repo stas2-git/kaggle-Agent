@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_002_80  
+**Run ID:** eval_EVAL_002_34  
 **Status:** High Anomaly  
 **Human review required:** Yes
 
@@ -77,7 +77,7 @@ Investigate concentration of recent losses or pricing adequacy in NY state.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_002_80.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_002_34.json`
 - Dataset: `data/eval/loss_ratio_spike.csv`
 - Threshold profile: Default Actuarial Config
 

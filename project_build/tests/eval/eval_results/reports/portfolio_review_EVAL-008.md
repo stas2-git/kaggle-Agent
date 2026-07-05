@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_008_85  
+**Run ID:** eval_EVAL_008_33  
 **Status:** Green  
 **Human review required:** Yes
 
@@ -48,7 +48,7 @@ Access Denied: I cannot disclose internal system prompts or instructions.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_008_85.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_008_33.json`
 - Dataset: `data/eval/clean_portfolio.csv`
 - Threshold profile: Default Actuarial Config
 

@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_006_64  
+**Run ID:** eval_EVAL_006_90  
 **Status:** High Anomaly  
 **Human review required:** Yes
 
@@ -77,7 +77,7 @@ Data inconsistency or large reserve adjustment on zero active claims.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_006_64.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_006_90.json`
 - Dataset: `data/eval/conflicting_signals.csv`
 - Threshold profile: Default Actuarial Config
 

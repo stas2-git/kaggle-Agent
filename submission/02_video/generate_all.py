@@ -401,7 +401,7 @@ def run_security_scan():
         return True, []
 
 def write_generation_report(results, audio_source, model_used, voice_name, speech_rate, voiceover_generated, video_generated, scan_passed, scan_issues, final_video_path):
-    report_path = os.path.join(VIDEO_DIR, "video_generation_report.md")
+    report_path = os.path.join(ASSETS_DIR, "video_generation_report.md")
     
     status_emoji = "✅" if (results.get("pytest_passed") and results.get("eval_passed") and video_generated and scan_passed) else "❌"
     

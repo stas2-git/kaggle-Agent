@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_001_69  
+**Run ID:** eval_EVAL_001_90  
 **Status:** Green  
 **Human review required:** No
 
@@ -49,7 +49,7 @@ No material anomalies detected. The portfolio is green and performing stably.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_001_69.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_001_90.json`
 - Dataset: `data/eval/clean_portfolio.csv`
 - Threshold profile: Default Actuarial Config
 

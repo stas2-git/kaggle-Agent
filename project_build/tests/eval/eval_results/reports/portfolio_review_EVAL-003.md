@@ -4,7 +4,7 @@
 
 **Portfolio:** Actuarial Commercial Book  
 **Valuation month:** 2026-06  
-**Run ID:** eval_EVAL_003_25  
+**Run ID:** eval_EVAL_003_63  
 **Status:** High Anomaly  
 **Human review required:** Yes
 
@@ -77,7 +77,7 @@ Decline in account count or insured volumes in NY segment.
 
 ## Trace and reproducibility
 
-- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/tests/eval/eval_results/traces/run_trace_eval_EVAL_003_25.json`
+- Trace file: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/project_build/tests/eval/eval_results/traces/run_trace_eval_EVAL_003_63.json`
 - Dataset: `data/eval/premium_drop.csv`
 - Threshold profile: Default Actuarial Config
 

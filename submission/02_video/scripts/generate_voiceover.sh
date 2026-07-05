@@ -3,8 +3,9 @@
 
 # Define paths
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PLAIN_SCRIPT="$SCRIPT_DIR/narration_script_plain.txt"
-ASSETS_DIR="$SCRIPT_DIR/assets"
+VIDEO_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
+PLAIN_SCRIPT="$VIDEO_DIR/docs/narration_script_plain.txt"
+ASSETS_DIR="$VIDEO_DIR/assets"
 AIFF_OUT="$ASSETS_DIR/narration.aiff"
 MP3_OUT="$ASSETS_DIR/narration.mp3"
 

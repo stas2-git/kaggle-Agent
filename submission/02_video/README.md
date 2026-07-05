@@ -1,107 +1,103 @@
-# Automated Video Generation Tooling
+# Video Generation
 
-This directory provides automated scripts and specifications to compile the presentation slides, macOS voiceover, subtitles, and command evidence cards into a synchronized draft demo video for the Kaggle Capstone.
+This folder produces the Kaggle demo video: presentation slides, narration, subtitles, and
+command-evidence cards, compiled into one synchronized `draft_demo_video.mp4`.
 
----
+## Entry point
 
-## Folder Structure
+```text
+generate_all.py       Primary orchestrator. Runs tests/evals, captures logs, draws slides,
+                       renders evidence cards, generates/detects narration, and stitches the
+                       final video. Everything below exists to feed this one script.
+generate_video.py      Required sibling module (slide content + video/ffmpeg primitives).
+                       Imported directly by generate_all.py - must stay next to it.
+```
 
-* `video_spec.md`: Video guidelines, durations, and constraints.
-* `narration_script.md`: Timing-annotated visual cues and narration text.
-* `narration_script_plain.txt`: Clean, unformatted narration text.
-* `slide_narration_segments.yaml`: **Segment Mapping**. Maps slide titles, visuals, and segment narration.
-* `available_macos_voices.txt`: List of all installed voices on your system.
-* `voice_options.md`: Guide to optimizing local macOS voice quality and rates.
-* `video_asset_checklist.md`: Visual and audio assets checklist.
-* `captions.srt`: Subtitle tracks.
-* `generate_gemini_tts.py`: **Gemini TTS Generator**. Calls Gemini API TTS to produce a premium narration file.
-* `generate_chattts.py`: **ChatTTS Generator**. Calls ChatTTS locally to generate premium narration files for all slides.
-* `generate_all.py`: **Primary Orchestrator**. Runs tests/evals, compiles segment audios, renders segment-specific video clips matching audio lengths, and stitches them.
-* `assets/`: Contains generated slides, output logs, and compiled narration.
-
----
-
-## 1. Primary Entrance: Automated Video Pipeline
-
-To run the entire automated video-generation process—including executing verification tests and evaluations, drawing slide cards, capturing logs, rendering cards, generating narration, and merging them into the final draft:
+Run it from `project_build/`:
 
 ```bash
 cd project_build
 uv run python ../submission/02_video/generate_all.py
 ```
 
-### Voice and Rate Customization (macOS say fallback)
-Standard macOS `say` reads at roughly 185–200 words per minute (WPM), which sounds rushed. The orchestrator defaults to a slower, clearer **170 WPM** to improve local voice quality.
+**Cost warning:** by default (`--audio-source auto`) the orchestrator prefers whatever
+premium narration segments already exist under `assets/` (xtts > chattts > gemini), falling
+back to free local macOS `say` only if none exist. **`assets/gemini_segments/` already
+exists** — those are the actual segments behind the current `draft_demo_video.mp4`, made with
+the Gemini TTS preview model, which has a small daily quota. Running the orchestrator with no
+flags will reuse those cached segments (no new API cost). To explicitly force the free local
+path instead (e.g. to test a change without touching any premium segments or quota):
 
-To run with a different voice or speech rate:
 ```bash
-cd project_build
-uv run python ../submission/02_video/generate_all.py --voice Daniel --rate 165
+uv run python ../submission/02_video/generate_all.py --audio-source say
 ```
-*(See [voice_options.md](voice_options.md) for recommended local voices.)*
 
----
+Never run `scripts/generate_gemini_tts.py` directly unless you intend to spend quota
+regenerating narration — see `docs/voice_options.md` and the note in `scripts/` below.
 
-## 2. Premium Local Voiceover Generation using ChatTTS (Recommended)
+## Layout
 
-To compile the video using the highly realistic, open-source ChatTTS model running locally on your Mac:
-
-### Step 1: Generate ChatTTS Voice Segments
-Run the local generation script:
-```bash
-cd project_build
-uv run python ../submission/02_video/generate_chattts.py
+```text
+02_video/
+├── README.md               This file
+├── generate_all.py         Entry point (see above)
+├── generate_video.py       Entry point's required sibling module
+├── slide_narration_segments.yaml   Segment/slide data contract read by generate_all.py
+│                                    and every script under scripts/
+├── draft_demo_video.mp4    The current deliverable
+├── captions.srt            Subtitles for the deliverable
+│
+├── scripts/                Standalone narration generators (run manually, not auto-invoked
+│                            by generate_all.py - it only detects their output under assets/)
+│   ├── generate_gemini_tts.py    Calls Gemini API TTS. COSTS QUOTA (~10/day). This produced
+│   │                              the segments behind the current draft_demo_video.mp4.
+│   ├── generate_chattts.py       Local ChatTTS model. Free, but needs `scipy` + model
+│   │                              weights not installed in this environment.
+│   ├── generate_xtts.py          Local XTTS v2 voice-cloning model. Free, but needs `torch`
+│   │                              + model weights not installed in this environment.
+│   └── generate_voiceover.sh     Free macOS `say` -> single narration.aiff/mp3 (the
+│                                  non-segment-based fallback path).
+│
+├── docs/                   Planning and reference material (nothing here is read by code,
+│                            except narration_script_plain.txt, read by generate_voiceover.sh)
+│   ├── video_spec.md              Format, duration, and constraint guidelines
+│   ├── narration_script.md        Timing-annotated narration with visual cues
+│   ├── narration_script_plain.txt Clean narration text (input to generate_voiceover.sh)
+│   ├── slide_outline.md           Slide-by-slide content outline
+│   ├── video_script.md            Full shot/script draft
+│   ├── video_asset_checklist.md   Visual/audio asset checklist
+│   ├── video_timing_diagnostics.md
+│   ├── voice_options.md           Recommended macOS voices/rates
+│   ├── available_macos_voices.txt Local voice inventory
+│   └── demo_runbook.md            Manual recording runbook
+│
+├── assets/                 Generated media actually used by the current deliverable
+│   ├── slides/                    Rendered slide PNGs
+│   ├── demo_cards/                Rendered command-evidence cards
+│   ├── demo_outputs/               Captured pytest/eval/CLI run logs
+│   ├── gemini_segments/           Narration segments behind draft_demo_video.mp4
+│   ├── video_generation_report.md Latest pipeline execution report
+│   └── narration.aiff / .mp3      Whole-track macOS `say` fallback output, if generated
+│
+└── archive/                Superseded experiments - not used by the current deliverable,
+                             kept for reference. Regenerating anything here has no effect on
+                             draft_demo_video.mp4.
+    ├── chattts_segments/           Earlier ChatTTS attempt
+    ├── xtts_segments/              Earlier XTTS voice-clone attempt
+    ├── natural_voice/              Personal voice recordings + ChatTTS/XTTS cloning scripts
+    │                                (formerly the separate submission/03_voice_lab/ folder;
+    │                                 generate_xtts.py's --speaker lookup points here)
+    ├── pronunciation_tests/        "Actuaries" pronunciation tuning samples
+    ├── speed_tests/                Speech-rate tuning samples
+    ├── test_chattts_output.*       One-off ChatTTS sample
+    └── sample_gemini_3.1.*         One-off Gemini TTS sample
 ```
-*This will load the model, generate all 7 slide segments locally with a consistent speaker voice (locked using seed 888), and save them under `assets/chattts_segments/`.*
 
-### Step 2: Run the Orchestrator
-Run the primary compiler script:
-```bash
-cd project_build
-uv run python ../submission/02_video/generate_all.py
-```
-*The orchestrator automatically detects these premium segments, measures their durations, renders the slides to match their lengths exactly, and stitches the final video.*
+## How to verify no secrets are included
 
----
+The pipeline scans generated files under `02_video/` for secrets before finishing. To scan
+manually:
 
-## 3. Optional Gemini API TTS
-
-You can generate a premium voiceover narration track using the Gemini API. 
-
-### Step 1: Export API Key Temporarily
-To avoid writing or storing your API key in workspace files, export it temporarily in your terminal session:
-```bash
-export GOOGLE_API_KEY="your_api_key_here"
-# or
-export GEMINI_API_KEY="your_api_key_here"
-```
-> [!WARNING]
-> Do NOT commit your API key or write it into `.env` or any other tracked workspace files.
-
-### Step 2: Generate Gemini TTS Narration Segments
-Run the TTS generator script:
-```bash
-cd project_build
-uv run python ../submission/02_video/generate_gemini_tts.py
-```
-This script calls `gemini-3.1-flash-tts-preview` to generate individual audio segment files under `assets/gemini_segments/` for each slide. 
-*Generating slide-by-slide prevents the preview model from drifting or looping on long scripts, ensuring high-quality, stable, and perfectly timed audio.*
-If the API is unavailable or the key is missing, the generation will fail gracefully and fall back to macOS `say` voiceover.
-
-### Step 3: Run the Orchestrator
-Run the primary script to compile the final video using the generated premium narration segments:
-```bash
-cd project_build
-uv run python ../submission/02_video/generate_all.py
-```
-*The orchestrator automatically detects the files in `assets/gemini_segments/`, measures their durations, renders segment-specific video clips matching those lengths exactly, and stitches them into a final synchronized draft video.*
-
----
-
-## 3. How to Verify No Secrets Are Included
-
-The pipeline automatically scans generated files in `submission/02_video/` for secrets before finishing. You can manually run a scan using:
 ```bash
 grep -rnw submission/02_video/ -e "GEMINI_API_KEY" -e "AIza" -e "password"
 ```
-Ensure no `.env` values or private file paths are visible in screenshots or logs.

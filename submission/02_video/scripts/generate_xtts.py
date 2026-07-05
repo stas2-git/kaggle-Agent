@@ -30,7 +30,7 @@ torch.load = custom_load
 from TTS.api import TTS
 
 # Paths
-VIDEO_DIR = os.path.dirname(os.path.abspath(__file__))
+VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
 XTTS_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "xtts_segments")
 
@@ -60,12 +60,11 @@ def main():
         seg_data = yaml.safe_load(f)
     segments = seg_data["segments"]
 
-    project_root = os.path.dirname(os.path.dirname(VIDEO_DIR))
-    natural_voice_dir = os.path.join(project_root, "submission", "03_voice_lab", "natural_voice", "xtts_v2")
+    natural_voice_dir = os.path.join(VIDEO_DIR, "archive", "natural_voice", "xtts_v2")
     speaker_path = os.path.join(natural_voice_dir, args.speaker)
     if not os.path.exists(speaker_path):
-        # Fallback to check submission/03_voice_lab/natural_voice root.
-        speaker_path = os.path.join(project_root, "submission", "03_voice_lab", "natural_voice", args.speaker)
+        # Fallback to check archive/natural_voice root.
+        speaker_path = os.path.join(VIDEO_DIR, "archive", "natural_voice", args.speaker)
         if not os.path.exists(speaker_path):
             print(f"Error: Speaker reference audio file not found at: {speaker_path}")
             sys.exit(1)
