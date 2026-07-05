@@ -34,6 +34,6 @@ Read the baseline first: [`00_capstone_baseline_expectations.md`](00_capstone_ba
 
 ## Local Submission Package
 
-- Checklist: [`../../10_submission/00_SUBMISSION_CHECKLIST.md`](../../10_submission/00_SUBMISSION_CHECKLIST.md)
-- Writeup draft: [`../../10_submission/01_writeup/kaggle_writeup_draft.md`](../../10_submission/01_writeup/kaggle_writeup_draft.md)
-- Video package: [`../../10_submission/02_video/`](../../10_submission/02_video/)
+- Checklist: [`../../../submission/00_SUBMISSION_CHECKLIST.md`](../../../submission/00_SUBMISSION_CHECKLIST.md)
+- Writeup draft: [`../../../submission/01_writeup/kaggle_writeup_draft.md`](../../../submission/01_writeup/kaggle_writeup_draft.md)
+- Video package: [`../../../submission/02_video/`](../../../submission/02_video/)

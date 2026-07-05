@@ -3,7 +3,7 @@
 Superseded or packaged artifacts live here.
 
 ```text
-assignment/90_archive/
+assignment_details/90_archive/
 └── capstone_spec_files.zip
 ```
 

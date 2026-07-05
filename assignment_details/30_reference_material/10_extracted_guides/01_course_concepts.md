@@ -23,7 +23,7 @@ Read the baseline first: [`00_capstone_baseline_expectations.md`](00_capstone_ba
 
 ## How This Project Uses Those Ideas
 
-- Specs in `capstone_spec_files/` are the source of truth.
+- Specs in [`../../../spec_files/`](../../../spec_files/) are the source of truth.
 - `portfolio_agent/` is the runnable implementation of those specs.
 - Tests and eval files show measurable behavior instead of relying only on demo screenshots.
 - Submission material explains the learning journey and points reviewers to the evidence.

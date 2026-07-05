@@ -1,30 +1,87 @@
 # Assignment Details
 
-This folder contains supporting course context, build notes, codelab references, and archives. It is not the runnable app and it is not the public submission package.
+This folder is the capstone assignment context pack. A human or LLM should be able to open this README and understand the assignment, the course depth behind it, the level of the course examples, and where to find supporting detail only when needed.
 
-## Start Here
+This is not the runnable app and it is not the public submission package. Use [`../project_build/`](../project_build/) for the implementation, [`../spec_files/`](../spec_files/) for canonical project specs, and [`../submission/`](../submission/) for Kaggle-facing assets.
 
-1. [`../README.md`](../README.md) - project goal and root branch map.
-2. [`20_notes/README.md`](20_notes/README.md) - build-session notes, summaries, and repository map.
-3. [`30_reference_material/README.md`](30_reference_material/README.md) - course, codelab, and baseline expectation library.
-4. [`../submission/README.md`](../submission/README.md) - Kaggle writeup, video, and final submission checklist.
-5. [`../spec_files/00_README_SPEC_INDEX.md`](../spec_files/00_README_SPEC_INDEX.md) - canonical capstone specs.
+## Assignment Brief
+
+The Kaggle capstone asks participants to build an AI agent that solves a practical real-world problem and demonstrates concepts from the 5-day AI Agents: Intensive Vibe Coding course with Google.
+
+For this repository, the project is the **Actuarial Portfolio Monitoring Agent**: an agentic actuarial triage assistant that reads synthetic insurance portfolio data, validates it, calculates deterministic monitoring metrics, detects material movements, investigates likely drivers, and drafts an actuary-ready review memo with traceable evidence.
+
+The final public submission must include:
+
+- a Kaggle Writeup of 2,500 words or fewer;
+- a Media Gallery with a required cover image;
+- an attached public YouTube video of 5 minutes or fewer;
+- an attached public project link, preferably a working product or interactive demo, with a public code repository acceptable as fallback;
+- a selected competition track;
+- final submission before the deadline: **July 6, 2026 at 11:59 PM PT**.
+
+The judging emphasis is split between pitch and implementation:
+
+- **Pitch, problem, solution, and value:** why the problem matters, why agents are central to the solution, clarity of video, and clarity of writeup.
+- **Implementation, architecture, and code:** meaningful agent design, tool use, code quality, documentation, reproducibility, safety, and evidence that the system works.
+
+The capstone must visibly apply at least three course concepts. The local project is designed to show more than the minimum: ADK-style agent structure, deterministic tools, agent skills, security controls, evaluation, observability, reproducible local runs, and deployment awareness.
+
+## Course Depth
+
+The course was not just a prompt-writing overview. It moved from vibe-coded prototypes toward production-grade agent engineering:
+
+| Day | Course focus | Capstone implication |
+|---|---|---|
+| 1 | Intent-driven development, context engineering, Antigravity, AI Studio, Cloud Run | The repository should explain the intended behavior before relying on code alone. |
+| 2 | Tool interoperability, MCP, A2A, A2UI, AP2/UCP, CLI workflows | The agent should use bounded tools and structured interfaces rather than free-form reasoning for everything. |
+| 3 | Agent skills, progressive disclosure, Agents CLI, ADK | Reusable context and domain knowledge should be organized so agents load only what they need. |
+| 4 | Security, human review, local evaluation, prompt-injection defenses, threat scans | Safety, tests, evals, and review boundaries are part of the assignment, not optional polish. |
+| 5 | Spec-driven production development, deployment, frontend integration, Agent Runtime | A strong capstone should have specs, reproducible setup, packaging/deployment notes, and a credible demo path. |
+
+## Example Level From The Course
+
+The codelabs set the expected project floor. They were more substantial than toy scripts and included runnable agent workspaces, tool boundaries, security checks, evaluation, deployment paths, and reviewer-facing workflows.
+
+The most relevant examples were:
+
+- an ambient expense agent with event intake, scheduled review, state, ADK orchestration, and traceable outputs;
+- a secure shopping-agent lifecycle with input validation, prompt-injection handling, secret detection, sanitization, review gates, tests, and threat controls;
+- an ADK Agent Runtime deployment project using Agents CLI, packaging, Terraform, and operational checks;
+- a frontend for an ADK agent with human-in-the-loop event correlation, session resume, dashboard behavior, Cloud Run, and Pub/Sub wiring.
+
+For this capstone, that means the portfolio-monitoring agent should read as a small reviewable agent system: deterministic computation where facts matter, LLM synthesis only where reasoning adds value, explicit security boundaries, tests/evals, observable traces, and a clear README/demo story.
+
+## Where To Find Details
+
+Open subfolders only when the current task needs more evidence than this page provides.
+
+| Need | Read |
+|---|---|
+| Runnable app, commands, tests, and outputs | [`../project_build/README.md`](../project_build/README.md) |
+| Canonical product, architecture, data, tool, quality, and submission specs | [`../spec_files/00_README_SPEC_INDEX.md`](../spec_files/00_README_SPEC_INDEX.md) |
+| Kaggle writeup, video assets, and final checklist | [`../submission/README.md`](../submission/README.md) |
+| Assignment/course quality bar in one compact layer | [`30_reference_material/10_extracted_guides/`](30_reference_material/10_extracted_guides/) |
+| Course and capstone source text for targeted retrieval | [`30_reference_material/20_searchable_reference_texts/`](30_reference_material/20_searchable_reference_texts/) |
+| Runnable copies of the course codelabs | [`30_reference_material/30_runnable_codelab_projects/`](30_reference_material/30_runnable_codelab_projects/) |
+| Build-session notes and architecture summaries | [`20_notes/README.md`](20_notes/README.md) |
+| Superseded or packaged artifacts | [`90_archive/README.md`](90_archive/README.md) |
+
+## LLM Reading Rule
+
+Do not review this whole folder by default.
+
+1. Read this README first.
+2. If judging capstone readiness, read [`30_reference_material/10_extracted_guides/00_capstone_baseline_expectations.md`](30_reference_material/10_extracted_guides/00_capstone_baseline_expectations.md).
+3. If checking submission mechanics, read [`30_reference_material/10_extracted_guides/03_submission_requirements.md`](30_reference_material/10_extracted_guides/03_submission_requirements.md).
+4. If checking course alignment, read [`30_reference_material/10_extracted_guides/01_course_concepts.md`](30_reference_material/10_extracted_guides/01_course_concepts.md) and [`30_reference_material/10_extracted_guides/02_codelab_lessons.md`](30_reference_material/10_extracted_guides/02_codelab_lessons.md).
+5. Use searchable source text or runnable codelab projects only to verify a specific claim or implementation pattern.
 
 ## Folder Map
 
 ```text
 assignment_details/
+|-- README.md               # This assignment brief and reading guide
 |-- 20_notes/               # Working plans, architecture notes, and build history
 |-- 30_reference_material/  # Course/codelab/reference pyramid
 `-- 90_archive/             # Superseded or packaged artifacts
 ```
-
-## Reviewer Story
-
-The intended reading path is:
-
-1. Understand the product in the root README.
-2. Inspect the canonical specs in `spec_files/`.
-3. Read the Kaggle-facing package in `submission/`.
-4. Use `30_reference_material/10_extracted_guides/00_capstone_baseline_expectations.md` to see the expected capstone quality bar.
-5. Open deeper reference material only when checking traceability.
