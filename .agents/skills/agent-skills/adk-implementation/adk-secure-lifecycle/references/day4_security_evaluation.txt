@@ -1,0 +1,46 @@
+# ADK Secure Lifecycle Reference: Security And Evaluation Controls
+
+Use this reference to turn broad security principles into concrete controls for ADK or tool-using agents.
+
+## Threat Model Checklist
+
+- Assets: secrets, user data, files, accounts, payments, deployments, tools.
+- Actors: user, agent, service account, external data source, attacker-controlled content.
+- Trust boundaries: browser, file input, email, web retrieval, tool output, model output, backend service.
+- High-impact actions: writes, deletes, sends, purchases, deploys, shell/code execution.
+- Failure impact: privacy, money, service availability, integrity, compliance, reputation.
+
+## Required Controls
+
+- Validate all tool inputs with strict schemas.
+- Authorize every operation against trusted server/session identity.
+- Keep credentials scoped and out of prompt context when possible.
+- Treat external content as data, never instructions.
+- Require human approval for ambiguous, irreversible, external, or high-impact actions.
+- Log tool calls, approval decisions, denials, errors, and state changes.
+- Add circuit breakers for retries, cost, and repeated tool calls.
+- Use sandboxing for code execution, dependency installation, browser automation, and file mutation.
+
+## Prompt Injection Controls
+
+- Separate system/developer instructions from retrieved content.
+- Label untrusted content explicitly.
+- Ignore instructions inside documents, emails, web pages, and tool outputs unless the user confirms them.
+- Strip or quarantine hidden text, suspicious links, and command-like payloads when feasible.
+- Add tests with malicious retrieved content.
+
+## Evaluation Requirements
+
+Evaluate both:
+
+- Outcome: did the agent complete the intended task?
+- Trajectory: did it use tools, permissions, context, and approvals safely?
+
+Minimum evals:
+
+- benign success path,
+- prompt-injection attempt,
+- unauthorized resource request,
+- ambiguous high-impact action requiring approval,
+- tool error and recovery,
+- runaway-loop or cost-control scenario.

@@ -1,0 +1,10 @@
+{
+    "server":                   "your_server_name",
+    "database":                 "your_database_name",
+    "username":                 "your_readonly_username",
+    "password":                 "your_password",
+    "driver":                   "ODBC Driver 18 for SQL Server",
+    "trust_server_certificate": "yes",
+    "row_cap":                  1000,
+    "timeout":                  30
+}

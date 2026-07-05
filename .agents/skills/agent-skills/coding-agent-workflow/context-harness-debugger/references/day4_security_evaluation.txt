@@ -1,0 +1,41 @@
+# Context Harness Debugger Reference: Safety And Observability
+
+Use this reference when failures involve unsafe tool use, prompt injection, data exposure, runaway loops, unclear approvals, or missing traces.
+
+## Safety Diagnosis
+
+- Did the agent treat external content as instructions?
+- Did a tool output contain hidden or conflicting directives?
+- Did the agent have ambient authority unrelated to the task?
+- Was a destructive, expensive, or external action possible without approval?
+- Were credentials, secrets, or private data in context unnecessarily?
+- Could the same task have been done with read-only access?
+
+## Observability Diagnosis
+
+The harness is weak if you cannot answer:
+
+- What did the user ask?
+- What context was loaded?
+- What tools were called?
+- What changed?
+- What approval or policy check allowed the change?
+- What verification proved success?
+- Where did the agent recover from errors or drift?
+
+## Repair Patterns
+
+- Add approval gates for irreversible or external actions.
+- Add read-only inspection before write actions.
+- Split broad tools into narrower operations.
+- Log tool calls, approvals, denials, and state changes.
+- Add circuit breakers for repeated calls, retries, or escalating cost.
+- Treat prompt injection as an input validation problem, not a persuasion problem.
+
+## Done Criteria
+
+A harness repair is done only when there is:
+
+- a narrowed behavior boundary,
+- a way to observe the behavior,
+- and a regression check that would catch the original failure.

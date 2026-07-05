@@ -1,0 +1,32 @@
+# Agent Architecture Reference: Tools And Protocols
+
+Use this reference when an architecture needs tools, external systems, specialist agents, UI, or transaction authority.
+
+## Protocol Responsibilities
+
+| Need | Prefer |
+|---|---|
+| Reusable procedure or domain workflow | Skill |
+| Deterministic repeatable operation | Script or application code |
+| Structured access to an external tool/API/database | MCP |
+| Multi-turn specialist responsibility | A2A-style agent handoff |
+| Human review or interaction surface | A2UI-style declarative UI |
+| Payment, purchase, mandate, or transaction authority | AP2/UCP-style commerce flow |
+| Always-on project convention | `AGENTS.md` or project instructions |
+
+## Design Rules
+
+- Keep the active tool list as small as possible.
+- Prefer read-only tools until write authority is required.
+- Give each external action an owner, contract, and audit trail.
+- Use specialist agents only when the task is unbounded or stateful.
+- Use declarative UI contracts for human approval instead of arbitrary generated UI code.
+- Treat public tools, MCP servers, and skills as dependencies that need review and pinning.
+
+## Boundary Checks
+
+- Can this be a script instead of model judgment?
+- Can this be a skill instead of a new service?
+- Does this need a tool call, or only reference knowledge?
+- Does a human need to approve the proposed action?
+- Is another agent responsible for outcomes, or only returning data?

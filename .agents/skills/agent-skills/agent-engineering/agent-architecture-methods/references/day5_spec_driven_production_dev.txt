@@ -1,0 +1,40 @@
+# Agent Architecture Reference: Production Spec Discipline
+
+Use this reference when the architecture needs to be production-shaped rather than demo-shaped.
+
+## Spec-First Architecture
+
+Create a lightweight spec before implementation:
+
+- Purpose and non-goals.
+- User workflows.
+- Inputs, outputs, and schemas.
+- Data ownership and retention.
+- Tool permissions and approval boundaries.
+- Expected failure modes.
+- Evals, tests, and rollback.
+- Deployment and monitoring assumptions.
+
+## BDD Shape
+
+Capture key behavior as:
+
+```text
+Given <initial state>
+When <agent action or event>
+Then <observable outcome>
+And <safety/approval/logging condition>
+```
+
+## Production Gates
+
+- Unit or integration tests for deterministic code.
+- Behavioral evals for model decisions.
+- Security checks for tool authority and data exposure.
+- Human review for high-impact actions.
+- Trace/log review for trajectory quality.
+- Small diffs and clear change summaries.
+
+## Review Bottleneck Warning
+
+Agent output speed can exceed review capacity. Prefer small, verifiable increments with explicit risk notes over large generated changes that are hard to inspect.

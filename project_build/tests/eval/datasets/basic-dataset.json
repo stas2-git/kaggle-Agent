@@ -1,0 +1,26 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "clean_portfolio_no_driver",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Review the approved clean demo portfolio for 2026-06. Validate the data, calculate metrics, detect anomalies, and summarize the result."
+          }
+        ]
+      }
+    },
+    {
+      "eval_case_id": "loss_ratio_spike_driver_review",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Review the approved loss-ratio-spike demo portfolio for 2026-06. Identify any material changes, investigate relevant drivers, and state whether human review is required."
+          }
+        ]
+      }
+    }
+  ]
+}

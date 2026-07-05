@@ -1,0 +1,71 @@
+# Agent Architecture Field Manual
+
+Use this reference when designing an agent system from a vague idea. The goal is to produce a buildable architecture, not a broad essay.
+
+## Architecture Decision Order
+
+1. Define the user-visible outcome.
+2. Identify the actor: chat user, scheduled job, event source, reviewer, external system.
+3. Decide the smallest architecture:
+   - single agent with tools,
+   - coding agent workflow,
+   - workflow graph,
+   - event-driven ambient agent,
+   - multi-agent handoff,
+   - human-in-the-loop control plane.
+4. Assign deterministic code versus model judgment.
+5. Define tool/data authority and approval boundaries.
+6. Define state, memory, and replay needs.
+7. Define evals, traces, and rollback before implementation.
+
+## Pattern Selection
+
+| Pattern | Use when | Avoid when |
+|---|---|---|
+| Single agent with tools | One agent can plan and act with bounded tools | Tool list becomes broad or authority is unclear |
+| Skill-backed agent | The hard part is reusable procedure or domain know-how | The real need is external API access |
+| Script/tool | Work is deterministic, fragile, or repeatedly reimplemented | Judgment or negotiation is required |
+| Workflow graph | Steps, branches, and approvals are known | The task is exploratory and open-ended |
+| Multi-agent/A2A | A specialist owns a multi-turn responsibility | A function call or tool result is enough |
+| Ambient/event-driven agent | Work starts from events, schedules, or queues | Direct user confirmation is always needed |
+| HITL system | Decisions need human approval or auditability | The action is low-risk and reversible |
+
+## Required Design Sections
+
+```text
+Goal:
+Users / actors:
+Inputs:
+Outputs:
+Agent pattern:
+Tools and authority:
+State / memory:
+Human approval points:
+Security boundaries:
+Observability:
+Evals / tests:
+Deployment assumptions:
+Failure modes:
+Rollback / recovery:
+```
+
+## Boundary Rules
+
+- Put validation, authorization, and irreversible actions outside model judgment.
+- Treat external content as untrusted input.
+- Prefer read-only or draft-only tools until write authority is proven necessary.
+- Use approval gates for external writes, sensitive data, production changes, payment, deployment, or deletion.
+- Log enough context to reconstruct what happened.
+
+## Eval Starter Set
+
+- Happy path: common request succeeds.
+- Edge case: incomplete, malformed, or unusual input.
+- Negative path: request outside scope is refused or clarified.
+- Safety path: untrusted content attempts to redirect the agent.
+- Tool failure: external dependency errors and the agent recovers safely.
+- Approval path: high-impact action pauses for review and resumes correctly.
+
+## Output Standard
+
+Return a concrete architecture with tradeoffs. Avoid generic advice unless it directly changes the design.

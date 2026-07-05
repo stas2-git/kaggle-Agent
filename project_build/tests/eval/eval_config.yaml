@@ -1,0 +1,121 @@
+metrics_to_run:
+  - multi_turn_task_success
+  - multi_turn_tool_use_quality
+  - multi_turn_trajectory_quality
+  - final_response_quality
+  - hallucination
+  - safety
+  - actuarial_metric_consistency
+  - portfolio_trace_completeness
+
+custom_metrics:
+  - name: actuarial_metric_consistency
+    custom_function: |
+      def _walk(value):
+          if isinstance(value, dict):
+              yield value
+              for child in value.values():
+                  yield from _walk(child)
+          elif isinstance(value, list):
+              for child in value:
+                  yield from _walk(child)
+
+      def evaluate(instance):
+          prompt = str(instance.get("prompt", "")).lower()
+          response = str(instance.get("response", "")).lower()
+          agent_data = instance.get("agent_data") or {}
+          payloads = list(_walk(agent_data))
+
+          metrics_records = []
+          anomalies = []
+          for item in payloads:
+              response_obj = item.get("function_response") or item.get("functionResponse")
+              if not isinstance(response_obj, dict):
+                  continue
+              body = response_obj.get("response") or {}
+              if isinstance(body, dict):
+                  metrics_records.extend(body.get("metrics_records") or [])
+                  anomalies.extend(body.get("anomalies") or [])
+
+          if "loss-ratio-spike" in prompt:
+              expected_values = ["0.85", "0.5", "0.35"]
+              response_has_values = all(value in response for value in expected_values)
+              tool_has_values = any(
+                  record.get("loss_ratio") == 0.85 for record in metrics_records
+              ) and any(
+                  anomaly.get("absolute_change") == 0.35 for anomaly in anomalies
+              )
+              return {
+                  "score": 1.0 if response_has_values and tool_has_values else 0.0,
+                  "explanation": "Loss-ratio spike numbers are grounded in function responses."
+                  if response_has_values and tool_has_values
+                  else "Expected loss-ratio values were missing from response or tool output.",
+              }
+
+          if "clean demo" in prompt:
+              no_anomalies = any(
+                  isinstance((item.get("function_response") or item.get("functionResponse")), dict)
+                  and ((item.get("function_response") or item.get("functionResponse")).get("response") or {}).get("summary_counts", {}).get("total") == 0
+                  for item in payloads
+              )
+              return {
+                  "score": 1.0 if no_anomalies else 0.0,
+                  "explanation": "Clean portfolio trace includes zero-anomaly deterministic output."
+                  if no_anomalies
+                  else "Clean portfolio did not expose a zero-anomaly function response.",
+              }
+
+          return {"score": 0.0, "explanation": "Unknown portfolio eval prompt."}
+
+  - name: portfolio_trace_completeness
+    custom_function: |
+      def _walk(value):
+          if isinstance(value, dict):
+              yield value
+              for child in value.values():
+                  yield from _walk(child)
+          elif isinstance(value, list):
+              for child in value:
+                  yield from _walk(child)
+
+      def evaluate(instance):
+          prompt = str(instance.get("prompt", "")).lower()
+          agent_data = instance.get("agent_data") or {}
+          function_calls = []
+          function_responses = []
+          for item in _walk(agent_data):
+              call = item.get("function_call") or item.get("functionCall")
+              response = item.get("function_response") or item.get("functionResponse")
+              if isinstance(call, dict):
+                  function_calls.append(call)
+              if isinstance(response, dict):
+                  function_responses.append(response)
+
+          call_names = [call.get("name") for call in function_calls]
+          response_names = [response.get("name") for response in function_responses]
+          required = [
+              "load_portfolio_data",
+              "validate_portfolio_data",
+              "calculate_portfolio_metrics",
+              "detect_anomalies",
+          ]
+          has_required = all(name in call_names and name in response_names for name in required)
+          matched_counts = len(function_calls) == len(function_responses)
+          no_driver_for_clean = (
+              "clean demo" not in prompt
+              or "investigate_anomaly_drivers" not in call_names
+          )
+          driver_for_spike = (
+              "loss-ratio-spike" not in prompt
+              or "investigate_anomaly_drivers" in call_names
+          )
+
+          passed = has_required and matched_counts and no_driver_for_clean and driver_for_spike
+          return {
+              "score": 1.0 if passed else 0.0,
+              "explanation": (
+                  "Trace contains required function calls/responses and expected driver routing."
+                  if passed
+                  else f"Trace incomplete. calls={call_names}, responses={response_names}"
+              ),
+          }

@@ -1,0 +1,28 @@
+# Agent Protocol Selector Reference: Skills Versus Other Primitives
+
+Use this reference when deciding whether something should become a skill.
+
+## Use A Skill When
+
+- The value is procedural know-how, not external access.
+- The workflow repeats across projects or sessions.
+- The agent needs conditional instructions that should load on demand.
+- The task benefits from references, scripts, or reusable assets.
+- The behavior can be triggered by a clear description.
+
+## Do Not Use A Skill When
+
+- The behavior is always-on project policy. Use `AGENTS.md`.
+- The operation is deterministic and fragile. Use a script or hook.
+- The capability is mainly external data/action access. Use MCP/tooling.
+- The task needs a live specialist with its own state and negotiation. Use A2A-style delegation.
+- The content is a source document dump. Keep it in central references and distill only what changes behavior.
+
+## Skill Packaging Checks
+
+- One job.
+- Clear trigger description.
+- Short procedural `SKILL.md`.
+- Long conditional details in `references/`.
+- Deterministic repeated actions in `scripts/`.
+- Trigger and negative eval prompts.

@@ -1,0 +1,36 @@
+# Context Harness Debugger Reference: Harness Anatomy
+
+Use this reference when an agent seems "bad" but the likely cause is the surrounding harness: instructions, context, tools, permissions, validation, or feedback.
+
+## Diagnose The Harness
+
+Check these layers in order:
+
+1. Intent: Was the goal specific enough to act on?
+2. Static instructions: Were project rules clear, current, and not contradictory?
+3. Dynamic context: Did the agent load the right files or references for this task?
+4. Tools: Were the right tools available, and were there too many active tools?
+5. Tool schemas: Did the tool interface make the safe action obvious?
+6. Permissions: Did the agent have too much or too little authority?
+7. Verification: Was there a test, eval, command, or inspection target?
+8. Observability: Can you reconstruct what happened from logs, traces, or diffs?
+
+## Symptom To Cause Map
+
+| Symptom | Likely harness cause | Better repair |
+|---|---|---|
+| Wrong tool selected | Tool list too broad or skill trigger weak | Narrow active tools or improve trigger metadata |
+| Correct-looking wrong answer | No verification target | Add tests, evals, or required inspection |
+| Repeated loops | No stopping rule or weak feedback | Add circuit breaker, timeout, or explicit done condition |
+| Hallucinated dependency | Missing environment/context check | Require package/file/API verification |
+| Ignores latest user request | Context drift | Reconstruct intent before acting or finalizing |
+| Bloated prompt | Static context used as memory | Move detail to on-demand references or scripts |
+
+## Repair Surfaces
+
+- Project instruction: only for stable always-on behavior.
+- Skill: reusable procedure that should trigger on demand.
+- Reference: detailed knowledge needed only sometimes.
+- Script or hook: deterministic behavior that should not rely on model judgment.
+- Tool schema: make the allowed action narrower and clearer.
+- Eval: catch the failure next time.

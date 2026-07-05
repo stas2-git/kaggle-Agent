@@ -1,0 +1,45 @@
+# Skill Evaluation Reference: Trigger And Execution Evals
+
+Use this reference to evaluate whether a skill is useful in practice, not just well-written.
+
+## Eval Case Template
+
+```text
+Prompt:
+Expected skill:
+Should load references:
+Expected tools/actions:
+Expected output shape:
+Must not do:
+Pass criteria:
+Fail criteria:
+```
+
+## Minimum Eval Set
+
+Create at least:
+
+- 3 positive prompts that should trigger the skill.
+- 1 positive edge case that should still trigger.
+- 3 negative prompts that are nearby but should not trigger.
+- 1 overlap prompt that could match a neighboring skill.
+- 1 regression prompt based on a real past failure or user correction.
+
+## Four Failure Modes
+
+- Trigger failure: wrong skill selected or right skill missed.
+- Execution failure: skill selected but behavior wrong.
+- Token-budget failure: skill or reference too large/noisy when loaded.
+- Regression failure: improvement harms another skill or route.
+
+## What To Tune First
+
+1. Description metadata, if routing is wrong.
+2. `SKILL.md` workflow, if behavior is vague.
+3. References, if the agent lacks conditional detail.
+4. Scripts, if deterministic repeated work is being re-written.
+5. Router, if multiple skills overlap.
+
+## Anti-Gimmick Rule
+
+A meta-skill is useful only if it changes observable behavior. Prefer eval prompts, rubrics, and pass/fail checks over advice like "be careful" or "think harder."
