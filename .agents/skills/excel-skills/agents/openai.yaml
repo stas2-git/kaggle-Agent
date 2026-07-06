@@ -1,4 +1,0 @@
-interface:
-  display_name: "Excel Skills Router"
-  short_description: "Route workbook, spreadsheet, VBA, and live Excel tasks"
-  default_prompt: "Use $excel-skills-router to choose the right Excel-focused skill for this workbook or spreadsheet task."

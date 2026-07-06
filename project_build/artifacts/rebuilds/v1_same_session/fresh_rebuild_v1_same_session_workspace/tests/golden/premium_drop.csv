@@ -1,3 +1,0 @@
-valuation_month,policy_year,business_segment,coverage,state,underwriter,account_count,written_premium,earned_premium,incurred_loss,claim_count,avg_retention,avg_limit,rate_change_pct,benchmark_adequacy,notes
-2026-05,2025,Public D&O,D&O,NY,UW_A,10,100000.0,100000.0,50000.0,1,250000.0,5000000.0,0.05,1.0,normal month
-2026-06,2025,Public D&O,D&O,NY,UW_A,10,60000.0,100000.0,50000.0,1,250000.0,5000000.0,0.05,1.0,premium drop
