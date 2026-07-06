@@ -1,8 +1,8 @@
 """STAGE 1 of 3: build the visual spec.
 
 Runs the real pytest suite, offline evaluations, and a live (real Gemini API) vertical-slice
-agent run, then renders all 7 segments' visuals into slides/rendered/slide_1.png ...
-slide_7.png - segments 1/2/3/7 from hand-authored story fields in
+agent run, then renders 8 visuals across 7 narrated segments into slides/rendered/slide_0.png ...
+slide_7.png - the title card plus segments 1/2/3/7 from hand-authored story fields in
 story/slide_story.yaml, segments 4/5/6 from the stable story contract plus real command
 output captured above ("Live Demo" evidence cards).
 
@@ -30,6 +30,7 @@ DECK_ACCENT = (0, 220, 130)
 
 def draw_static_slides():
     print("Drawing standard conceptual slide images...")
+    generate_video.draw_title_slide(os.path.join(SLIDES_DIR, "slide_0.png"))
     for slide in generate_video.SLIDES_DATA:
         slide_path = os.path.join(SLIDES_DIR, f"slide_{slide['segment_number']}.png")
         generate_video.draw_slide(
@@ -191,15 +192,15 @@ def run_verification_commands():
     policy_year = driver_value("policy_year")
 
     # Segment 4 ("From CSV to Review Gate")
-    generate_video.draw_pipeline_card(
+    generate_video.draw_agent_run_graph_card(
         story[4]["title"],
         story[4]["headline"],
         [
-            "CSV",
-            "Validate",
-            "Calculate",
-            "Flag",
-            "Escalate",
+            {"label": "Input", "detail": "Golden CSV portfolio slice", "kind": "tool"},
+            {"label": "Security gate", "detail": "Prompt + secret scan passed", "kind": "gate"},
+            {"label": "Tool calls", "detail": "Validated metrics, anomaly, drivers", "kind": "tool"},
+            {"label": "Gemini", "detail": "Bounded synthesis from tool facts", "kind": "tool"},
+            {"label": "Review gate", "detail": f"{review_required} ({severity})", "kind": "gate"},
         ],
         [
             {"label": "Symptom 1: loss ratio", "value": f"{prior_lr} to {current_lr}"},
@@ -209,6 +210,12 @@ def run_verification_commands():
         cue=story[4]["takeaway"],
         output_path=os.path.join(SLIDES_DIR, "slide_4.png"),
         border_color=DECK_ACCENT,
+        example={
+            "file": "loss_ratio_spike.csv",
+            "month": "2026-06",
+            "description": "Synthetic portfolio CSV",
+            "question": "Does this need human review?",
+        },
     )
 
     # Segment 5 ("Two Symptoms, One Driver")
@@ -294,7 +301,7 @@ def main():
     print(f"\nWrote verification results to: {VERIFICATION_RESULTS_PATH}")
 
     all_passed = bool(results.get("pytest_passed") and results.get("eval_passed") and results.get("run_passed"))
-    print("\nAll 7 slides/rendered/slide_N.png are up to date - review them before running assemble_video.py.")
+    print("\nAll 8 slides/rendered/slide_N.png visuals are up to date - review them before running assemble_video.py.")
     return all_passed
 
 if __name__ == "__main__":

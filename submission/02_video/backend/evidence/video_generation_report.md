@@ -25,7 +25,7 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Video Output Path**: `<workspace>/submission/02_video/draft_demo_video.mp4`
 
 ## 4. Generated Outputs
-- **Slides** (7 reviewable segment visuals, `submission/02_video/slides/rendered/`): `slide_1.png` ... `slide_7.png`
+- **Slides** (8 reviewable visuals across 7 narrated segments, `submission/02_video/slides/rendered/`): `slide_0.png` ... `slide_7.png`
 - **Auditable Command Logs** (from the last build_slides.py run, `submission/02_video/backend/evidence/demo_outputs/`):
   - Pytest Log: `pytest_output.txt`
   - Scorecard Log: `eval_output.txt`

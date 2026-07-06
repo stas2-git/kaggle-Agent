@@ -19,7 +19,7 @@ Read this first when opening `submission/02_video` in a new context window.
   - Segments 4, 5, and 6 were regenerated with Gemini after the story-script rewrite.
 - Local preview audio: `story/audio/previews/say/`
 - Prior audio versions: `story/audio/versions/`
-- Rendered slides: `slides/rendered/slide_1.png` ... `slide_7.png`
+- Rendered visuals: `slides/rendered/slide_0.png` ... `slide_7.png` (`slide_0` and `slide_1` share segment 1 audio)
 - Staleness/status tracker: `segment_tracker.md`
 
 ## Do Not Hand Edit

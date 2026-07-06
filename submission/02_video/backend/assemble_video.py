@@ -1,6 +1,6 @@
 """STAGE 3 of 3: assemble the final video from whatever specs currently exist on disk.
 
-Reads slides/rendered/slide_1.png ... slide_7.png, story/audio/current/seg_N.mp3 (the
+Reads slides/rendered/slide_0.png ... slide_7.png, story/audio/current/seg_N.mp3 (the
 canonical narration), and story/slide_story.yaml as fixed inputs, and produces captions.srt +
 draft_demo_video.mp4. Does NOT run pytest/eval/the live agent, and does NOT draw slides -
 that's build_slides.py's job (stage 1). This stage is fast and deterministic: it only
@@ -88,27 +88,43 @@ def build_segment_videos(segments, durations):
 
     for idx, seg in enumerate(segments, 1):
         image_relative = seg["visual"]
-        image_path = os.path.join(VIDEO_DIR, image_relative)
         audio_path = os.path.join(TEMP_SEGMENTS_DIR, f"seg_{idx}.mp3")
-        video_path = os.path.join(TEMP_SEGMENTS_DIR, f"video_{idx}.mp4")
 
-        if not os.path.exists(image_path):
-            image_path = os.path.join(WORKSPACE_ROOT, image_relative)
+        visual_parts = [(image_relative, 0.0, durations[idx - 1], True)]
+        if idx == 1:
+            title_relative = "slides/rendered/slide_0.png"
+            title_path = os.path.join(VIDEO_DIR, title_relative)
+            if os.path.exists(title_path):
+                title_duration = min(7.0, durations[idx - 1] * 0.33)
+                visual_parts = [
+                    (title_relative, 0.0, title_duration, False),
+                    (image_relative, title_duration, durations[idx - 1] - title_duration, True),
+                ]
 
-        # Voiced video with apad + shortest to sync streams exactly. Force a fixed output
-        # sample rate (44100) regardless of the source audio's native rate - Gemini TTS
-        # segments are 24000 Hz, macOS 'say' segments are 22050 Hz, and concatenate_videos()
-        # re-encodes audio on the final concat anyway, but keeping every segment clip at one
-        # consistent rate here avoids relying on that as the only safety net.
-        target_duration = durations[idx - 1] + buffer
-        cmd = f"ffmpeg -y -loop 1 -r 25 -i '{image_path}' -i '{audio_path}' -filter_complex \"[1:a]apad[a]\" -map 0:v -map \"[a]\" -c:v libx264 -tune stillimage -c:a aac -ar 44100 -b:a 192k -pix_fmt yuv420p -shortest -t {target_duration:.3f} '{video_path}'"
+        for part_idx, (part_relative, audio_start, audio_duration, pad_end) in enumerate(visual_parts, 1):
+            if audio_duration <= 0:
+                continue
 
-        stdout, stderr, rc = run_command(cmd)
-        if rc != 0:
-            print(f"Error rendering segment {idx}: {stderr}")
-            sys.exit(1)
+            image_path = os.path.join(VIDEO_DIR, part_relative)
+            video_path = os.path.join(TEMP_SEGMENTS_DIR, f"video_{idx}_{part_idx}.mp4")
 
-        segment_video_paths.append(video_path)
+            if not os.path.exists(image_path):
+                image_path = os.path.join(WORKSPACE_ROOT, part_relative)
+
+            # Voiced video with apad + shortest to sync streams exactly. Force a fixed output
+            # sample rate (44100) regardless of the source audio's native rate - Gemini TTS
+            # segments are 24000 Hz, macOS 'say' segments are 22050 Hz, and concatenate_videos()
+            # re-encodes audio on the final concat anyway, but keeping every segment clip at one
+            # consistent rate here avoids relying on that as the only safety net.
+            target_duration = audio_duration + (buffer if pad_end else 0.0)
+            cmd = f"ffmpeg -y -loop 1 -r 25 -i '{image_path}' -i '{audio_path}' -filter_complex \"[1:a]atrim=start={audio_start:.3f}:duration={audio_duration:.3f},asetpts=PTS-STARTPTS,apad[a]\" -map 0:v -map \"[a]\" -c:v libx264 -tune stillimage -c:a aac -ar 44100 -b:a 192k -pix_fmt yuv420p -shortest -t {target_duration:.3f} '{video_path}'"
+
+            stdout, stderr, rc = run_command(cmd)
+            if rc != 0:
+                print(f"Error rendering segment {idx}, visual part {part_idx}: {stderr}")
+                sys.exit(1)
+
+            segment_video_paths.append(video_path)
 
     return segment_video_paths
 
@@ -212,7 +228,7 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Video Output Path**: `{redact_workspace_paths(final_video_path)}`
 
 ## 4. Generated Outputs
-- **Slides** (7 reviewable segment visuals, `submission/02_video/slides/rendered/`): `slide_1.png` ... `slide_7.png`
+- **Slides** (8 reviewable visuals across 7 narrated segments, `submission/02_video/slides/rendered/`): `slide_0.png` ... `slide_7.png`
 - **Auditable Command Logs** (from the last build_slides.py run, `submission/02_video/backend/evidence/demo_outputs/`):
   - Pytest Log: `pytest_output.txt`
   - Scorecard Log: `eval_output.txt`
@@ -264,6 +280,11 @@ def main():
         if unknown:
             print(f"Error: --segments references segment(s) that don't exist: {sorted(unknown)} (valid range: 1-{len(segments)})")
             sys.exit(1)
+
+    title_slide_path = os.path.join(SLIDES_DIR, "slide_0.png")
+    if not os.path.exists(title_slide_path):
+        print(f"Error: {title_slide_path} does not exist. Run build_slides.py first.")
+        sys.exit(1)
 
     for slide_num in range(1, len(segments) + 1):
         slide_path = os.path.join(SLIDES_DIR, f"slide_{slide_num}.png")
