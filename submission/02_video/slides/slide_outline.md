@@ -1,75 +1,98 @@
 # Slide Outline: Actuarial Portfolio Monitoring Agent
 
-This document defines the visual layout and bullets for the video presentation slides.
+This document defines the visual layout and supporting ideas for the 7-slide capstone video deck.
+The canonical rendered visuals live in `rendered/slide_1.png` through `rendered/slide_7.png`.
+Each slide is designed as a visual anchor for the narration: one large idea, a few easy-to-read
+supporting cards, and a bottom takeaway for viewers who miss a word in the audio.
 
 ---
 
 ### Slide 1: Title Card
 * **Title**: Actuarial Portfolio Monitoring Agent
-* **Subtitle**: Streamlining Book of Business Triage with AI Agents
-* **Bullets**:
-  * Track: Agents for Business
-  * Bounded Multi-Step Agentic Workflow
-  * Bounded Tool-First Implementation
-* **Suggested Visual**: Slick dark-mode design with clean typography and modern gradients.
-* **Narration**: Segment 1 ("Routine monthly monitoring of insurance books of business...")
+* **Hook**: The hard part isn't spotting movement. It's turning movement into judgment.
+* **Supporting cards**:
+  * Signal
+  * Investigation
+  * Memo
+* **Takeaway**: Monthly monitoring becomes an audit-ready first pass, not a scramble for explanation.
+* **Purpose**: Establish the business problem and the core promise.
+* **Narration**: Segment 1.
 
 ---
 
-### Slide 2: Why an Agent?
-* **Title**: Why an Agent? Beyond Dashboards
-* **Bullets**:
-  * Automates conditional multi-step workflows (Data Load -> Validation -> Metrics -> Drivers -> Report)
-  * Restricts LLMs to narrative explanation (Zero numerical hallucination)
-  * Screens note fields for prompt-injection threats
-  * Human-in-the-loop triggers for high severity findings
-* **Suggested Visual**: Visual flowchart showing how dashboards stop at charts, whereas agents take actions.
-* **Narration**: Segment 2 ("This workflow is highly suited to an agentic approach...")
+### Slide 2: From Dashboard to Decision
+* **Title**: From Dashboard to Decision
+* **Hook**: Dashboards stop at awareness. Agents can carry the next step.
+* **Supporting cards**:
+  * Validate
+  * Investigate
+  * Escalate
+* **Takeaway**: The agent chooses the next tool, but every number still comes from deterministic code.
+* **Purpose**: Explain why the workflow needs an agent rather than a static chart or script.
+* **Narration**: Segment 2.
 
 ---
 
-### Slide 3: Five-Layer Architecture
-* **Title**: Bounded Five-Layer System Design
-* **Bullets**:
-  * **Data Layer**: Aggregate aggregate aggregates CSVs
-  * **Security Layer**: Path traversal checks & injection signature scanning
-  * **Deterministic Tools**: Python math engines for ratios & weighted averages
-  * **Agent Reasoning Layer**: Pydantic schema-bound Gemini synthesis
-  * **Output Layer**: Observability traces & markdown review reports
-* **Suggested Visual**: Simplified diagram of the 5-layer architecture.
-* **Narration**: Segment 3 ("The agent's architecture consists of five modular layers...")
+### Slide 3: Autonomy With Boundaries
+* **Title**: Autonomy With Boundaries
+* **Hook**: The architecture is a bargain: autonomy with boundaries.
+* **Supporting cards**:
+  * Code computes
+  * Gemini explains
+  * Human approves
+* **Takeaway**: Security gates and Python tools constrain the workflow before Gemini writes the narrative.
+* **Purpose**: Show the architecture and course concepts: ADK-style agent orchestration, Gemini synthesis, deterministic tools, schemas, tracing, and security gates.
+* **Narration**: Segment 3.
 
 ---
 
-### Slide 4: Interactive Live Demo (NY Spike Case)
-* **Title**: Live Demo: Underwriting Triage Walkthrough
-* **Bullets**:
-  * Ingested: `loss_ratio_spike.csv`
-  * Anomaly Engine: Flagged high severity Loss Ratio increase (+35.0% points)
-  * Driver Slicer: Decomposed movement to `state = NY`, `policy_year = 2025`
-  * Synthesis memo generated: Cites drivers, caveats, follow-up questions
-* **Suggested Visual**: Screenshot of terminal command execution or side-by-side view of CSV and generated markdown memo.
-* **Narration**: Segment 4 ("Let's look at the pipeline in action...")
+### Slide 4: From CSV to Review Gate
+* **Title**: From CSV to Review Gate
+* **Headline**: A plain CSV becomes a review decision.
+* **Visual flow**: CSV -> Validate -> Calculate -> Flag -> Escalate
+* **Metric callouts**:
+  * Symptom 1: loss ratio, 50.0% -> 85.0%
+  * Symptom 2: claim count, 1 -> 3
+  * Review gate: Yes (High)
+* **Takeaway**: The agent does not just flag noise: 2 signals cross thresholds and trigger human review.
+* **Purpose**: Prove the agent can run the workflow end to end.
+* **Narration**: Segment 4.
 
 ---
 
-### Slide 5: Security & Verification
-* **Title**: Rigorous Verification & Safety Policies
-* **Bullets**:
-  * **Path Constraints**: Restricts reads to approved directories (`data`, `examples`, `tests/golden`)
-  * **Injection Filters**: Traps instruction overrides in untrusted text fields
-  * **Golden Tests**: Compares math results to YAML benchmarks
-  * **Trace Scorecards**: Evaluates agent behavior across 10 security/logic cases
-* **Suggested Visual**: Pytest run results showing all 25 tests passing.
-* **Narration**: Segment 5 ("Security and privacy are vital...")
+### Slide 5: Two Symptoms, One Driver
+* **Title**: Two Symptoms, One Driver
+* **Headline**: The reveal: both signals point to the same slice.
+* **Visual flow**:
+  * Loss-ratio signal +35.0% -> NY / D&O / UW_A / 2025
+  * Claim-count signal 200.0% -> NY / D&O / UW_A / 2025
+  * Driver target -> memo, questions, trace
+* **Takeaway**: The reveal is convergence: both signals point to NY / D&O / UW_A / policy year 2025, then the memo frames what to review.
+* **Purpose**: Show that the agent explains the issue, not just flags it.
+* **Narration**: Segment 5.
 
 ---
 
-### Slide 6: Business Value & Roadmap
-* **Title**: Real Business Impact & Next Steps
-* **Bullets**:
-  * **Efficiency**: Speeds up rutin reviews from hours to seconds
-  * **Auditability**: Complete trace trail of tool steps and decisions
-  * **Roadmap**: Direct BigQuery connections, automated Cloud Run triggers, and email triggers
-* **Suggested Visual**: Summary list of next steps and actuarial disclaimer.
-* **Narration**: Segment 6 ("The Actuarial Portfolio Monitoring Agent is not a replacement...")
+### Slide 6: Proof, Not Vibes
+* **Title**: Proof, Not Vibes
+* **Headline**: Tests, evals, and scans back the claim.
+* **Verification pillars**:
+  * 59 deterministic checks
+  * 11/11 scenario evals
+  * 0 secret leaks
+* **Takeaway**: 59 tests + 11/11 eval cases passed: the demo story is backed by tests, evals, and generated-asset scanning.
+* **Purpose**: Demonstrate reliability, security, and local evaluation discipline.
+* **Narration**: Segment 6.
+
+---
+
+### Slide 7: Audit-Ready First Pass
+* **Title**: Audit-Ready First Pass
+* **Hook**: From monthly scramble to audit-ready first pass.
+* **Supporting cards**:
+  * Faster triage
+  * Clear evidence
+  * Human authority
+* **Takeaway**: This is a force multiplier for experts, not a substitute for actuarial judgment.
+* **Purpose**: Close with practical value, professional boundaries, and next steps.
+* **Narration**: Segment 7.

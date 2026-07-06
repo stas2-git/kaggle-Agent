@@ -10,9 +10,9 @@ This document defines the process for capturing visual demonstration evidence. T
 verification steps and captures the console output. It extracts the logs and generates visual
 card overlays - the three that narrate real pipeline evidence go straight into the 7-slide
 deck reviewers look at; the other two are bonus proof not shown in the video:
-- **Pipeline Orchestrator execution** (segment 4 visual): Runs the pipeline on `tests/golden/loss_ratio_spike.csv` and renders logs to `../../slides/rendered/slide_4.png`.
-- **Report excerpt card** (segment 5 visual): Exposes the top section of the generated markdown review memo to `../../slides/rendered/slide_5.png`.
-- **Evaluation scorecard card** (segment 6 visual): Automatically runs the 11-case test scorecard in offline mode and renders a headline pass count to `../../slides/rendered/slide_6.png`.
+- **Pipeline execution card** (segment 4 visual): Runs the pipeline on `tests/golden/loss_ratio_spike.csv` and renders the anomaly, metric movement, review-gate, and trace result to `../../slides/rendered/slide_4.png`.
+- **Memo output card** (segment 5 visual): Extracts the generated markdown review memo into a driver-concentration, follow-up, and audit-artifact summary at `../../slides/rendered/slide_5.png`.
+- **Safety and verification card** (segment 6 visual): Automatically runs pytest and the 11-case offline scorecard, then renders a combined headline pass count to `../../slides/rendered/slide_6.png`.
 - **Pytest result card** (bonus, not a segment visual): Automatically runs `uv run pytest` and places a headline summary in `../evidence/demo_cards/pytest_card.png`.
 - **Trace excerpt card** (bonus, not a segment visual): Exposes the start of the structured trace file to `../evidence/demo_cards/trace_card.png`.
 

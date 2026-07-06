@@ -8,18 +8,18 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Pytest Suite**: PASS ✅ (59 passed, 6 warnings in 0.77s)
 - **Offline Evaluations**: PASS ✅ (11/11 evaluation cases passed)
 - **Vertical-Slice Review Run**: PASS ✅
-- **Verification generated at**: `2026-07-06T12:08:58`
+- **Verification generated at**: `2026-07-06T13:23:04`
 
 ## 2. This Assembly Run
-- **Voiceover TTS Source**: `Gemini API TTS (Segment-Based)`
-- **Model Used**: `gemini-3.1-flash-tts-preview`
-- **Voice / Config Name**: `Kore`
+- **Voiceover TTS Source**: `Mixed: Gemini API TTS (cached) (segments [1, 2, 3, 7]); local macOS say (segments [4, 5, 6])`
+- **Model Used**: `Mixed (see audio_source)`
+- **Voice / Config Name**: `Mixed (say=Samantha for previewed segments)`
 - **Speech Rate (macOS Say only)**: `170 WPM`
 - **Security Secret Audit Scan**: PASS ✅
 
 ## 3. Timing Measurements & Bounds Checks
-- **Narration Audio Duration**: 213.454 seconds
-- **Final Video Duration**: 213.400 seconds
+- **Narration Audio Duration**: 211.901 seconds
+- **Final Video Duration**: 211.847 seconds
 - **Absolute Duration Difference**: 0.054 seconds
 - **Duration Boundary Status**: PASS (Within 1.0s limit) ✅
 - **Video Output Path**: `<workspace>/submission/02_video/draft_demo_video.mp4`

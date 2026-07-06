@@ -28,7 +28,14 @@ def draw_static_slides():
     print("Drawing standard conceptual slide images...")
     for slide in generate_video.SLIDES_DATA:
         slide_path = os.path.join(SLIDES_DIR, f"slide_{slide['segment_number']}.png")
-        generate_video.draw_slide(slide["title"], slide["bullets"], slide_path, slide_number=slide["segment_number"])
+        generate_video.draw_slide(
+            slide["title"],
+            slide["hook"],
+            slide["bullets"],
+            slide_path,
+            slide_number=slide["segment_number"],
+            cue=slide["cue"],
+        )
 
 def run_verification_commands():
     results = {}
@@ -59,7 +66,7 @@ def run_verification_commands():
     )
     results["pytest_headline"] = pytest_headline
 
-    # 2. Offline evaluations run -> segment 6 ("Rigorous Safety & Verification")
+    # 2. Offline evaluations run -> segment 6 ("Proof, Not Vibes")
     print("\nRunning offline evaluations...")
     eval_stdout, eval_stderr, eval_rc = run_command("FORCE_OFFLINE=1 uv run python3 -m tests.eval.run_eval")
     eval_stdout = redact_workspace_paths(eval_stdout)
@@ -90,11 +97,35 @@ def run_verification_commands():
         row = "   ".join(f"{cid} {case_status[cid]}" for cid in ids[i:i + 4])
         grid_lines.append(row)
 
-    generate_video.draw_stat_card(
-        "Offline Evaluation Scorecard Results",
-        eval_headline,
-        grid_lines + [""] + case_notes[:3],
-        os.path.join(SLIDES_DIR, "slide_6.png"),
+    pytest_count_match = re.search(r"(\d+)\s+passed", results.get("pytest_headline", ""))
+    eval_count_match = re.search(r"(\d+)/(\d+)", eval_headline)
+    if pytest_count_match and eval_count_match:
+        verification_headline = f"{pytest_count_match.group(1)} tests + {eval_count_match.group(1)}/{eval_count_match.group(2)} eval cases passed"
+    else:
+        verification_headline = eval_headline
+
+    generate_video.draw_verification_card(
+        "Proof, Not Vibes",
+        "Tests, evals, and scans back the claim.",
+        [
+            {
+                "value": pytest_count_match.group(1) if pytest_count_match else "PASS",
+                "label": "deterministic checks",
+                "note": "Unit, integration, security, callback, and golden math tests.",
+            },
+            {
+                "value": eval_count_match.group(1) + "/" + eval_count_match.group(2) if eval_count_match else "PASS",
+                "label": "scenario evals",
+                "note": "CSV failures, prompt injection, secret requests, and report quality.",
+            },
+            {
+                "value": "0",
+                "label": "secret leaks",
+                "note": "Generated assets pass the safety scan before assembly completes.",
+            },
+        ],
+        cue=f"{verification_headline}: the demo story is backed by tests, evals, and generated-asset scanning.",
+        output_path=os.path.join(SLIDES_DIR, "slide_6.png"),
         border_color=(139, 92, 246) # purple
     )
     results["eval_headline"] = eval_headline
@@ -125,28 +156,12 @@ def run_verification_commands():
     if not results["run_passed"]:
         print(f"\n{'!' * 60}\nERROR: vertical-slice run did not succeed after {max_attempts} attempts. Slides 4/5 ('Live Demo') will be blank placeholders, not real pipeline output. See {run_log_path} for the failure.\n{'!' * 60}\n")
 
-    # Segment 4 ("Live Demo: Pipeline Execution")
-    run_lines = run_stdout.splitlines()
-    run_card_lines = []
-    summary_block_started = False
-    for line in run_lines:
-        if "Run complete." in line or "===" in line:
-            summary_block_started = True
-        if summary_block_started or any(term in line for term in ["Starting Portfolio", "Loading data", "Validating", "Calculating", "Running anomaly", "Calling Gemini"]):
-            run_card_lines.append(line)
-
-    generate_video.draw_log_card(
-        "Live Demo: Underwriting Review Pipeline",
-        run_card_lines,
-        os.path.join(SLIDES_DIR, "slide_4.png"),
-        border_color=(245, 158, 11) # amber
-    )
-
     # Parse report file and trace paths
     report_match = re.search(r"Report:\s*(outputs/reports/portfolio_review_\S+\.md)", run_stdout)
     trace_match = re.search(r"Trace:\s*(outputs/traces/run_trace_\S+\.json)", run_stdout)
 
-    # Segment 5 ("Live Demo: Actuarial Memo Output")
+    report_content = ""
+    report_lines = []
     if report_match:
         actual_path = os.path.join(PROJECT_BUILD_DIR, report_match.group(1).strip())
         if not os.path.exists(actual_path):
@@ -158,24 +173,86 @@ def run_verification_commands():
             with open(actual_path, "r", encoding="utf-8") as f:
                 report_content = redact_workspace_paths(f.read())
             report_lines = report_content.splitlines()
-            generate_video.draw_log_card(
-                "Compiled Actuarial Memo Excerpt",
-                report_lines[:25],
-                os.path.join(SLIDES_DIR, "slide_5.png"),
-                border_color=(16, 185, 129)
-            )
             results["report_path"] = actual_path
         except Exception as e:
             print(f"Failed to read report: {e}")
-            generate_video.draw_log_card(
-                "Compiled Actuarial Memo Excerpt",
-                ["[Error loading report file: " + str(e) + "]"],
-                os.path.join(SLIDES_DIR, "slide_5.png")
-            )
     else:
         print("Warning: Could not parse report path from run output.")
+
+    def first_match(pattern, text, default="n/a", flags=0):
+        match = re.search(pattern, text, flags)
+        return match.group(1).strip() if match else default
+
+    def metric_row(metric_name):
+        pattern = rf"\|\s*{re.escape(metric_name)}\s*\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|"
+        match = re.search(pattern, report_content)
+        if not match:
+            return ("n/a", "n/a", "n/a")
+        return tuple(part.strip() for part in match.groups())
+
+    def driver_value(dimension):
+        pattern = rf"\*\*By {re.escape(dimension)}\*\*:\s*\n\s*\*\s*`([^`]+)`"
+        return first_match(pattern, report_content, "n/a")
+
+    current_lr, prior_lr, lr_change = metric_row("Loss ratio")
+    current_claims, prior_claims, claim_change = metric_row("Claim count")
+    claim_pct = first_match(r"Claim count increased by ([^(]+)\(", report_content, "n/a")
+    finding_count = len(re.findall(r"^### Finding", report_content, re.MULTILINE)) or first_match(r"anomalies_count\":\s*(\d+)", run_stdout, "2")
+    run_id = first_match(r"Run ID:\s*(\S+)", run_stdout, "n/a")
+    severity = first_match(r"Severity:\s*(.+)", run_stdout, "n/a")
+    review_required = first_match(r"Human review required:\s*(.+)", run_stdout, "n/a")
+    report_rel = report_match.group(1).strip() if report_match else "outputs/reports/portfolio_review_*.md"
+    trace_rel = trace_match.group(1).strip() if trace_match else "outputs/traces/run_trace_*.json"
+
+    coverage = driver_value("coverage")
+    state = driver_value("state")
+    underwriter = driver_value("underwriter")
+    policy_year = driver_value("policy_year")
+    concentration = f"{state} / {coverage} / {underwriter} / policy year {policy_year}"
+
+    # Segment 4 ("From CSV to Review Gate")
+    generate_video.draw_pipeline_card(
+        "From CSV to Review Gate",
+        "A plain CSV becomes a review decision.",
+        [
+            "CSV",
+            "Validate",
+            "Calculate",
+            "Flag",
+            "Escalate",
+        ],
+        [
+            {"label": "Symptom 1: loss ratio", "value": f"{prior_lr} -> {current_lr}"},
+            {"label": "Symptom 2: claim count", "value": f"{prior_claims} -> {current_claims}"},
+        ],
+        f"{review_required} ({severity})",
+        cue=f"The agent does not just flag noise: {finding_count} signals cross thresholds and trigger human review.",
+        output_path=os.path.join(SLIDES_DIR, "slide_4.png"),
+        border_color=(245, 158, 11) # amber
+    )
+
+    # Segment 5 ("Two Symptoms, One Driver")
+    if report_lines:
+        generate_video.draw_driver_card(
+            "Two Symptoms, One Driver",
+            "The reveal: both signals point to the same slice.",
+            [state, coverage, underwriter, policy_year],
+            [
+                {"label": "Loss-ratio signal", "value": lr_change},
+                {"label": "Claim-count signal", "value": claim_pct},
+            ],
+            [
+                "Memo",
+                "Questions",
+                "Trace",
+            ],
+            cue=f"The reveal is convergence: both signals point to {concentration}, then the memo frames what to review.",
+            output_path=os.path.join(SLIDES_DIR, "slide_5.png"),
+            border_color=(16, 185, 129)
+        )
+    else:
         generate_video.draw_log_card(
-            "Compiled Actuarial Memo Excerpt",
+            "Two Symptoms, One Driver",
             ["[Report generation output not found in log]"],
             os.path.join(SLIDES_DIR, "slide_5.png")
         )

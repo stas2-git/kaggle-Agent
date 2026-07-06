@@ -8,49 +8,54 @@ from PIL import Image, ImageDraw, ImageFont
 # without relying on list position (which no longer runs 1..7 contiguously).
 SLIDES_DATA = [
     {
-        # Bullets here are deliberately short keyword phrases, not full sentences: these
-        # slides play under narration audio, and full-sentence bullets make the viewer choose
-        # between reading and listening. The slide is a visual anchor, not a transcript - the
-        # audio carries the actual explanation.
+        # Each slide is one thought, not a transcript: a "hook" line that names the problem or
+        # insight (the visual anchor, large/bold), then 2-3 short "resolution" bullets showing
+        # how the agent addresses it. Full-sentence hooks are fine (they're the point - a
+        # capture sentence to trigger a thought), but bullets stay short keyword phrases: these
+        # slides play under narration audio, and a wall of text makes the viewer choose between
+        # reading and listening.
         "segment_number": 1,
         "title": "Actuarial Portfolio Monitoring Agent",
+        "hook": "The hard part isn't spotting movement. It's turning movement into judgment.",
         "bullets": [
-            "Monthly portfolio triage",
-            "Automated ingestion & metrics",
-            "Tool-first, not LLM math",
-            "Faster reviews, full audit trail"
-        ]
+            "Signal",
+            "Investigation",
+            "Memo"
+        ],
+        "cue": "Monthly monitoring becomes an audit-ready first pass, not a scramble for explanation."
     },
     {
         "segment_number": 2,
-        "title": "Why an Agent? Beyond Dashboards",
+        "title": "From Dashboard to Decision",
+        "hook": "Dashboards stop at awareness. Agents can carry the next step.",
         "bullets": [
-            "Multi-step validation & investigation",
-            "Human-in-the-loop triggers",
-            "Prompt-injection protection",
-            "Draft summaries for experts"
-        ]
+            "Validate",
+            "Investigate",
+            "Escalate"
+        ],
+        "cue": "The agent chooses the next tool, but every number still comes from deterministic code."
     },
     {
         "segment_number": 3,
-        "title": "Bounded Five-Layer System Design",
+        "title": "Autonomy With Boundaries",
+        "hook": "The architecture is a bargain: autonomy with boundaries.",
         "bullets": [
-            "Data Layer — CSV ingestion",
-            "Security Layer — path & injection checks",
-            "Tool Layer — deterministic math",
-            "Agent Layer — schema-bound Gemini",
-            "Output Layer — reports & traces"
-        ]
+            "Code computes",
+            "Gemini explains",
+            "Human approves"
+        ],
+        "cue": "Security gates and Python tools constrain the workflow before Gemini writes the narrative."
     },
     {
         "segment_number": 7,
-        "title": "Real Business Impact & Future Roadmap",
+        "title": "Audit-Ready First Pass",
+        "hook": "From monthly scramble to audit-ready first pass.",
         "bullets": [
-            "Hours of review -> seconds",
-            "Reproducible, deterministic math",
-            "Synthetic data — triage aid only",
-            "Next: BigQuery, GKE, alerts"
-        ]
+            "Faster triage",
+            "Clear evidence",
+            "Human authority"
+        ],
+        "cue": "This is a force multiplier for experts, not a substitute for actuarial judgment."
     }
 ]
 
@@ -85,49 +90,194 @@ def load_mono_font(size):
                 continue
     return ImageFont.load_default()
 
-def draw_slide(title, bullets, output_path, slide_number=None):
+def wrap_text(draw, text, font, max_width):
+    """Greedy word-wrap text to fit within max_width at the given font, using actual glyph
+    measurement (not a character-count guess) since proportional fonts vary too much per
+    character for a fixed-width heuristic to be reliable."""
+    words = text.split()
+    lines = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        if not current or draw.textlength(candidate, font=font) <= max_width:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines
+
+def draw_footer(draw):
+    font_footer = load_system_font(20)
+    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Submission (Synthetic Data Only)"
+    draw.text((100, 1010), footer_text, fill=(100, 110, 120), font=font_footer)
+
+def draw_header(draw, title, accent, border_top=False):
+    if border_top:
+        draw.rectangle([(0, 0), (1920, 15)], fill=accent)
+    font_title = load_system_font(48 if border_top else 52)
+    draw.text((100, 78), title, fill=(255, 255, 255), font=font_title)
+    draw.line([(100, 155), (1820, 155)], fill=accent if not border_top else (100, 110, 120), width=4 if not border_top else 2)
+
+def draw_wrapped(draw, text, xy, font, fill, max_width, line_height):
+    x, y = xy
+    for line in wrap_text(draw, text, font, max_width):
+        draw.text((x, y), line, fill=fill, font=font)
+        y += line_height
+    return y
+
+def draw_story_cue(draw, text, accent):
+    box = (100, 875, 1820, 965)
+    draw.rounded_rectangle(box, radius=18, fill=(25, 34, 50), outline=(55, 68, 88), width=2)
+    draw.rectangle((100, 875, 112, 965), fill=accent)
+    font_label = load_system_font(22)
+    font_text = load_system_font(29)
+    draw.text((135, 895), "Takeaway", fill=accent, font=font_label)
+    draw_wrapped(draw, text, (135, 922), font_text, (220, 230, 240), 1620, 34)
+
+def draw_idea_card(draw, rect, label, text, accent):
+    x1, y1, x2, y2 = rect
+    draw.rounded_rectangle(rect, radius=18, fill=(25, 34, 50), outline=(55, 68, 88), width=2)
+    draw.rounded_rectangle((x1 + 24, y1 + 24, x1 + 82, y1 + 82), radius=12, fill=(21, 52, 48), outline=accent, width=2)
+    font_label = load_system_font(30)
+    draw.text((x1 + 53, y1 + 51), label, fill=accent, font=font_label, anchor="mm")
+    font_text = load_system_font(39)
+    draw_wrapped(draw, text, (x1 + 105, y1 + 32), font_text, (235, 241, 247), x2 - x1 - 135, 48)
+
+def draw_arrow(draw, start, end, color, width=5):
+    sx, sy = start
+    ex, ey = end
+    draw.line((sx, sy, ex, ey), fill=color, width=width)
+    draw.polygon([(ex, ey), (ex - 18, ey - 11), (ex - 18, ey + 11)], fill=color)
+
+def draw_slide(title, hook, bullets, output_path, slide_number=None, cue=None):
     # 1920x1080 Canvas (Sleek dark-mode)
     img = Image.new("RGB", (1920, 1080), color=(18, 24, 38))
     draw = ImageDraw.Draw(img)
     accent = (0, 220, 130)
 
-    # Large faint slide-number watermark, bottom-right - fills what was previously a large
-    # empty void below short bullet lists and gives each slide a visual anchor point.
     if slide_number is not None:
         font_watermark = load_system_font(420)
         wm_text = f"{slide_number:02d}"
         draw.text((1560, 560), wm_text, fill=(27, 35, 52), font=font_watermark, anchor="lm")
 
-    # Title Text
-    font_title = load_system_font(55)
-    draw.text((100, 75), title, fill=(255, 255, 255), font=font_title)
+    draw_header(draw, title, accent)
 
-    # Accent green line
-    draw.line([(100, 160), (1820, 160)], fill=accent, width=5)
+    font_hook = load_system_font(62)
+    draw_wrapped(draw, hook, (100, 230), font_hook, (245, 248, 252), 1500, 72)
 
-    # Bullets - vertically centered in the space between the divider and the footer, rather
-    # than top-anchored, so 3-4 bullet slides don't leave the bottom half of the canvas empty.
-    # Sized large: bullets are short keyword phrases meant to be read at a glance while the
-    # narration audio carries the actual explanation, not a transcript to read in full.
-    font_body = load_system_font(52)
-    line_height = 120
-    content_top, content_bottom = 200, 960
-    block_height = len(bullets) * line_height
-    y = content_top + max(0, (content_bottom - content_top - block_height) // 2)
-    bullet_radius = 8
-    for bullet in bullets:
-        cy = y + 33
-        draw.ellipse([140 - bullet_radius, cy - bullet_radius, 140 + bullet_radius, cy + bullet_radius], fill=accent)
-        draw.text((180, y), bullet, fill=(210, 220, 230), font=font_body)
-        y += line_height
+    card_top = 520
+    card_width = 530
+    gap = 45
+    for idx, bullet in enumerate(bullets):
+        x = 100 + idx * (card_width + gap)
+        draw_idea_card(draw, (x, card_top, x + card_width, card_top + 170), str(idx + 1), bullet, accent)
 
-    # Actuarial footer disclaimer
-    font_footer = load_system_font(20)
-    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Video Draft (Synthetic Data Only)"
-    draw.text((100, 1010), footer_text, fill=(100, 110, 120), font=font_footer)
+    if cue:
+        draw_story_cue(draw, cue, accent)
+    draw_footer(draw)
 
     img.save(output_path)
     print(f"Generated slide image at: {output_path}")
+
+def draw_pipeline_card(title, headline, steps, metric_cards, review_text, cue, output_path, border_color=(245, 158, 11)):
+    img = Image.new("RGB", (1920, 1080), color=(18, 24, 38))
+    draw = ImageDraw.Draw(img)
+    draw_header(draw, title, border_color, border_top=True)
+
+    font_headline = load_system_font(66)
+    draw.text((100, 230), headline, fill=(238, 243, 249), font=font_headline)
+
+    step_y = 390
+    step_w = 260
+    step_h = 120
+    step_gap = 70
+    font_step = load_system_font(31)
+    for idx, step in enumerate(steps):
+        x = 100 + idx * (step_w + step_gap)
+        draw.rounded_rectangle((x, step_y, x + step_w, step_y + step_h), radius=16, fill=(25, 34, 50), outline=(75, 88, 110), width=2)
+        draw.text((x + step_w / 2, step_y + 60), step, fill=(232, 238, 246), font=font_step, anchor="mm")
+        if idx < len(steps) - 1:
+            draw_arrow(draw, (x + step_w + 12, step_y + 60), (x + step_w + step_gap - 18, step_y + 60), border_color, width=4)
+
+    font_card_label = load_system_font(28)
+    font_card_value = load_system_font(48)
+    metric_y = 610
+    for idx, card in enumerate(metric_cards):
+        x = 100 + idx * 570
+        draw.rounded_rectangle((x, metric_y, x + 520, metric_y + 140), radius=18, fill=(28, 38, 56), outline=border_color, width=2)
+        draw.text((x + 28, metric_y + 24), card["label"], fill=(170, 185, 205), font=font_card_label)
+        draw.text((x + 28, metric_y + 70), card["value"], fill=(250, 253, 255), font=font_card_value)
+
+    x = 1240
+    draw.rounded_rectangle((x, metric_y, 1820, metric_y + 140), radius=18, fill=(56, 38, 25), outline=border_color, width=2)
+    draw.text((x + 28, metric_y + 24), "Review gate", fill=(255, 207, 130), font=font_card_label)
+    draw.text((x + 28, metric_y + 70), review_text, fill=(255, 248, 235), font=font_card_value)
+
+    draw_story_cue(draw, cue, border_color)
+    draw_footer(draw)
+    img.save(output_path)
+    print(f"Generated pipeline card at: {output_path}")
+
+def draw_driver_card(title, headline, focus, left_cards, right_cards, cue, output_path, border_color=(16, 185, 129)):
+    img = Image.new("RGB", (1920, 1080), color=(18, 24, 38))
+    draw = ImageDraw.Draw(img)
+    draw_header(draw, title, border_color, border_top=True)
+
+    font_headline = load_system_font(60)
+    draw_wrapped(draw, headline, (100, 215), font_headline, (245, 248, 252), 1650, 68)
+
+    center = (710, 405, 1210, 725)
+    draw.rounded_rectangle(center, radius=26, fill=(20, 60, 54), outline=border_color, width=4)
+    font_focus_label = load_system_font(25)
+    font_focus = load_system_font(48)
+    draw.text((960, 455), "Where to look first", fill=(165, 240, 215), font=font_focus_label, anchor="mm")
+    for idx, line in enumerate(focus):
+        draw.text((960, 525 + idx * 48), line, fill=(255, 255, 255), font=font_focus, anchor="mm")
+
+    font_label = load_system_font(28)
+    font_value = load_system_font(38)
+    for idx, card in enumerate(left_cards):
+        y = 420 + idx * 155
+        draw.rounded_rectangle((100, y, 575, y + 120), radius=18, fill=(28, 38, 56), outline=(55, 68, 88), width=2)
+        draw.text((128, y + 22), card["label"], fill=(170, 185, 205), font=font_label)
+        draw.text((128, y + 64), card["value"], fill=(245, 248, 252), font=font_value)
+        draw_arrow(draw, (590, y + 60), (705, y + 60), border_color, width=4)
+
+    for idx, card in enumerate(right_cards):
+        y = 420 + idx * 126
+        draw.rounded_rectangle((1345, y, 1820, y + 96), radius=18, fill=(28, 38, 56), outline=(55, 68, 88), width=2)
+        draw.text((1375, y + 27), card, fill=(235, 241, 247), font=load_system_font(32))
+        draw_arrow(draw, (1215, y + 48), (1320, y + 48), border_color, width=4)
+
+    draw_story_cue(draw, cue, border_color)
+    draw_footer(draw)
+    img.save(output_path)
+    print(f"Generated driver card at: {output_path}")
+
+def draw_verification_card(title, headline, pillars, cue, output_path, border_color=(139, 92, 246)):
+    img = Image.new("RGB", (1920, 1080), color=(18, 24, 38))
+    draw = ImageDraw.Draw(img)
+    draw_header(draw, title, border_color, border_top=True)
+
+    font_headline = load_system_font(60)
+    draw_wrapped(draw, headline, (100, 225), font_headline, (245, 248, 252), 1640, 68)
+
+    card_w = 520
+    gap = 55
+    y = 460
+    for idx, pillar in enumerate(pillars):
+        x = 100 + idx * (card_w + gap)
+        draw.rounded_rectangle((x, y, x + card_w, y + 250), radius=22, fill=(28, 38, 56), outline=border_color, width=2)
+        draw.text((x + 36, y + 34), pillar["value"], fill=(255, 255, 255), font=load_system_font(66))
+        draw.text((x + 36, y + 112), pillar["label"], fill=(205, 215, 230), font=load_system_font(34))
+        draw_wrapped(draw, pillar["note"], (x + 36, y + 165), load_system_font(27), (155, 170, 190), card_w - 72, 34)
+
+    draw_story_cue(draw, cue, border_color)
+    draw_footer(draw)
+    img.save(output_path)
+    print(f"Generated verification card at: {output_path}")
 
 def draw_log_card(title, text_lines, output_path, border_color=(59, 130, 246)):
     # 1920x1080 canvas (Sleek dark-mode slate) - used for content meant to be read in some
@@ -154,7 +304,7 @@ def draw_log_card(title, text_lines, output_path, border_color=(59, 130, 246)):
             break
 
     font_footer = load_system_font(20)
-    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Video Draft (Synthetic Data Only)"
+    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Submission (Synthetic Data Only)"
     draw.text((100, 1010), footer_text, fill=(100, 110, 120), font=font_footer)
 
     img.save(output_path)
@@ -188,7 +338,7 @@ def draw_stat_card(title, headline, sub_lines, output_path, border_color=(59, 13
             break
 
     font_footer = load_system_font(20)
-    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Video Draft (Synthetic Data Only)"
+    footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Submission (Synthetic Data Only)"
     draw.text((100, 1010), footer_text, fill=(100, 110, 120), font=font_footer)
 
     img.save(output_path)

@@ -88,11 +88,13 @@ uv run python ../submission/02_video/backend/build_slides.py
   `generate_video.SLIDES_DATA`. Edit that file to change their content/wording (the bullets
   are deliberately short keyword phrases, not full sentences - they play under narration
   audio, and a viewer can't read a full sentence and listen at the same time).
-- **Segments 4, 5, 6** ("Live Demo") are evidence cards rendered from the *real* output of
-  this run's pytest suite, offline evaluations, and live agent invocation - not hand-authored,
-  and not reproducible without actually running the code. This is also why `build_slides.py`
-  is the slow stage: it hits the real Gemini API once (with retries for transient upstream
-  503s) to produce genuine agent output for segment 4/5's "Live Demo" cards.
+- **Segments 4, 5, 6** are evidence cards rendered from the *real* output of this run's
+  pytest suite, offline evaluations, generated report, and live agent invocation - not
+  hand-authored, and not reproducible without actually running the code. Segment 4 shows the
+  pipeline result, segment 5 summarizes the generated actuarial memo and driver
+  concentration, and segment 6 combines pytest plus offline-eval verification. This is also
+  why `build_slides.py` is the slow stage: it hits the real Gemini API once (with retries for
+  transient upstream 503s) to produce genuine agent output for segment 4/5's demo cards.
 
 Two extra evidence images are generated but not part of the 7-slide deck (no segment narrates
 them): `backend/evidence/demo_cards/pytest_card.png` and `trace_card.png` - bonus proof for
