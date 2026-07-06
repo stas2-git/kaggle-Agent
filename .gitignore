@@ -17,4 +17,15 @@ outputs/
 tests/eval/eval_results/
 artifacts/rebuilds/fresh_rebuild_v1_same_session_workspace/outputs/
 
-
+# Assignment reference material: keep only distilled judge-facing context.
+assignment_details/**
+!assignment_details/**/
+!assignment_details/README.md
+!assignment_details/capstone_project/README.md
+!assignment_details/capstone_project/SUBMISSION_REQUIREMENTS.md
+!assignment_details/capstone_project/details/*.txt
+!assignment_details/codelabs/README.md
+!assignment_details/codelabs/specs/README.md
+!assignment_details/codelabs/specs/*.md
+!assignment_details/whitepapers/README.md
+!assignment_details/whitepapers/notes/*.md

@@ -38,13 +38,13 @@ For this capstone, that means the portfolio-monitoring agent should read as a sm
 
 ## Where To Find Details
 
-This folder is organized by topic, not by document type. Each topic's dense, reusable material is pulled up next to `details/` rather than buried inside it — [`whitepapers/notes/`](whitepapers/notes/) and [`codelabs/specs/`](codelabs/specs/). `details/` holds the raw source text, original documents, and runnable code. Open `details/` only when the current task needs more evidence than the overview and its notes/specs already provide.
+This folder is organized by topic, not by document type. Each topic's dense, reusable material is pulled up next to `details/` rather than buried inside it — [`whitepapers/notes/`](whitepapers/notes/) and [`codelabs/specs/`](codelabs/specs/). Raw source documents, original PDFs, runnable codelab projects, and archives are kept local-only and are intentionally excluded from the public repo.
 
 | Topic | Overview | Dense reference | Raw source |
 |---|---|---|---|
-| Course whitepapers (concepts, days 1-5) | [`whitepapers/README.md`](whitepapers/README.md) | [`whitepapers/notes/`](whitepapers/notes/) | [`whitepapers/details/`](whitepapers/details/) |
-| Course codelabs (implementation patterns) | [`codelabs/README.md`](codelabs/README.md) | [`codelabs/specs/`](codelabs/specs/) | [`codelabs/details/`](codelabs/details/) - instructions and runnable projects |
-| Capstone assignment (rules, baseline, submission) | [`capstone_project/README.md`](capstone_project/README.md) | - | [`capstone_project/details/`](capstone_project/details/) |
+| Course whitepapers (concepts, days 1-5) | [`whitepapers/README.md`](whitepapers/README.md) | [`whitepapers/notes/`](whitepapers/notes/) | Raw PDFs local-only |
+| Course codelabs (implementation patterns) | [`codelabs/README.md`](codelabs/README.md) | [`codelabs/specs/`](codelabs/specs/) | Raw instructions/projects local-only |
+| Capstone assignment (rules, baseline, submission) | [`capstone_project/README.md`](capstone_project/README.md) | [`capstone_project/details/`](capstone_project/details/) text summaries | Original PDFs local-only |
 
 | Need | Read |
 |---|---|
@@ -52,7 +52,6 @@ This folder is organized by topic, not by document type. Each topic's dense, reu
 | Canonical product, architecture, data, tool, quality, and submission specs | [`../spec_files/00_README_SPEC_INDEX.md`](../spec_files/00_README_SPEC_INDEX.md) |
 | Kaggle writeup, video assets, and final checklist | [`../submission/README.md`](../submission/README.md) |
 | This project's own build-session notes and architecture history (not course material) | [`../project_build/notes/README.md`](../project_build/notes/README.md) |
-| Superseded or packaged artifacts | [`90_archive/README.md`](90_archive/README.md) |
 
 ## LLM Reading Rule
 
@@ -62,15 +61,14 @@ Do not review this whole folder by default.
 2. If judging capstone readiness, read [`capstone_project/README.md`](capstone_project/README.md).
 3. If checking submission mechanics, read [`capstone_project/SUBMISSION_REQUIREMENTS.md`](capstone_project/SUBMISSION_REQUIREMENTS.md).
 4. If checking course alignment, read [`whitepapers/README.md`](whitepapers/README.md) and [`codelabs/README.md`](codelabs/README.md).
-5. Use the `details/` subfolder under any topic only to verify a specific claim or implementation pattern.
+5. Use the visible text summaries only when you need to verify a specific claim or implementation pattern.
 
 ## Folder Map
 
 ```text
 assignment_details/
 |-- README.md           # This assignment brief and reading guide
-|-- whitepapers/        # Course concept whitepapers: overview + notes/ (dense) + details/ (raw source/PDFs)
-|-- codelabs/           # Course codelabs: overview + specs/ (dense) + details/ (instructions, runnable projects)
-|-- capstone_project/   # Capstone assignment: overview + source text/PDFs
-`-- 90_archive/         # Superseded or packaged artifacts
+|-- whitepapers/        # Course concept whitepapers: overview + notes/ (dense)
+|-- codelabs/           # Course codelabs: overview + specs/ (dense)
+`-- capstone_project/   # Capstone assignment: overview + source text summaries
 ```

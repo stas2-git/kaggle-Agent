@@ -1,4 +1,0 @@
-interface:
-  display_name: "STRIDE Threat Model"
-  short_description: "Assess a codebase using STRIDE security analysis"
-  default_prompt: "Use $stride-threat-model to analyze this project and write threat_model.md."

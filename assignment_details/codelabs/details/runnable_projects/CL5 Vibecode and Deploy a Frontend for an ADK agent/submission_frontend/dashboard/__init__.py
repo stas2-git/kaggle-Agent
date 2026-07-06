@@ -1,1 +1,0 @@
-"""Expense manager dashboard package."""

@@ -1,6 +1,6 @@
 # Codelabs
 
-The course ran four hands-on codelabs. This page is the extracted, high-level summary of what each one taught and why it matters for the capstone. Read [`specs/`](specs/) for the dense, reusable implementation logic behind each pattern; open [`details/`](details/) only for the original instructions or the runnable code.
+The course ran four hands-on codelabs. This page is the extracted, high-level summary of what each one taught and why it matters for the capstone. Read [`specs/`](specs/) for the dense, reusable implementation logic behind each pattern. Original instructions and runnable codelab projects are local-only reference material and are intentionally excluded from the public repo.
 
 Read the capstone baseline first: [`../capstone_project/README.md`](../capstone_project/README.md)
 
@@ -34,10 +34,4 @@ The codelabs are not the capstone. They are supporting evidence for design choic
 
 ## Details
 
-Three layers per codelab, in reading-priority order:
-
-| Layer | Location | Use it for |
-|---|---|---|
-| Implementation specs | [`specs/`](specs/) | The bridge from codelab to capstone: control flow, design decisions, reusable patterns. Start here. |
-| Original instructions | [`details/instructions/`](details/instructions/) | Extracted text of the original lab steps. |
-| Runnable projects | [`details/runnable_projects/`](details/runnable_projects/) | The actual codelab code, ready to inspect or run. |
+The public repo keeps the implementation specs because they are the useful bridge from codelab to capstone: control flow, design decisions, reusable patterns, and production gaps. Raw lab instructions and runnable example projects stay local-only to keep the judge-facing repository focused.

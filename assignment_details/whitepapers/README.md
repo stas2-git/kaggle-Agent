@@ -1,6 +1,6 @@
 # Whitepapers
 
-The 5-day course shipped a whitepaper each day. This page is the extracted, high-level summary. Read [`notes/`](notes/) for the dense study notes behind each day; open [`details/`](details/) only to verify original wording or check a specific claim.
+The 5-day course shipped a whitepaper each day. This page is the extracted, high-level summary. Read [`notes/`](notes/) for the dense study notes behind each day. Original PDFs and raw text extractions are local-only reference material and are intentionally excluded from the public repo.
 
 Read the capstone baseline first: [`../capstone_project/README.md`](../capstone_project/README.md)
 
@@ -18,12 +18,4 @@ Each day now has a full study-notes page in [`notes/`](notes/) — mechanisms, t
 
 ## Details
 
-Raw extractions and original PDFs — use only to verify exact wording or pull a direct quote; the notes above already extract the substance.
-
-| Day | Extracted text | Original PDF |
-|---|---|---|
-| 1 - Vibe coding intro | [`details/day1_vibe_coding_intro.txt`](details/day1_vibe_coding_intro.txt) | [`details/source_documents/day1 whitepaper.pdf`](details/source_documents/day1%20whitepaper.pdf) |
-| 2 - Agent tools & interoperability | [`details/day2_agent_tools_interop.txt`](details/day2_agent_tools_interop.txt) | [`details/source_documents/day2 Agent Tools & Interoperability_Day_2.pdf`](details/source_documents/day2%20Agent%20Tools%20%26%20Interoperability_Day_2.pdf) |
-| 3 - Agent skills | [`details/day3_agent_skills.txt`](details/day3_agent_skills.txt) | [`details/source_documents/day3 Agent Skills_Day_3.pdf`](details/source_documents/day3%20Agent%20Skills_Day_3.pdf) |
-| 4 - Security & evaluation | [`details/day4_security_evaluation.txt`](details/day4_security_evaluation.txt) | [`details/source_documents/day4 Vibe Coding Agent Security and Evaluation_Day_4.pdf`](details/source_documents/day4%20Vibe%20Coding%20Agent%20Security%20and%20Evaluation_Day_4.pdf) |
-| 5 - Spec-driven production dev | [`details/day5_spec_driven_production_dev.txt`](details/day5_spec_driven_production_dev.txt) | [`details/source_documents/Day5 Spec_Driven production grade dev.pdf`](details/source_documents/Day5%20Spec_Driven%20production%20grade%20dev.pdf) |
+The notes above extract the substance needed for the capstone. Raw extractions and original PDFs stay local-only to keep the public project repository focused on the implemented agent.

@@ -68,4 +68,4 @@ Original capstone wording, rules, and timeline: [`details/`](details/)
 | [`details/capstone_rules.txt`](details/capstone_rules.txt) | Competition legal terms: eligibility, data use, prizes, and IP/winner obligations. |
 | [`details/extra_notes.txt`](details/extra_notes.txt) | Codelab excerpt on automated linting and local Agents CLI evaluation (not writeup/demo advice). |
 | [`details/agent_building_methods_extraction.txt`](details/agent_building_methods_extraction.txt) | Agent architecture, prompting, routing, and coordination patterns. |
-| [`details/source_documents/`](details/source_documents/) | Original PDF/RTF files, for formatting or image verification. |
+| Original PDF/RTF files | Local-only source documents, excluded from the public repo. |
