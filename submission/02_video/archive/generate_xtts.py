@@ -31,8 +31,8 @@ from TTS.api import TTS
 
 # Paths
 VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
-XTTS_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "xtts_segments")
+AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
+XTTS_SEGMENTS_DIR = os.path.join(AUDIO_DIR, "xtts_segments")
 
 def check_ffmpeg():
     try:
@@ -51,7 +51,7 @@ def main():
     args = parser.parse_args()
 
     # Read slide narration segments YAML
-    yaml_path = os.path.join(VIDEO_DIR, "slide_narration_segments.yaml")
+    yaml_path = os.path.join(VIDEO_DIR, "narrative", "slide_narration_segments.yaml")
     if not os.path.exists(yaml_path):
         print(f"Error: YAML segments config not found at: {yaml_path}")
         sys.exit(1)

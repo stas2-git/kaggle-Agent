@@ -21,11 +21,11 @@ This report summaries the execution and outcomes of the audio-driven video gener
 - **Video Output Path**: `/Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent/submission/02_video/draft_demo_video.mp4`
 
 ## 3. Generated Outputs
-- **Auditable Command Logs** (saved in `submission/02_video/assets/demo_outputs/`):
+- **Auditable Command Logs** (saved in `submission/02_video/evidence/demo_outputs/`):
   - Pytest Log: `pytest_output.txt`
   - Scorecard Log: `eval_output.txt`
   - Review Run Log: `run_output.txt`
-- **Rendered Demo Cards** (saved in `submission/02_video/assets/demo_cards/`):
+- **Rendered Demo Cards** (saved in `submission/02_video/evidence/demo_cards/`):
   - `pytest_card.png`
   - `eval_card.png`
   - `run_card.png`

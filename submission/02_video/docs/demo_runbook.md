@@ -7,11 +7,11 @@ This document defines the process for capturing visual demonstration evidence. T
 ## 1. Primary Automated Evidence (Default)
 
 The orchestrator script `generate_all.py` automatically runs the verification steps and captures the console output. It extracts the logs and generates visual card overlays:
-- **Pytest result card**: Automatically runs `uv run pytest` and places stdout summary in `assets/demo_cards/pytest_card.png`.
-- **Evaluation scorecard card**: Automatically runs the 11-case test scorecard in offline mode and renders the scorecard summary table to `assets/demo_cards/eval_card.png`.
-- **Pipeline Orchestrator execution**: Runs the pipeline on `tests/golden/loss_ratio_spike.csv` and renders logs to `assets/demo_cards/run_card.png`.
-- **Report excerpt card**: Exposes the top section of the generated markdown review memo to `assets/demo_cards/report_card.png`.
-- **Trace excerpt card**: Exposes the start of the structured trace file to `assets/demo_cards/trace_card.png`.
+- **Pytest result card**: Automatically runs `uv run pytest` and places stdout summary in `evidence/demo_cards/pytest_card.png`.
+- **Evaluation scorecard card**: Automatically runs the 11-case test scorecard in offline mode and renders the scorecard summary table to `evidence/demo_cards/eval_card.png`.
+- **Pipeline Orchestrator execution**: Runs the pipeline on `tests/golden/loss_ratio_spike.csv` and renders logs to `evidence/demo_cards/run_card.png`.
+- **Report excerpt card**: Exposes the top section of the generated markdown review memo to `evidence/demo_cards/report_card.png`.
+- **Trace excerpt card**: Exposes the start of the structured trace file to `evidence/demo_cards/trace_card.png`.
 
 No manual CLI command runs or screenshot actions are required when using the automated orchestrator.
 

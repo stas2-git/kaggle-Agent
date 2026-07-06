@@ -13,20 +13,23 @@ from PIL import Image, ImageDraw, ImageFont
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import generate_video
 
-# Paths
+# Paths - organized by content type, not by pipeline role. See README.md.
 VIDEO_DIR = os.path.dirname(os.path.abspath(__file__))
 WORKSPACE_ROOT = os.path.dirname(os.path.dirname(VIDEO_DIR))
 PROJECT_BUILD_DIR = os.path.join(WORKSPACE_ROOT, "project_build")
-ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
-SLIDES_DIR = os.path.join(ASSETS_DIR, "slides")
-OUTPUTS_DIR = os.path.join(ASSETS_DIR, "demo_outputs")
-CARDS_DIR = os.path.join(ASSETS_DIR, "demo_cards")
-TEMP_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "temp_segments")
+SLIDES_DIR = os.path.join(VIDEO_DIR, "slides", "rendered")
+NARRATIVE_DIR = os.path.join(VIDEO_DIR, "narrative")
+AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
+EVIDENCE_DIR = os.path.join(VIDEO_DIR, "evidence")
+OUTPUTS_DIR = os.path.join(EVIDENCE_DIR, "demo_outputs")
+CARDS_DIR = os.path.join(EVIDENCE_DIR, "demo_cards")
+TEMP_SEGMENTS_DIR = os.path.join(VIDEO_DIR, ".tmp", "temp_segments")
 
 def create_directories():
     print("Creating required directories...")
-    os.makedirs(ASSETS_DIR, exist_ok=True)
     os.makedirs(SLIDES_DIR, exist_ok=True)
+    os.makedirs(AUDIO_DIR, exist_ok=True)
+    os.makedirs(EVIDENCE_DIR, exist_ok=True)
     os.makedirs(OUTPUTS_DIR, exist_ok=True)
     os.makedirs(CARDS_DIR, exist_ok=True)
     # Recreate clean temp segments dir
@@ -312,7 +315,7 @@ def build_segment_videos(segments, durations, override_mode=False, override_rati
     
     for idx, seg in enumerate(segments, 1):
         image_relative = seg["visual"]
-        image_path = os.path.join(ASSETS_DIR, image_relative)
+        image_path = os.path.join(VIDEO_DIR, image_relative)
         audio_path = os.path.join(TEMP_SEGMENTS_DIR, f"seg_{idx}.mp3")
         video_path = os.path.join(TEMP_SEGMENTS_DIR, f"video_{idx}.mp4")
         
@@ -401,7 +404,7 @@ def run_security_scan():
         return True, []
 
 def write_generation_report(results, audio_source, model_used, voice_name, speech_rate, voiceover_generated, video_generated, scan_passed, scan_issues, final_video_path):
-    report_path = os.path.join(ASSETS_DIR, "video_generation_report.md")
+    report_path = os.path.join(EVIDENCE_DIR, "video_generation_report.md")
     
     status_emoji = "✅" if (results.get("pytest_passed") and results.get("eval_passed") and video_generated and scan_passed) else "❌"
     
@@ -428,11 +431,11 @@ This report summaries the execution and outcomes of the audio-driven video gener
 - **Video Output Path**: `{final_video_path}`
 
 ## 3. Generated Outputs
-- **Auditable Command Logs** (saved in `submission/02_video/assets/demo_outputs/`):
+- **Auditable Command Logs** (saved in `submission/02_video/evidence/demo_outputs/`):
   - Pytest Log: `pytest_output.txt`
   - Scorecard Log: `eval_output.txt`
   - Review Run Log: `run_output.txt`
-- **Rendered Demo Cards** (saved in `submission/02_video/assets/demo_cards/`):
+- **Rendered Demo Cards** (saved in `submission/02_video/evidence/demo_cards/`):
   - `pytest_card.png`
   - `eval_card.png`
   - `run_card.png`
@@ -478,23 +481,25 @@ def main():
     results = run_verification_commands()
     
     # 3. Read narration segments from YAML
-    yaml_path = os.path.join(VIDEO_DIR, "slide_narration_segments.yaml")
+    yaml_path = os.path.join(NARRATIVE_DIR, "slide_narration_segments.yaml")
     if not os.path.exists(yaml_path):
         print(f"Error: YAML segments config not found at: {yaml_path}")
         sys.exit(1)
-        
+
     with open(yaml_path, "r", encoding="utf-8") as f:
         seg_data = yaml.safe_load(f)
     segments = seg_data["segments"]
-    
+
     # 4. Load premium segment audios (Gemini or local ChatTTS) if available, otherwise fall back to local macOS say
-    xtts_segments_dir = os.path.join(ASSETS_DIR, "xtts_segments")
+    # Note: xtts/chattts segment dirs are intentionally only checked under AUDIO_DIR (the live
+    # location), not archive/ - archived attempts are not auto-detected, by design.
+    xtts_segments_dir = os.path.join(AUDIO_DIR, "xtts_segments")
     xtts_metadata_path = os.path.join(xtts_segments_dir, "metadata.json")
-    
-    gemini_segments_dir = os.path.join(ASSETS_DIR, "gemini_segments")
+
+    gemini_segments_dir = os.path.join(AUDIO_DIR, "gemini_segments")
     gemini_metadata_path = os.path.join(gemini_segments_dir, "metadata.json")
-    
-    chattts_segments_dir = os.path.join(ASSETS_DIR, "chattts_segments")
+
+    chattts_segments_dir = os.path.join(AUDIO_DIR, "chattts_segments")
     chattts_metadata_path = os.path.join(chattts_segments_dir, "metadata.json")
     
     use_xtts_segments = False
@@ -669,8 +674,8 @@ def main():
     
     # Check for manual single-file override narration audio (MP3 has priority, then WAV)
     # This is only active if we are NOT using the premium segment files
-    override_mp3 = os.path.join(ASSETS_DIR, "narration_override.mp3")
-    override_wav = os.path.join(ASSETS_DIR, "narration_override.wav")
+    override_mp3 = os.path.join(AUDIO_DIR, "narration_override.mp3")
+    override_wav = os.path.join(AUDIO_DIR, "narration_override.wav")
     
     override_path = None
     if not use_premium_segments:
@@ -685,7 +690,7 @@ def main():
     
     if override_mode:
         # Single-file manual override mode
-        override_metadata_path = os.path.join(ASSETS_DIR, "narration_override_metadata.json")
+        override_metadata_path = os.path.join(AUDIO_DIR, "narration_override_metadata.json")
         if os.path.exists(override_metadata_path):
             try:
                 with open(override_metadata_path, "r", encoding="utf-8") as f:
@@ -742,7 +747,7 @@ def main():
             for path in seg_audios_list:
                 f.write(f"file '{path}'\n")
                 
-        narration_mp3_path = os.path.join(ASSETS_DIR, "narration.mp3")
+        narration_mp3_path = os.path.join(AUDIO_DIR, "narration.mp3")
         print("Stitching segment audios together...")
         stitch_cmd = f"ffmpeg -y -f concat -safe 0 -i '{audio_concat_list}' -c copy '{narration_mp3_path}'"
         s_stdout, s_stderr, s_rc = run_command(stitch_cmd)

@@ -10,8 +10,8 @@ from google.genai import types
 
 # Paths
 VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
-GEMINI_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "gemini_segments")
+AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
+GEMINI_SEGMENTS_DIR = os.path.join(AUDIO_DIR, "gemini_segments")
 
 def check_ffmpeg():
     try:
@@ -61,12 +61,12 @@ def main():
         print("Notice: No GEMINI_API_KEY or GOOGLE_API_KEY found in the environment.")
         print("To generate Gemini TTS narration, run:")
         print("    export GOOGLE_API_KEY=\"your_key_here\"")
-        print("Then run: cd project_build && uv run python ../submission/02_video/generate_gemini_tts.py")
+        print("Then run: cd project_build && uv run python ../submission/02_video/audio/generate_gemini_tts.py")
         print("="*60)
         sys.exit(0)
 
     # Read slide narration segments YAML
-    yaml_path = os.path.join(VIDEO_DIR, "slide_narration_segments.yaml")
+    yaml_path = os.path.join(VIDEO_DIR, "narrative", "slide_narration_segments.yaml")
     if not os.path.exists(yaml_path):
         print(f"Error: YAML segments config not found at: {yaml_path}")
         sys.exit(1)

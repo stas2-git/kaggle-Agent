@@ -37,5 +37,5 @@ tests/unit/test_extended_anomalies.py ......                             [100%]
   <frozen abc>:106: DeprecationWarning: BaseAgentConfig is deprecated and will be removed in future versions.
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================== 59 passed, 6 warnings in 0.72s ========================
+======================== 59 passed, 6 warnings in 0.90s ========================
 

@@ -17,7 +17,7 @@ This checklist tracks all required elements for compiling and publishing the fin
 * [ ] **Card 4: Pytest Logs** — Console output of passing unit/integration tests (Demo Card)
 * [ ] **Card 5: Scorecard Logs** — Scorecard table of passing evaluation cases (Demo Card)
 * [ ] **Slide 6: Conclusion** — Real Business Impact & Roadmap (Slide Image)
-* [ ] **Audio Voiceover** — macOS native voice narration track (`assets/narration.mp3`)
+* [ ] **Audio Voiceover** — macOS native voice narration track (`audio/narration.mp3`)
 * [ ] **Subtitles** — Approximate timing-aligned subtitle file (`captions.srt`)
 * [ ] **Video Compilation** — Stitched slideshow draft video (`draft_demo_video.mp4`)
 * [ ] **Safety Audit** — Automated scanning report confirming no secrets or API keys are leaked (`video_generation_report.md`)

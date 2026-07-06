@@ -4,13 +4,13 @@
 # Define paths
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VIDEO_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
-PLAIN_SCRIPT="$VIDEO_DIR/docs/narration_script_plain.txt"
-ASSETS_DIR="$VIDEO_DIR/assets"
-AIFF_OUT="$ASSETS_DIR/narration.aiff"
-MP3_OUT="$ASSETS_DIR/narration.mp3"
+PLAIN_SCRIPT="$VIDEO_DIR/narrative/narration_script_plain.txt"
+AUDIO_DIR="$VIDEO_DIR/audio"
+AIFF_OUT="$AUDIO_DIR/narration.aiff"
+MP3_OUT="$AUDIO_DIR/narration.mp3"
 
 # Create assets directory
-mkdir -p "$ASSETS_DIR"
+mkdir -p "$AUDIO_DIR"
 
 # Check narration script exists
 if [ ! -f "$PLAIN_SCRIPT" ]; then

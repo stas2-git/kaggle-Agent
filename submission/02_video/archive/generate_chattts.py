@@ -21,8 +21,8 @@ import ChatTTS
 # Paths
 VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORKSPACE_ROOT = os.path.dirname(os.path.dirname(VIDEO_DIR))
-ASSETS_DIR = os.path.join(VIDEO_DIR, "assets")
-CHATTTS_SEGMENTS_DIR = os.path.join(ASSETS_DIR, "chattts_segments")
+AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
+CHATTTS_SEGMENTS_DIR = os.path.join(AUDIO_DIR, "chattts_segments")
 LOCAL_CHATTTS_MODEL_DIR = os.path.join(
     WORKSPACE_ROOT,
     "assignment_details",
@@ -82,7 +82,7 @@ def main():
     args = parser.parse_args()
 
     # Read slide narration segments YAML
-    yaml_path = os.path.join(VIDEO_DIR, "slide_narration_segments.yaml")
+    yaml_path = os.path.join(VIDEO_DIR, "narrative", "slide_narration_segments.yaml")
     if not os.path.exists(yaml_path):
         print(f"Error: YAML segments config not found at: {yaml_path}")
         sys.exit(1)
