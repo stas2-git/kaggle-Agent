@@ -67,10 +67,9 @@ segments:
     takeaway: "The agent does not just flag noise: material signals cross thresholds and trigger human review."
     audio_script: >-
       Let's look at the pipeline in action. A synthetic portfolio CSV moves through
-      schema validation, deterministic metric calculation, anomaly detection, and a
-      human review gate. The model is not asked to invent the numbers. The agent uses
-      bounded tools to decide what needs investigation, then prepares the result for
-      actuarial review.
+      validation, metric calculation, anomaly detection, and the human review gate.
+      The model is not inventing numbers. Bounded tools decide what needs
+      investigation, then the agent prepares the result for actuarial review.
     visual_fact_keys:
       - loss_ratio_movement
       - claim_count_movement
@@ -83,11 +82,11 @@ segments:
     headline: "The reveal: both signals point to the same slice."
     takeaway: "The reveal is convergence: both signals point to the same concentrated slice, then the memo frames what to review."
     audio_script: >-
-      The important moment is convergence. The agent does not stop at saying that
-      something changed. It decomposes the movement and shows that multiple anomaly
-      signals point to the same concentrated slice of the portfolio. The compiled memo
-      then turns that evidence into an executive summary, follow-up questions, and an
-      auditable trace for human review.
+      The reveal is convergence. The agent does not stop at saying something changed.
+      It decomposes the movement and shows that multiple anomaly signals point to the
+      same concentrated slice of the portfolio. The memo then turns that evidence into
+      an executive summary, follow-up questions, and an auditable trace for human
+      review.
     visual_fact_keys:
       - driver_concentration
       - report_artifact
@@ -100,11 +99,10 @@ segments:
     headline: "Tests, evals, and scans back the claim."
     takeaway: "The demo story is backed by deterministic tests, scenario evals, and generated-asset scanning."
     audio_script: >-
-      Security and verification are part of the product, not an afterthought. The
-      project is checked with deterministic tests, offline evaluation scenarios,
-      prompt-injection cases, secret-disclosure cases, and generated-asset scanning.
-      That keeps the demo grounded in repeatable checks instead of relying on one good
-      run.
+      Proof matters here. The project is checked with deterministic tests, offline
+      evaluation scenarios, prompt-injection cases, secret-disclosure cases, and
+      generated-asset scanning. That keeps the demo grounded in repeatable checks, not
+      one lucky run.
     visual_fact_keys:
       - pytest_headline
       - eval_headline

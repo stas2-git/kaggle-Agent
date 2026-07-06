@@ -59,62 +59,62 @@ Fourth, an agent reasoning layer that manages Gemini calls and structured schema
 And fifth, an output layer writing a markdown review memo and a complete JSON trace file.
 
 16
-00:01:44,600 --> 00:01:46,868
+00:01:44,600 --> 00:01:47,236
 Let's look at the pipeline in action.
 
 17
-00:01:46,868 --> 00:01:55,207
-A synthetic portfolio CSV moves through schema validation, deterministic metric calculation, anomaly detection, and a human review gate.
+00:01:47,236 --> 00:01:55,570
+A synthetic portfolio CSV moves through validation, metric calculation, anomaly detection, and the human review gate.
 
 18
-00:01:55,207 --> 00:01:57,966
-The model is not asked to invent the numbers.
+00:01:55,570 --> 00:01:58,063
+The model is not inventing numbers.
 
 19
-00:01:57,966 --> 00:02:04,771
-The agent uses bounded tools to decide what needs investigation, then prepares the result for actuarial review.
+00:01:58,063 --> 00:02:05,400
+Bounded tools decide what needs investigation, then the agent prepares the result for actuarial review.
 
 20
-00:02:04,771 --> 00:02:06,852
-The important moment is convergence.
+00:02:05,400 --> 00:02:07,211
+The reveal is convergence.
 
 21
-00:02:06,852 --> 00:02:10,147
-The agent does not stop at saying that something changed.
+00:02:07,211 --> 00:02:10,833
+The agent does not stop at saying something changed.
 
 22
-00:02:10,147 --> 00:02:17,142
+00:02:10,833 --> 00:02:19,262
 It decomposes the movement and shows that multiple anomaly signals point to the same concentrated slice of the portfolio.
 
 23
-00:02:17,142 --> 00:02:24,715
-The compiled memo then turns that evidence into an executive summary, follow-up questions, and an auditable trace for human review.
+00:02:19,262 --> 00:02:27,760
+The memo then turns that evidence into an executive summary, follow-up questions, and an auditable trace for human review.
 
 24
-00:02:24,715 --> 00:02:29,061
-Security and verification are part of the product, not an afterthought.
+00:02:27,760 --> 00:02:29,184
+Proof matters here.
 
 25
-00:02:29,061 --> 00:02:38,672
+00:02:29,184 --> 00:02:40,949
 The project is checked with deterministic tests, offline evaluation scenarios, prompt-injection cases, secret-disclosure cases, and generated-asset scanning.
 
 26
-00:02:38,672 --> 00:02:43,875
-That keeps the demo grounded in repeatable checks instead of relying on one good run.
+00:02:40,949 --> 00:02:46,120
+That keeps the demo grounded in repeatable checks, not one lucky run.
 
 27
-00:02:43,875 --> 00:02:52,341
+00:02:46,120 --> 00:02:54,586
 The Actuarial Portfolio Monitoring Agent is not a replacement for professional actuarial opinion or underwriting authority.
 
 28
-00:02:52,341 --> 00:03:00,325
+00:02:54,586 --> 00:03:02,570
 Instead, it serves as a robust triage assistant that makes routine reviews faster, safer, and thoroughly documented.
 
 29
-00:03:00,325 --> 00:03:10,786
+00:03:02,570 --> 00:03:13,032
 For future work, we plan to transition from flat CSVs to running direct BigQuery analytical queries, GKE-run containerized scheduling, and email alerts.
 
 30
-00:03:10,786 --> 00:03:11,475
+00:03:13,032 --> 00:03:13,720
 Thank you.
 

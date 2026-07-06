@@ -26,21 +26,20 @@ humans and older tooling.
 | 1 | Actuarial Portfolio Monitoring Agent | 🟢 | 🟢 | None |
 | 2 | From Dashboard to Decision | 🟢 | 🟢 | None |
 | 3 | Autonomy With Boundaries | 🟢 | 🟢 | None |
-| 4 | From CSV to Review Gate | 🟢 audio-safe | 🔴 re-record if final | Loss-ratio move, claim-count move, review gate |
-| 5 | Two Symptoms, One Driver | 🟢 audio-safe | 🔴 re-record if final | Driver slice, memo/trace artifacts |
-| 6 | Proof, Not Vibes | 🟢 audio-safe | 🔴 re-record if final | Pytest count, eval count, asset scan |
+| 4 | From CSV to Review Gate | 🟢 audio-safe | 🟢 Gemini regenerated | Loss-ratio move, claim-count move, review gate |
+| 5 | Two Symptoms, One Driver | 🟢 audio-safe | 🟢 Gemini regenerated | Driver slice, memo/trace artifacts |
+| 6 | Proof, Not Vibes | 🟢 audio-safe | 🟢 Gemini regenerated | Pytest count, eval count, asset scan |
 | 7 | Audit-Ready First Pass | 🟢 | 🟢 | None |
 
 **Bottom line:** story text for segments 4-6 has been rewritten to avoid brittle exact counts
-and metrics. The latest draft video uses fresh local `say` preview audio for 4-6, while
-segments 1, 2, 3, and 7 use cached Gemini audio. The canonical Gemini files in
-`story/audio/current/seg_4.mp3` ... `story/audio/current/seg_6.mp3` should be regenerated
-once the story is final. The old current files will be archived under `story/audio/versions/`
-before they are overwritten:
+and metrics. Segments 4, 5, and 6 have been regenerated with Gemini, and the latest draft
+video uses Gemini audio for all seven segments. If the story changes again, preview with
+local `say` before spending Gemini quota; regenerated current files will be archived under
+`story/audio/versions/` before they are overwritten:
 
 ```bash
 cd project_build
-uv run python ../submission/02_video/backend/audio_generation/generate_gemini_tts.py --segments 4,5,6
+uv run python ../submission/02_video/backend/audio_generation/generate_gemini_tts.py --segments <changed-segments>
 uv run python ../submission/02_video/backend/assemble_video.py
 ```
 

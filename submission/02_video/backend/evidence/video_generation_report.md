@@ -11,15 +11,15 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Verification generated at**: `2026-07-06T13:46:11`
 
 ## 2. This Assembly Run
-- **Voiceover TTS Source**: `Mixed: Gemini API TTS (cached) (segments [1, 2, 3, 7]); local macOS say (segments [4, 5, 6])`
-- **Model Used**: `Mixed (see audio_source)`
-- **Voice / Config Name**: `Mixed (say=Samantha for previewed segments)`
+- **Voiceover TTS Source**: `Gemini API TTS (Segment-Based)`
+- **Model Used**: `gemini-3.1-flash-tts-preview`
+- **Voice / Config Name**: `Kore`
 - **Speech Rate (macOS Say only)**: `170 WPM`
 - **Security Secret Audit Scan**: PASS ✅
 
 ## 3. Timing Measurements & Bounds Checks
-- **Narration Audio Duration**: 193.585 seconds
-- **Final Video Duration**: 193.531 seconds
+- **Narration Audio Duration**: 195.854 seconds
+- **Final Video Duration**: 195.800 seconds
 - **Absolute Duration Difference**: 0.054 seconds
 - **Duration Boundary Status**: PASS (Within 1.0s limit) ✅
 - **Video Output Path**: `<workspace>/submission/02_video/draft_demo_video.mp4`

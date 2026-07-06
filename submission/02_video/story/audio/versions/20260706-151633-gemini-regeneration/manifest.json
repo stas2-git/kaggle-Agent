@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-07-06T15:16:58",
+  "reason": "Prior current audio preserved before Gemini TTS regeneration",
+  "model": "gemini-3.1-flash-tts-preview",
+  "voice": "Kore",
+  "target_segments": [
+    5,
+    6
+  ],
+  "archived_segments": [
+    5,
+    6
+  ],
+  "layout": {
+    "segments": "Prior current MP3 files",
+    "gemini_wav": "Prior Gemini WAV intermediates, when present"
+  }
+}

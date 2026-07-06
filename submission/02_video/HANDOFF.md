@@ -7,10 +7,7 @@ Read this first when opening `submission/02_video` in a new context window.
 - `story/slide_story.yaml` is the canonical source for slide titles, takeaways, and narration
   text.
 - `draft_demo_video.mp4` was last assembled successfully on 2026-07-06.
-- The latest draft video uses mixed audio:
-  - Gemini cached audio for segments 1, 2, 3, and 7.
-  - macOS `say` preview audio for segments 4, 5, and 6.
-- Final Gemini re-recording is still pending for segments 4, 5, and 6.
+- The latest draft video uses Gemini audio for all seven segments.
 - The latest assembly report is `backend/evidence/video_generation_report.md`.
 - The old top-level `audio/` and `narrative/` folders were intentionally moved into
   `story/`.
@@ -19,7 +16,7 @@ Read this first when opening `submission/02_video` in a new context window.
 
 - Story contract: `story/slide_story.yaml`
 - Current cached audio files: `story/audio/current/seg_1.mp3` ... `seg_7.mp3`
-  - Segments 4-6 still need final Gemini regeneration if this story is accepted.
+  - Segments 4, 5, and 6 were regenerated with Gemini after the story-script rewrite.
 - Local preview audio: `story/audio/previews/say/`
 - Prior audio versions: `story/audio/versions/`
 - Rendered slides: `slides/rendered/slide_1.png` ... `slide_7.png`
@@ -34,12 +31,13 @@ Read this first when opening `submission/02_video` in a new context window.
 
 ## Next Likely Action
 
-If the story wording is accepted, regenerate only the final Gemini audio that is still pending:
+Review `draft_demo_video.mp4`, then commit this final audio pass if it sounds right. If the
+story wording changes again, preview cheaply with `say` before spending Gemini quota:
 
 ```bash
 cd project_build
-uv run python ../submission/02_video/backend/audio_generation/generate_gemini_tts.py --segments 4,5,6
-uv run python ../submission/02_video/backend/assemble_video.py
+uv run python ../submission/02_video/backend/audio_generation/generate_say_preview.py --segments <changed-segments>
+uv run python ../submission/02_video/backend/assemble_video.py --segments <changed-segments>
 ```
 
 `generate_gemini_tts.py` archives overwritten current audio under
@@ -47,11 +45,11 @@ uv run python ../submission/02_video/backend/assemble_video.py
 
 ## Verification
 
-The latest successful preview assembly used:
+The latest successful all-Gemini assembly used:
 
 ```bash
 cd project_build
-uv run python ../submission/02_video/backend/assemble_video.py --segments 4,5,6
+uv run python ../submission/02_video/backend/assemble_video.py
 ```
 
 It passed audio/video duration alignment and the generated-asset security scan.

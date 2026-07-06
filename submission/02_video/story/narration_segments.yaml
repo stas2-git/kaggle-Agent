@@ -1,79 +1,64 @@
 # Compatibility snapshot generated from slide_story.yaml.
 # Active audio/video scripts read story/slide_story.yaml directly.
 segments:
-  - slide_number: 1
-    title: "Actuarial Portfolio Monitoring Agent"
-    visual: "slides/rendered/slide_1.png"
-    narration_text: >-
-      Routine monthly monitoring of insurance books of business is a critical but
-      repetitive risk-management process. Actuaries and analysts must manually load
-      transactional aggregates, compute key metrics, detect anomalies, decompose them
-      by concentration drivers, and compile explanatory reports. Traditional business
-      intelligence dashboards visualize these trends, but they stop at charts. They do
-      not write the explanation or perform the initial triage, creating a
-      time-consuming bottleneck for risk teams.
-
-  - slide_number: 2
-    title: "From Dashboard to Decision"
-    visual: "slides/rendered/slide_2.png"
-    narration_text: >-
-      This workflow is highly suited to an agentic approach because it is multi-step,
-      reasoning-driven, and requires strict security checks. A simple static script
-      cannot dynamically decide how to triage issues. Our agent validates input schema
-      quality, runs safety scans, identifies anomalies, selects the correct driver
-      slicing tools, and compiles findings. To guarantee absolute mathematical
-      correctness, we use a tool-first architecture where deterministic Python tools
-      compute all metrics, and the LLM is restricted only to narrative synthesis.
-
-  - slide_number: 3
-    title: "Autonomy With Boundaries"
-    visual: "slides/rendered/slide_3.png"
-    narration_text: >-
-      The agent's architecture consists of five modular layers. First, a data layer
-      that ingests synthetic CSV aggregations. Second, a security layer that checks
-      paths and text notes for prompt injections. Third, a deterministic tool layer
-      that calculates premiums, loss ratios, and written-premium-weighted averages for
-      rate changes, retention, and benchmark adequacy. Fourth, an agent reasoning
-      layer that manages Gemini calls and structured schemas. And fifth, an output
-      layer writing a markdown review memo and a complete JSON trace file.
-
-  - slide_number: 4
-    title: "From CSV to Review Gate"
-    visual: "slides/rendered/slide_4.png"
-    narration_text: >-
-      Let's look at the pipeline in action. A synthetic portfolio CSV moves through
-      schema validation, deterministic metric calculation, anomaly detection, and a
-      human review gate. The model is not asked to invent the numbers. The agent uses
-      bounded tools to decide what needs investigation, then prepares the result for
-      actuarial review.
-
-  - slide_number: 5
-    title: "Two Symptoms, One Driver"
-    visual: "slides/rendered/slide_5.png"
-    narration_text: >-
-      The important moment is convergence. The agent does not stop at saying that
-      something changed. It decomposes the movement and shows that multiple anomaly
-      signals point to the same concentrated slice of the portfolio. The compiled memo
-      then turns that evidence into an executive summary, follow-up questions, and an
-      auditable trace for human review.
-
-  - slide_number: 6
-    title: "Proof, Not Vibes"
-    visual: "slides/rendered/slide_6.png"
-    narration_text: >-
-      Security and verification are part of the product, not an afterthought. The
-      project is checked with deterministic tests, offline evaluation scenarios,
-      prompt-injection cases, secret-disclosure cases, and generated-asset scanning.
-      That keeps the demo grounded in repeatable checks instead of relying on one good
-      run.
-
-  - slide_number: 7
-    title: "Audit-Ready First Pass"
-    visual: "slides/rendered/slide_7.png"
-    narration_text: >-
-      The Actuarial Portfolio Monitoring Agent is not a replacement for professional
-      actuarial opinion or underwriting authority. Instead, it serves as a robust
-      triage assistant that makes routine reviews faster, safer, and thoroughly
-      documented. For future work, we plan to transition from flat CSVs to running
-      direct BigQuery analytical queries, GKE-run containerized scheduling, and email
-      alerts. Thank you.
+- slide_number: 1
+  title: Actuarial Portfolio Monitoring Agent
+  visual: slides/rendered/slide_1.png
+  narration_text: Routine monthly monitoring of insurance books of business is a
+    critical but repetitive risk-management process. Actuaries and analysts must
+    manually load transactional aggregates, compute key metrics, detect anomalies,
+    decompose them by concentration drivers, and compile explanatory reports. Traditional
+    business intelligence dashboards visualize these trends, but they stop at charts.
+    They do not write the explanation or perform the initial triage, creating a
+    time-consuming bottleneck for risk teams.
+- slide_number: 2
+  title: From Dashboard to Decision
+  visual: slides/rendered/slide_2.png
+  narration_text: This workflow is highly suited to an agentic approach because
+    it is multi-step, reasoning-driven, and requires strict security checks. A simple
+    static script cannot dynamically decide how to triage issues. Our agent validates
+    input schema quality, runs safety scans, identifies anomalies, selects the correct
+    driver slicing tools, and compiles findings. To guarantee absolute mathematical
+    correctness, we use a tool-first architecture where deterministic Python tools
+    compute all metrics, and the LLM is restricted only to narrative synthesis.
+- slide_number: 3
+  title: Autonomy With Boundaries
+  visual: slides/rendered/slide_3.png
+  narration_text: The agent's architecture consists of five modular layers. First,
+    a data layer that ingests synthetic CSV aggregations. Second, a security layer
+    that checks paths and text notes for prompt injections. Third, a deterministic
+    tool layer that calculates premiums, loss ratios, and written-premium-weighted
+    averages for rate changes, retention, and benchmark adequacy. Fourth, an agent
+    reasoning layer that manages Gemini calls and structured schemas. And fifth,
+    an output layer writing a markdown review memo and a complete JSON trace file.
+- slide_number: 4
+  title: From CSV to Review Gate
+  visual: slides/rendered/slide_4.png
+  narration_text: Let's look at the pipeline in action. A synthetic portfolio CSV
+    moves through validation, metric calculation, anomaly detection, and the human
+    review gate. The model is not inventing numbers. Bounded tools decide what needs
+    investigation, then the agent prepares the result for actuarial review.
+- slide_number: 5
+  title: Two Symptoms, One Driver
+  visual: slides/rendered/slide_5.png
+  narration_text: The reveal is convergence. The agent does not stop at saying something
+    changed. It decomposes the movement and shows that multiple anomaly signals
+    point to the same concentrated slice of the portfolio. The memo then turns that
+    evidence into an executive summary, follow-up questions, and an auditable trace
+    for human review.
+- slide_number: 6
+  title: Proof, Not Vibes
+  visual: slides/rendered/slide_6.png
+  narration_text: Proof matters here. The project is checked with deterministic
+    tests, offline evaluation scenarios, prompt-injection cases, secret-disclosure
+    cases, and generated-asset scanning. That keeps the demo grounded in repeatable
+    checks, not one lucky run.
+- slide_number: 7
+  title: Audit-Ready First Pass
+  visual: slides/rendered/slide_7.png
+  narration_text: The Actuarial Portfolio Monitoring Agent is not a replacement
+    for professional actuarial opinion or underwriting authority. Instead, it serves
+    as a robust triage assistant that makes routine reviews faster, safer, and thoroughly
+    documented. For future work, we plan to transition from flat CSVs to running
+    direct BigQuery analytical queries, GKE-run containerized scheduling, and email
+    alerts. Thank you.

@@ -35,9 +35,9 @@ actual TTS re-recording.
 
 **Current status:** `story/slide_story.yaml` is the canonical story contract. Segments 4-6 use
 audio-safe wording that avoids brittle counts and exact demo metrics; those volatile facts are
-kept on the rendered slides instead. The latest `draft_demo_video.mp4` is a mixed preview:
-Gemini cached audio for segments 1, 2, 3, and 7; macOS `say` preview audio for segments 4, 5,
-and 6. Final Gemini audio for 4-6 is still pending — see the tracker for the exact command.
+kept on the rendered slides instead. The latest `draft_demo_video.mp4` is an all-Gemini
+draft: Gemini audio is now present for all seven segments. See the tracker for the current
+segment status.
 
 ## The narration workflow: mac for basic, Gemini for final
 
@@ -49,11 +49,11 @@ There is exactly **one** active way to generate narration audio, with two tiers:
    ```bash
    cd project_build
    uv run python ../submission/02_video/backend/audio_generation/generate_say_preview.py               # all 7
-   uv run python ../submission/02_video/backend/audio_generation/generate_say_preview.py --segments 4,5,6  # just these
-   uv run python ../submission/02_video/backend/assemble_video.py --segments 4,5,6                      # preview it in the video:
-                                                                                                          # 4-6 use the fresh
+   uv run python ../submission/02_video/backend/audio_generation/generate_say_preview.py --segments 5,6    # example: just these
+   uv run python ../submission/02_video/backend/assemble_video.py --segments 5,6                        # preview it in the video:
+                                                                                                          # changed segments use fresh
                                                                                                           # preview audio,
-                                                                                                          # 1,2,3,7 reuse the
+                                                                                                          # the rest reuse the
                                                                                                           # canonical Gemini audio
    ```
 2. **Final polish** — costs Gemini TTS quota (~10/day), only do this when the narration text
@@ -64,7 +64,7 @@ There is exactly **one** active way to generate narration audio, with two tiers:
    deleted — it's copied into a dated folder under `story/audio/versions/` first:
    ```bash
    cd project_build
-   uv run python ../submission/02_video/backend/audio_generation/generate_gemini_tts.py --segments 4,5,6
+   uv run python ../submission/02_video/backend/audio_generation/generate_gemini_tts.py --segments 5,6
    uv run python ../submission/02_video/backend/assemble_video.py
    ```
    Omit `--segments` (or pass bare `--force`) only if you actually need to re-record every
@@ -76,8 +76,8 @@ alternatives explored before settling on this two-tier workflow — archived, no
 **Cost warning:** `assemble_video.py`'s default (`--audio-source auto`) prefers whatever
 narration segments already exist as `story/audio/current/seg_*.mp3`, falling back to free
 local macOS `say` only if none exist. Running it with no flags reuses cached segments — no
-new API cost. Running it with `--segments 4,5,6` creates a mixed preview video where those
-segments use fresh `say` audio from `story/audio/previews/say/`.
+new API cost. Running it with `--segments` creates a mixed preview video where those segments
+use fresh `say` audio from `story/audio/previews/say/`.
 
 ## The visual workflow: one command, all 7 slides
 
@@ -152,7 +152,7 @@ anyone auditing the submission, not something to sign off on.
 The important audio version rule: `story/audio/current/` is the version the assembler uses;
 `story/audio/versions/` is history. The folder
 `story/audio/versions/20260706-pre-story-contract-gemini/` preserves the prior Gemini take
-so it cannot be lost when segments 4-6 are regenerated.
+so it cannot be lost when segments are regenerated.
 
 ## `backend/` — the machinery
 
