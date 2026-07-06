@@ -27,7 +27,7 @@ The MVP requires the implementation of an end-to-end portfolio review cycle cons
 ## 2. Proposed File Tree
 
 ```text
-keggle-agent/
+kaggle-agent/
 ├── README.md                           # Project description and setup
 ├── pyproject.toml                      # UV project metadata and dependencies
 ├── uv.lock                             # Resolved package locks

@@ -1356,7 +1356,7 @@ wheels = [
 ]
 
 [[package]]
-name = "keggle-agent"
+name = "kaggle-agent"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

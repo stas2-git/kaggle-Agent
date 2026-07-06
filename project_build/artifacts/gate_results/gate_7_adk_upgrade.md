@@ -43,7 +43,7 @@ macOS 26.5.1 arm64
 Agents CLI install path:
 
 ```text
-/Users/stan/.local/share/uv/tools/google-agents-cli/lib/python3.11/site-packages/google/agents/cli
+[google-agents-cli install path]
 ```
 
 ## Agents CLI project status
@@ -147,8 +147,8 @@ agents-cli info
 Result:
 
 ```text
-Project root:       /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent
-Project name:       keggle agent
+Project root:       [local project root]
+Project name:       kaggle agent
 Deployment target:  none
 Agent directory:    portfolio_agent
 Region:             us-east1
@@ -256,8 +256,8 @@ agents-cli info && uv sync && uv run pytest -q
 Result:
 
 ```text
-Project root:       /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent
-Project name:       keggle agent
+Project root:       [local project root]
+Project name:       kaggle agent
 Deployment target:  none
 Agent directory:    portfolio_agent
 Region:             us-east1
@@ -629,8 +629,8 @@ agents-cli info
 Result:
 
 ```text
-Project root:       /Users/stan/Library/CloudStorage/GoogleDrive-staskhalitov@gmail.com/My Drive/keggle Agent
-Project name:       keggle agent
+Project root:       [local project root]
+Project name:       kaggle agent
 Deployment target:  none
 Agent directory:    portfolio_agent
 Region:             us-east1
@@ -1095,7 +1095,7 @@ Your default credentials were not found.
 The installed command source at:
 
 ```text
-/Users/stan/.local/share/uv/tools/google-agents-cli/lib/python3.11/site-packages/google/agents/cli/eval/cmd_generate.py
+[google-agents-cli install path]/eval/cmd_generate.py
 ```
 
 requires a GCP project and stages `_inference_runner.py`; the runner calls:

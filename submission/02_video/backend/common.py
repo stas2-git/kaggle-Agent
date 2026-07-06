@@ -31,7 +31,7 @@ TEMP_SEGMENTS_DIR = os.path.join(BACKEND_DIR, ".tmp", "temp_segments")
 
 def redact_workspace_paths(text):
     """Strip the absolute workspace path (which embeds the user's email via the Google Drive
-    sync folder name, e.g. GoogleDrive-name@gmail.com) out of anything captured from real
+    sync folder name, e.g. GoogleDrive-name@example.com) out of anything captured from real
     command stdout/stderr before it can land in a log file or a rendered slide/card. Raw
     process output naturally includes cwd-relative absolute paths - without this, any card
     showing a real file path leaks local PII into the shipped video.

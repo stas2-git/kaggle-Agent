@@ -1,7 +1,7 @@
 [project]
-name = "keggle-agent"
+name = "kaggle-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "Agentic actuarial portfolio monitoring workflow for the Kaggle Agents Capstone"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
