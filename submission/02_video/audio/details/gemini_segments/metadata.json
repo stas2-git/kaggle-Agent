@@ -1,0 +1,56 @@
+{
+  "source": "Gemini API TTS (Segment-Based)",
+  "model": "gemini-3.1-flash-tts-preview",
+  "voice": "Kore",
+  "segments": [
+    {
+      "slide_number": 1,
+      "title": "Title Card",
+      "text_length": 504,
+      "wav_file": "seg_1.wav",
+      "mp3_file": "seg_1.mp3"
+    },
+    {
+      "slide_number": 2,
+      "title": "Why an Agent",
+      "text_length": 543,
+      "wav_file": "seg_2.wav",
+      "mp3_file": "seg_2.mp3"
+    },
+    {
+      "slide_number": 3,
+      "title": "Five-Layer Architecture",
+      "text_length": 536,
+      "wav_file": "seg_3.wav",
+      "mp3_file": "seg_3.mp3"
+    },
+    {
+      "slide_number": 4,
+      "title": "Live Demo: Pipeline Execution",
+      "text_length": 418,
+      "wav_file": "seg_4.wav",
+      "mp3_file": "seg_4.mp3"
+    },
+    {
+      "slide_number": 5,
+      "title": "Live Demo: Actuarial Memo Output",
+      "text_length": 376,
+      "wav_file": "seg_5.wav",
+      "mp3_file": "seg_5.mp3"
+    },
+    {
+      "slide_number": 6,
+      "title": "Rigorous Safety & Verification",
+      "text_length": 427,
+      "wav_file": "seg_6.wav",
+      "mp3_file": "seg_6.mp3"
+    },
+    {
+      "slide_number": 7,
+      "title": "Conclusion & Future Roadmap",
+      "text_length": 404,
+      "wav_file": "seg_7.wav",
+      "mp3_file": "seg_7.mp3"
+    }
+  ]
+}

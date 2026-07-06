@@ -6,8 +6,9 @@ This folder contains the public-facing Kaggle submission materials and video-gen
 submission/
 |-- 00_SUBMISSION_CHECKLIST.md
 |-- 01_writeup/      # Kaggle writeup draft
-`-- 02_video/        # Demo video, organized by content type: slides/, narrative/, audio/,
-                      # evidence/, plus archived voice/TTS experiments (including former
+`-- 02_video/        # Demo video, split frontend (narrative/, slides/, audio/ - what you'd
+                      # actually write or listen to) vs backend/ (generation scripts, docs,
+                      # evidence), plus archived voice/TTS experiments (including former
                       # 03_voice_lab/) - see 02_video/README.md
 ```
 
