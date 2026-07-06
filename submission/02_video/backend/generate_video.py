@@ -1,63 +1,10 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
+from story_contract import get_static_slide_data
 
-# Only the 4 segments with hand-authored (not live-pipeline-evidence) visuals live here.
-# Segments 4/5/6 ("Live Demo") are rendered by build_slides.py from real pytest/eval/agent-run
-# output instead - see draw_log_card/draw_stat_card below. Each entry is tagged with its real
-# segment_number so build_slides.py can write it straight to slides/rendered/slide_N.png
-# without relying on list position (which no longer runs 1..7 contiguously).
-SLIDES_DATA = [
-    {
-        # Each slide is one thought, not a transcript: a "hook" line that names the problem or
-        # insight (the visual anchor, large/bold), then 2-3 short "resolution" bullets showing
-        # how the agent addresses it. Full-sentence hooks are fine (they're the point - a
-        # capture sentence to trigger a thought), but bullets stay short keyword phrases: these
-        # slides play under narration audio, and a wall of text makes the viewer choose between
-        # reading and listening.
-        "segment_number": 1,
-        "title": "Actuarial Portfolio Monitoring Agent",
-        "hook": "The hard part isn't spotting movement. It's turning movement into judgment.",
-        "bullets": [
-            "Signal",
-            "Investigation",
-            "Memo"
-        ],
-        "cue": "Monthly monitoring becomes an audit-ready first pass, not a scramble for explanation."
-    },
-    {
-        "segment_number": 2,
-        "title": "From Dashboard to Decision",
-        "hook": "Dashboards stop at awareness. Agents can carry the next step.",
-        "bullets": [
-            "Validate",
-            "Investigate",
-            "Escalate"
-        ],
-        "cue": "The agent chooses the next tool, but every number still comes from deterministic code."
-    },
-    {
-        "segment_number": 3,
-        "title": "Autonomy With Boundaries",
-        "hook": "The architecture is a bargain: autonomy with boundaries.",
-        "bullets": [
-            "Code computes",
-            "Gemini explains",
-            "Human approves"
-        ],
-        "cue": "Security gates and Python tools constrain the workflow before Gemini writes the narrative."
-    },
-    {
-        "segment_number": 7,
-        "title": "Audit-Ready First Pass",
-        "hook": "From monthly scramble to audit-ready first pass.",
-        "bullets": [
-            "Faster triage",
-            "Clear evidence",
-            "Human authority"
-        ],
-        "cue": "This is a force multiplier for experts, not a substitute for actuarial judgment."
-    }
-]
+# Static slide content comes from story/slide_story.yaml. Segments 4/5/6 are evidence visuals
+# rendered by build_slides.py from live output plus the stable story contract.
+SLIDES_DATA = get_static_slide_data()
 
 def load_system_font(size):
     font_paths = [

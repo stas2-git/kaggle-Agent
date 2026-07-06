@@ -8,7 +8,7 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Pytest Suite**: PASS ✅ (59 passed, 6 warnings in 0.77s)
 - **Offline Evaluations**: PASS ✅ (11/11 evaluation cases passed)
 - **Vertical-Slice Review Run**: PASS ✅
-- **Verification generated at**: `2026-07-06T13:23:04`
+- **Verification generated at**: `2026-07-06T13:46:11`
 
 ## 2. This Assembly Run
 - **Voiceover TTS Source**: `Mixed: Gemini API TTS (cached) (segments [1, 2, 3, 7]); local macOS say (segments [4, 5, 6])`
@@ -18,8 +18,8 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Security Secret Audit Scan**: PASS ✅
 
 ## 3. Timing Measurements & Bounds Checks
-- **Narration Audio Duration**: 211.901 seconds
-- **Final Video Duration**: 211.847 seconds
+- **Narration Audio Duration**: 193.585 seconds
+- **Final Video Duration**: 193.531 seconds
 - **Absolute Duration Difference**: 0.054 seconds
 - **Duration Boundary Status**: PASS (Within 1.0s limit) ✅
 - **Video Output Path**: `<workspace>/submission/02_video/draft_demo_video.mp4`

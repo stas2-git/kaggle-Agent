@@ -1,30 +1,31 @@
 """STAGE 2b of 3: free/local audio spec preview via macOS 'say'.
 
-Generates audio/say_preview/seg_N.mp3 for the given segments (default: all 7) using the free,
-unlimited, local macOS 'say' voice - no quota, no API key, no cost. Use this to iterate on
-narration wording before spending Gemini TTS quota (generate_gemini_tts.py) on the final
-canonical audio/seg_N.mp3 files.
+Generates story/audio/previews/say/seg_N.mp3 for the given segments (default: all 7) using
+the free, unlimited, local macOS 'say' voice - no quota, no API key, no cost. Use this to
+iterate on narration wording before spending Gemini TTS quota (generate_gemini_tts.py) on the
+final canonical story/audio/current/seg_N.mp3 files.
 
-This never touches audio/seg_N.mp3 - say_preview/ is scratch space for listening, not a spec
-you sign off on. assemble_video.py's --segments flag will use these previews for the named
-segments and the canonical audio/seg_N.mp3 for the rest, so you can watch/listen to a mixed
-draft before deciding the wording is final.
+This never touches story/audio/current/seg_N.mp3 - previews/say/ is scratch space for
+listening, not a spec you sign off on. assemble_video.py's --segments flag will use these
+previews for the named segments and the canonical story/audio/current/seg_N.mp3 for the rest,
+so you can watch/listen to a mixed draft before deciding the wording is final.
 """
 
 import os
 import sys
 import shutil
 import argparse
-import yaml
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from common import NARRATIVE_DIR, AUDIO_DIR, SAY_PREVIEW_DIR, BACKEND_DIR, run_command, get_format_duration
+from common import SAY_PREVIEW_DIR, BACKEND_DIR, run_command, get_format_duration
+from story_contract import build_narration_segments
 
 SCRATCH_DIR = os.path.join(BACKEND_DIR, ".tmp", "say_preview_scratch")
 
 def generate_say_preview(segments, voice_name, speech_rate, indices=None):
     """Generate macOS 'say' audio for the given 1-indexed segment numbers (default: all of
-    them), writing the result straight to audio/say_preview/seg_N.mp3. Returns {idx: duration}.
+    them), writing the result straight to story/audio/previews/say/seg_N.mp3.
+    Returns {idx: duration}.
     """
     target_indices = indices if indices is not None else list(range(1, len(segments) + 1))
     if not target_indices:
@@ -68,18 +69,13 @@ def generate_say_preview(segments, voice_name, speech_rate, indices=None):
     return durations
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate free local macOS 'say' audio previews into audio/say_preview/")
+    parser = argparse.ArgumentParser(description="Generate free local macOS 'say' audio previews into story/audio/previews/say/")
     parser.add_argument("--voice", default="Samantha", help="Voice override for macOS 'say' (default: Samantha)")
     parser.add_argument("--rate", type=int, default=170, help="Speech rate override in WPM (default: 170)")
     parser.add_argument("--segments", default=None, help="Comma-separated 1-indexed segment numbers to preview (default: all 7)")
     args = parser.parse_args()
 
-    yaml_path = os.path.join(NARRATIVE_DIR, "slide_narration_segments.yaml")
-    if not os.path.exists(yaml_path):
-        print(f"Error: YAML segments config not found at: {yaml_path}")
-        sys.exit(1)
-    with open(yaml_path, "r", encoding="utf-8") as f:
-        segments = yaml.safe_load(f)["segments"]
+    segments = build_narration_segments()
 
     indices = None
     if args.segments:
@@ -94,7 +90,7 @@ def main():
             sys.exit(1)
 
     generate_say_preview(segments, args.voice, args.rate, indices=indices)
-    print(f"\nDone - listen to the results directly in: {AUDIO_DIR}/say_preview/")
+    print(f"\nDone - listen to the results directly in: {SAY_PREVIEW_DIR}/")
 
 if __name__ == "__main__":
     main()

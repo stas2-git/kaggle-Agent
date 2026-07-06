@@ -59,74 +59,62 @@ Fourth, an agent reasoning layer that manages Gemini calls and structured schema
 And fifth, an output layer writing a markdown review memo and a complete JSON trace file.
 
 16
-00:01:44,600 --> 00:01:46,796
+00:01:44,600 --> 00:01:46,868
 Let's look at the pipeline in action.
 
 17
-00:01:46,796 --> 00:01:53,146
-We run the orchestrator tool on a synthetic dataset containing a planted anomaly in the Public D&O segment.
+00:01:46,868 --> 00:01:55,207
+A synthetic portfolio CSV moves through schema validation, deterministic metric calculation, anomaly detection, and a human review gate.
 
 18
-00:01:53,146 --> 00:01:59,319
-The tool validates the columns, calculates metrics, and triggers two high-severity flags: the loss ratio
+00:01:55,207 --> 00:01:57,966
+The model is not asked to invent the numbers.
 
 19
-00:01:59,319 --> 00:02:05,135
-rose from fifty percent to eighty-five percent, and claim count nearly tripled, from one to three.
+00:01:57,966 --> 00:02:04,771
+The agent uses bounded tools to decide what needs investigation, then prepares the result for actuarial review.
 
 20
-00:02:05,135 --> 00:02:11,307
-The agent immediately calls the driver investigation tool to slice each anomaly by available dimensions.
+00:02:04,771 --> 00:02:06,852
+The important moment is convergence.
 
 21
-00:02:11,307 --> 00:02:20,013
-The mathematical breakdown shows that both anomalies are entirely concentrated in state New York for the two thousand twenty-five policy year.
+00:02:06,852 --> 00:02:10,147
+The agent does not stop at saying that something changed.
 
 22
-00:02:20,013 --> 00:02:26,572
-In the compiled report, we see the executive summary, metrics tables, concentration drivers, actuary-facing
+00:02:10,147 --> 00:02:17,142
+It decomposes the movement and shows that multiple anomaly signals point to the same concentrated slice of the portfolio.
 
 23
-00:02:26,572 --> 00:02:32,457
-recommended follow-up questions, and the human review gate flag set to required due to severity.
+00:02:17,142 --> 00:02:24,715
+The compiled memo then turns that evidence into an executive summary, follow-up questions, and an auditable trace for human review.
 
 24
-00:02:32,457 --> 00:02:35,155
-A full trace JSON is saved for auditability.
+00:02:24,715 --> 00:02:29,061
+Security and verification are part of the product, not an afterthought.
 
 25
-00:02:35,155 --> 00:02:37,155
-Security and privacy are vital.
+00:02:29,061 --> 00:02:38,672
+The project is checked with deterministic tests, offline evaluation scenarios, prompt-injection cases, secret-disclosure cases, and generated-asset scanning.
 
 26
-00:02:37,155 --> 00:02:43,283
-The security layer blocks path traversals and screens note fields for prompt-injection attacks.
+00:02:38,672 --> 00:02:43,875
+That keeps the demo grounded in repeatable checks instead of relying on one good run.
 
 27
-00:02:43,283 --> 00:02:49,993
-In our test suite, we run deterministic tests to match metric and driver math against YAML expectations.
-
-28
-00:02:49,993 --> 00:02:58,186
-We also run evaluation cases validating CSV checks, prompt injections, secret disclosure requests, and report quality criteria.
-
-29
-00:02:58,186 --> 00:03:02,186
-Our full pytest suite of fifty-nine tests passes successfully.
-
-30
-00:03:02,186 --> 00:03:10,651
+00:02:43,875 --> 00:02:52,341
 The Actuarial Portfolio Monitoring Agent is not a replacement for professional actuarial opinion or underwriting authority.
 
-31
-00:03:10,651 --> 00:03:18,635
+28
+00:02:52,341 --> 00:03:00,325
 Instead, it serves as a robust triage assistant that makes routine reviews faster, safer, and thoroughly documented.
 
-32
-00:03:18,635 --> 00:03:29,097
+29
+00:03:00,325 --> 00:03:10,786
 For future work, we plan to transition from flat CSVs to running direct BigQuery analytical queries, GKE-run containerized scheduling, and email alerts.
 
-33
-00:03:29,097 --> 00:03:29,786
+30
+00:03:10,786 --> 00:03:11,475
 Thank you.
 

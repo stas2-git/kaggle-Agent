@@ -5,40 +5,62 @@ import json
 import subprocess
 import shutil
 import time
-import yaml
 import wave
 from google import genai
 from google.genai import types
 
-# Paths - the final .mp3 files are the front-facing content in AUDIO_DIR itself; the raw
-# .wav intermediates and metadata.json are implementation detail, tucked into GEMINI_DETAILS_DIR.
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from common import AUDIO_DIR, AUDIO_VERSIONS_DIR
+from story_contract import build_narration_segments
+
+# Paths - the final .mp3 files are the front-facing current audio in story/audio/current/;
+# the raw .wav intermediates and metadata.json are implementation details tucked into
+# current/details/gemini_segments/.
 VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
 GEMINI_MP3_DIR = AUDIO_DIR
 GEMINI_DETAILS_DIR = os.path.join(AUDIO_DIR, "details", "gemini_segments")
-# Every time a segment is about to be overwritten, its current file(s) are copied here first -
-# regeneration never destroys a prior take, it only adds a new current one. Deliberately a
-# sibling of GEMINI_DETAILS_DIR, not nested inside it - a bare --force wipe rmtree's
-# GEMINI_DETAILS_DIR, and archived versions must survive that.
-VERSIONS_DIR = os.path.join(AUDIO_DIR, "details", "previous_versions")
+# Every time a segment is about to be overwritten, its current file(s) are copied into a
+# timestamped folder under story/audio/versions/. Regeneration never destroys a prior take,
+# it only adds a new current one.
+VERSIONS_DIR = AUDIO_VERSIONS_DIR
 
-def archive_existing_segment(idx):
+def archive_existing_segment(idx, version_dir):
     """Copy the current seg_{idx}.mp3/.wav (if present) into VERSIONS_DIR before it gets
     overwritten. Called right before a regeneration write, never on a cache-hit path, so a
     segment that's never touched is never archived either."""
     archived = []
-    for src_dir, name in ((GEMINI_MP3_DIR, f"seg_{idx}.mp3"), (GEMINI_DETAILS_DIR, f"seg_{idx}.wav")):
+    for src_dir, subdir, name in (
+        (GEMINI_MP3_DIR, "segments", f"seg_{idx}.mp3"),
+        (GEMINI_DETAILS_DIR, "gemini_wav", f"seg_{idx}.wav"),
+    ):
         src_path = os.path.join(src_dir, name)
         if os.path.exists(src_path):
-            os.makedirs(VERSIONS_DIR, exist_ok=True)
-            stamp = time.strftime("%Y%m%d-%H%M%S")
-            base, ext = os.path.splitext(name)
-            dst_path = os.path.join(VERSIONS_DIR, f"{base}_{stamp}{ext}")
+            dst_dir = os.path.join(version_dir, subdir)
+            os.makedirs(dst_dir, exist_ok=True)
+            dst_path = os.path.join(dst_dir, name)
             shutil.copy2(src_path, dst_path)
             archived.append(dst_path)
     if archived:
         print(f"Archived prior version(s) of segment {idx} to: {', '.join(archived)}")
     return archived
+
+def write_archive_manifest(version_dir, args, target_segments, archived_segments):
+    if not archived_segments:
+        return
+    os.makedirs(version_dir, exist_ok=True)
+    with open(os.path.join(version_dir, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "reason": "Prior current audio preserved before Gemini TTS regeneration",
+            "model": args.model,
+            "voice": args.voice,
+            "target_segments": sorted(target_segments) if target_segments else "all",
+            "archived_segments": sorted(archived_segments),
+            "layout": {
+                "segments": "Prior current MP3 files",
+                "gemini_wav": "Prior Gemini WAV intermediates, when present"
+            }
+        }, f, indent=2)
 
 def check_ffmpeg():
     try:
@@ -101,15 +123,9 @@ def main():
         print("="*60)
         sys.exit(0)
 
-    # Read slide narration segments YAML
-    yaml_path = os.path.join(VIDEO_DIR, "narrative", "slide_narration_segments.yaml")
-    if not os.path.exists(yaml_path):
-        print(f"Error: YAML segments config not found at: {yaml_path}")
-        sys.exit(1)
-
-    with open(yaml_path, "r", encoding="utf-8") as f:
-        seg_data = yaml.safe_load(f)
-    segments = seg_data["segments"]
+    segments = build_narration_segments()
+    archive_run_dir = os.path.join(VERSIONS_DIR, f"{time.strftime('%Y%m%d-%H%M%S')}-gemini-regeneration")
+    archived_segments = set()
 
     print(f"Connecting to Gemini API using model '{args.model}' and voice '{args.voice}'...")
     print(f"Preparing to generate {len(segments)} narration segments...")
@@ -123,7 +139,8 @@ def main():
     if args.force and target_segments is None:
         import glob
         for idx in range(1, len(segments) + 1):
-            archive_existing_segment(idx)
+            if archive_existing_segment(idx, archive_run_dir):
+                archived_segments.add(idx)
         for stale_mp3 in glob.glob(os.path.join(GEMINI_MP3_DIR, "seg_*.mp3")):
             try:
                 os.remove(stale_mp3)
@@ -225,7 +242,8 @@ def main():
 
             # Archive whatever is currently at mp3_path/wav_path before overwriting it. No-op
             # if this segment has never been generated before (nothing to archive yet).
-            archive_existing_segment(idx)
+            if archive_existing_segment(idx, archive_run_dir):
+                archived_segments.add(idx)
 
             # Determine format
             is_mp3 = "mp3" in mime_type
@@ -266,6 +284,7 @@ def main():
                     "voice": args.voice,
                     "segments": generated_info
                 }, f, indent=2)
+            write_archive_manifest(archive_run_dir, args, target_segments, archived_segments)
             print("Partial progress saved in metadata.json. Existing segment audio files preserved.")
             sys.exit(1)
 
@@ -277,6 +296,7 @@ def main():
             "voice": args.voice,
             "segments": generated_info
         }, f, indent=2)
+    write_archive_manifest(archive_run_dir, args, target_segments, archived_segments)
         
     print("\n" + "="*60)
     print("Success: All segments generated using Gemini API TTS!")

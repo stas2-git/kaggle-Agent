@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-07-06",
+  "reason": "Preserved the prior Gemini narration set before moving story and audio into one package.",
+  "source_paths": {
+    "segments": "submission/02_video/audio/seg_*.mp3",
+    "gemini_wav": "submission/02_video/audio/details/gemini_segments/",
+    "full": "submission/02_video/audio/details/narration.mp3"
+  },
+  "layout": {
+    "segments": "Prior Gemini MP3 segment files",
+    "gemini_wav": "Prior Gemini WAV intermediates and metadata",
+    "full": "Whole-track narration snapshots from before and after the story-safe say preview run"
+  },
+  "notes": [
+    "The active current audio now lives in submission/02_video/story/audio/current/.",
+    "This snapshot is intentionally kept even though the files also began as the current audio set, so the pre-regeneration Gemini take is easy to find later."
+  ]
+}

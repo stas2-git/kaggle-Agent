@@ -3,9 +3,11 @@
 This checklist tracks all required elements for compiling and publishing the final Kaggle capstone demo video, separated by automated and manual steps.
 
 **Status as of 2026-07-06: all automated assets below are generated and present in
-`../../slides/rendered/`, `../evidence/`, and `../../audio/`** (verified — see
-`../../segment_tracker.md` for whether their *content* is still accurate, which
-is a separate question from whether the file exists).
+`../../slides/rendered/`, `../evidence/`, and `../../story/audio/current/`** (verified -
+see `../../segment_tracker.md` for whether their *content* is still accurate, which is a
+separate question from whether the file exists). The latest `draft_demo_video.mp4` is a
+mixed preview: Gemini for segments 1, 2, 3, and 7; macOS `say` preview audio for segments 4,
+5, and 6.
 
 ---
 
@@ -23,7 +25,8 @@ evidence:
 * [x] **Slide 6: Rigorous Safety & Verification** — Combined pytest and offline evaluation results (`slide_6.png`)
 * [x] **Slide 7: Conclusion** — Real Business Impact & Roadmap (`slide_7.png`)
 * [x] **Bonus evidence (not a segment visual)**: Pytest console output summary (`../evidence/demo_cards/pytest_card.png`), structured observability trace excerpt (`../evidence/demo_cards/trace_card.png`)
-* [x] **Audio Voiceover** — Gemini API TTS narration track (`audio/` (mp3s) + `audio/details/gemini_segments/` (wav+metadata))
+* [x] **Audio Voiceover files** — Current audio files exist (`story/audio/current/` mp3s + `story/audio/current/details/gemini_segments/` wav+metadata).
+* [ ] **Final all-Gemini voiceover** — Pending Gemini re-recording for segments 4-6.
 * [x] **Subtitles** — Timing-aligned subtitle file (`captions.srt`)
 * [x] **Video Compilation** — Stitched final video (`draft_demo_video.mp4`)
 * [x] **Safety Audit** — Automated scanning report confirming no secrets, API keys, or un-redacted local paths are leaked (`evidence/video_generation_report.md`)
@@ -32,7 +35,7 @@ evidence:
 
 ## 2. Optional Manual Polish Assets (Human-in-the-Loop)
 
-* [x] **Custom AI Voiceover** — Done via Gemini API TTS (see `../../README.md` workflow).
+* [ ] **Custom AI Voiceover Finalization** — Latest draft is mixed Gemini + macOS `say`; final Gemini TTS is pending for segments 4-6 (see `../../HANDOFF.md`).
   ChatTTS and XTTS v2 local-cloning alternatives were explored and archived, not adopted.
 * [ ] **Terminal/UI Screen Recordings** — Optional replacement of text cards with actual captured MP4 clips:
   * Ingestion CSV file preview.

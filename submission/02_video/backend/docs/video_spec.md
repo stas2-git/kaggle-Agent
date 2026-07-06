@@ -13,16 +13,17 @@ This document defines the specification and quality gates for the automated caps
 * **Audio Format**: Text-to-speech voiceover narration (no human voice required)
 * **TTS workflow**: two-tier - macOS native `say` (free, unlimited) for iterating on wording,
   Gemini API TTS (`gemini-3.1-flash-tts-preview`, voice `Kore`, ~10/day quota) for the final
-  recording. See `../../README.md` for the exact commands. The current `draft_demo_video.mp4`
-  uses the Gemini tier.
+  recording. See `../../README.md` for the exact commands. Current audio lives beside the
+  story contract in `../../story/audio/current/`; prior takes live in
+  `../../story/audio/versions/`.
 
 ---
 
 ## 2. Required Sections
 
-The video script and slides must cover the following sections in order. This is now 7
-segments (the canonical breakdown lives in `../../narrative/slide_narration_segments.yaml`;
-the two Live Demo segments below used to be one, split for pacing):
+The video story and slides must cover the following sections in order. This is now 7
+segments (the canonical breakdown lives in `../../story/slide_story.yaml`;
+`../../story/narration_segments.yaml` is only a compatibility snapshot):
 
 1. **Problem (segment 1)**: Explains the manual overhead of routine monthly portfolio monitoring and the limitations of static dashboards.
 2. **Solution (segment 2)**: Explains how the agent automates validation, metrics calculation, anomaly detection, and review synthesis.
@@ -52,5 +53,7 @@ To pass the submission gate, the generated video must satisfy:
 1. **Duration**: Exactly under 5:00 minutes.
 2. **Audio Quality**: Clear, understandable pronunciation with no stuttering.
 3. **Visual Quality**: Readable text sizes (minimum 1080p resolution).
-4. **Metric Citations**: Narrative numbers (e.g. 85.0% loss ratio) must match the visual report metric tables exactly.
+4. **Metric Citations**: Any exact numbers spoken in narration must match the visual report
+   metric tables exactly. Prefer keeping volatile counts and demo metrics visual-only so
+   audio does not need to be re-recorded when tests or evidence outputs change.
 5. **Synchronization**: Subtitle captions and slide visuals must sync with the narration voiceover.

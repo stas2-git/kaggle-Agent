@@ -13,9 +13,16 @@ BACKEND_DIR = os.path.join(VIDEO_DIR, "backend")
 WORKSPACE_ROOT = os.path.dirname(os.path.dirname(VIDEO_DIR))
 PROJECT_BUILD_DIR = os.path.join(WORKSPACE_ROOT, "project_build")
 SLIDES_DIR = os.path.join(VIDEO_DIR, "slides", "rendered")
-NARRATIVE_DIR = os.path.join(VIDEO_DIR, "narrative")
-AUDIO_DIR = os.path.join(VIDEO_DIR, "audio")
-SAY_PREVIEW_DIR = os.path.join(AUDIO_DIR, "say_preview")
+STORY_DIR = os.path.join(VIDEO_DIR, "story")
+# Kept for older imports; narrative now lives inside STORY_DIR as narration_segments.yaml.
+NARRATIVE_DIR = STORY_DIR
+AUDIO_ROOT_DIR = os.path.join(STORY_DIR, "audio")
+# Canonical narration files live under story/ with the story contract they voice.
+# Keeping AUDIO_DIR as "current" preserves the existing call sites' meaning:
+# seg_N.mp3 under the current audio folder is always the canonical version.
+AUDIO_DIR = os.path.join(AUDIO_ROOT_DIR, "current")
+AUDIO_VERSIONS_DIR = os.path.join(AUDIO_ROOT_DIR, "versions")
+SAY_PREVIEW_DIR = os.path.join(AUDIO_ROOT_DIR, "previews", "say")
 EVIDENCE_DIR = os.path.join(BACKEND_DIR, "evidence")
 OUTPUTS_DIR = os.path.join(EVIDENCE_DIR, "demo_outputs")
 CARDS_DIR = os.path.join(EVIDENCE_DIR, "demo_cards")
@@ -66,7 +73,11 @@ def ensure_persistent_dirs():
     """Create the durable (non-scratch) directories every stage may write into. Each stage
     owns the lifecycle of its own temp/scratch dir separately (create clean, use, delete)."""
     os.makedirs(SLIDES_DIR, exist_ok=True)
+    os.makedirs(STORY_DIR, exist_ok=True)
+    os.makedirs(AUDIO_ROOT_DIR, exist_ok=True)
     os.makedirs(AUDIO_DIR, exist_ok=True)
+    os.makedirs(AUDIO_VERSIONS_DIR, exist_ok=True)
+    os.makedirs(SAY_PREVIEW_DIR, exist_ok=True)
     os.makedirs(EVIDENCE_DIR, exist_ok=True)
     os.makedirs(OUTPUTS_DIR, exist_ok=True)
     os.makedirs(CARDS_DIR, exist_ok=True)

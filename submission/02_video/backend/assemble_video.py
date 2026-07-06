@@ -1,14 +1,14 @@
 """STAGE 3 of 3: assemble the final video from whatever specs currently exist on disk.
 
-Reads slides/rendered/slide_1.png ... slide_7.png, audio/seg_N.mp3 (the canonical narration),
-and narrative/slide_narration_segments.yaml as fixed inputs, and produces captions.srt +
+Reads slides/rendered/slide_1.png ... slide_7.png, story/audio/current/seg_N.mp3 (the
+canonical narration), and story/slide_story.yaml as fixed inputs, and produces captions.srt +
 draft_demo_video.mp4. Does NOT run pytest/eval/the live agent, and does NOT draw slides -
 that's build_slides.py's job (stage 1). This stage is fast and deterministic: it only
 combines specs you've already reviewed, it never regenerates them.
 
 --segments lets you preview a wording change on specific segments using the free local 'say'
 voice (via audio_generation/generate_say_preview.py) mixed with the canonical Gemini audio
-for the rest, without touching audio/seg_N.mp3 itself.
+for the rest, without touching story/audio/current/seg_N.mp3 itself.
 """
 
 import os
@@ -17,15 +17,15 @@ import re
 import json
 import argparse
 import shutil
-import yaml
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio_generation"))
 from common import (
-    VIDEO_DIR, SLIDES_DIR, NARRATIVE_DIR, AUDIO_DIR, SAY_PREVIEW_DIR, EVIDENCE_DIR,
+    VIDEO_DIR, SLIDES_DIR, AUDIO_DIR, SAY_PREVIEW_DIR, EVIDENCE_DIR,
     OUTPUTS_DIR, VERIFICATION_RESULTS_PATH, TEMP_SEGMENTS_DIR, WORKSPACE_ROOT,
     run_command, redact_workspace_paths, get_format_duration, get_stream_duration,
 )
+from story_contract import build_narration_segments
 from generate_say_preview import generate_say_preview
 
 def create_temp_dir():
@@ -51,7 +51,7 @@ def write_captions_srt(segments, segment_durations, output_path):
     """Generate captions.srt from segment narration text and actual audio durations.
 
     Captions are derived here, not hand-maintained, so they can never drift from
-    slide_narration_segments.yaml the way a static file would.
+    story/slide_story.yaml the way a static file would.
     """
     entries = []
     current_time = 0.0
@@ -243,8 +243,8 @@ def main():
     parser = argparse.ArgumentParser(description="Assemble draft_demo_video.mp4 from the current slides/audio specs")
     parser.add_argument("--voice", default="Samantha", help="Voice override for macOS 'say' (default: Samantha)")
     parser.add_argument("--rate", type=int, default=170, help="Speech rate override in WPM (default: 170)")
-    parser.add_argument("--audio-source", default="auto", choices=["auto", "gemini", "say"], help="Explicitly select audio source (default: auto - prefer canonical Gemini audio in audio/, fall back to macOS 'say' if no complete set exists)")
-    parser.add_argument("--segments", default=None, help="Comma-separated 1-indexed segment numbers to preview with fresh macOS 'say' audio (e.g. '4,5,6'). All other segments use the canonical audio/seg_N.mp3 untouched - nothing in audio/ is ever overwritten by this script.")
+    parser.add_argument("--audio-source", default="auto", choices=["auto", "gemini", "say"], help="Explicitly select audio source (default: auto - prefer canonical Gemini audio in story/audio/current/, fall back to macOS 'say' if no complete set exists)")
+    parser.add_argument("--segments", default=None, help="Comma-separated 1-indexed segment numbers to preview with fresh macOS 'say' audio (e.g. '4,5,6'). All other segments use story/audio/current/seg_N.mp3 untouched - nothing in current audio is overwritten by this script.")
     args = parser.parse_args()
 
     target_segments = None
@@ -257,12 +257,7 @@ def main():
 
     create_temp_dir()
 
-    yaml_path = os.path.join(NARRATIVE_DIR, "slide_narration_segments.yaml")
-    if not os.path.exists(yaml_path):
-        print(f"Error: YAML segments config not found at: {yaml_path}")
-        sys.exit(1)
-    with open(yaml_path, "r", encoding="utf-8") as f:
-        segments = yaml.safe_load(f)["segments"]
+    segments = build_narration_segments()
 
     if target_segments is not None:
         unknown = target_segments - set(range(1, len(segments) + 1))
@@ -315,8 +310,8 @@ def main():
 
     if target_segments is not None:
         # Targeted mode: fresh 'say' preview for the named segments; everything else reuses
-        # the canonical Gemini audio in audio/ untouched. Never writes into audio/seg_N.mp3 -
-        # say output always lands in audio/say_preview/ instead.
+        # the canonical Gemini audio in story/audio/current/ untouched. Never writes into
+        # story/audio/current/seg_N.mp3 - say output always lands in story/audio/previews/say/.
         print(f"\nTargeted segment mode: previewing segment(s) {sorted(target_segments)} with macOS 'say'; reusing canonical Gemini audio for the rest where available.")
 
         say_indices = list(target_segments)

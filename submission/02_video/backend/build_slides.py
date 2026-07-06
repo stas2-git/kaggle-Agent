@@ -2,13 +2,14 @@
 
 Runs the real pytest suite, offline evaluations, and a live (real Gemini API) vertical-slice
 agent run, then renders all 7 segments' visuals into slides/rendered/slide_1.png ...
-slide_7.png - segments 1/2/3/7 from hand-authored bullets (generate_video.SLIDES_DATA),
-segments 4/5/6 from the real command output captured above ("Live Demo" evidence cards).
+slide_7.png - segments 1/2/3/7 from hand-authored story fields in
+story/slide_story.yaml, segments 4/5/6 from the stable story contract plus real command
+output captured above ("Live Demo" evidence cards).
 
-This is the slow, API-hitting stage. Run it when the narrative text changes or the agent
-code changes and you need fresh "Live Demo" evidence. Review slides/rendered/ afterward -
-assemble_video.py just reads whatever is currently there, so nothing gets baked into the
-final video until you're happy with these images.
+This is the slow, API-hitting stage. Run it when the visual story changes or the agent code
+changes and you need fresh "Live Demo" evidence. Review slides/rendered/ afterward -
+assemble_video.py just reads whatever is currently there, so nothing gets baked into the final
+video until you're happy with these images.
 """
 
 import os
@@ -19,6 +20,7 @@ import json
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import generate_video
+from story_contract import get_story_by_slide_number
 from common import (
     SLIDES_DIR, PROJECT_BUILD_DIR, OUTPUTS_DIR, CARDS_DIR, VERIFICATION_RESULTS_PATH,
     run_command, redact_workspace_paths, ensure_persistent_dirs,
@@ -39,6 +41,7 @@ def draw_static_slides():
 
 def run_verification_commands():
     results = {}
+    story = get_story_by_slide_number()
 
     # 1. pytest run
     print("\nRunning pytest suite...")
@@ -77,36 +80,16 @@ def run_verification_commands():
     print(f"Eval scorecard output saved to: {eval_log_path}")
     results["eval_passed"] = (eval_rc == 0)
 
-    # Headline-first card: total pass/fail count plus a compact per-case status grid (case ID
-    # and PASS/FAIL only) - the raw scorecard lines are full sentences with report file paths
-    # in them, which is both unreadable at a glance and (before redaction above) a path leak.
     eval_clean = re.sub(r'\x1b\[[0-9;]*m', '', eval_stdout)
     passed_match = re.search(r"Passed:\s*(\d+)/(\d+) cases", eval_clean)
     eval_headline = f"{passed_match.group(1)}/{passed_match.group(2)} evaluation cases passed" if passed_match else ("PASSED" if results["eval_passed"] else "FAILED")
 
-    case_status = {}
-    case_notes = []
-    for cid, status, note in re.findall(r"^(EVAL-\d+)\s*:\s*(PASS|FAIL)\s*\|\s*(.+)$", eval_clean, re.MULTILINE):
-        case_status[cid] = status
-        if not note.startswith("All expectations met"):
-            case_notes.append(f"{cid}: {note.split(' Report generated')[0].strip()}")
-
-    grid_lines = []
-    ids = sorted(case_status.keys(), key=lambda c: int(c.split("-")[1]))
-    for i in range(0, len(ids), 4):
-        row = "   ".join(f"{cid} {case_status[cid]}" for cid in ids[i:i + 4])
-        grid_lines.append(row)
-
     pytest_count_match = re.search(r"(\d+)\s+passed", results.get("pytest_headline", ""))
     eval_count_match = re.search(r"(\d+)/(\d+)", eval_headline)
-    if pytest_count_match and eval_count_match:
-        verification_headline = f"{pytest_count_match.group(1)} tests + {eval_count_match.group(1)}/{eval_count_match.group(2)} eval cases passed"
-    else:
-        verification_headline = eval_headline
 
     generate_video.draw_verification_card(
-        "Proof, Not Vibes",
-        "Tests, evals, and scans back the claim.",
+        story[6]["title"],
+        story[6]["headline"],
         [
             {
                 "value": pytest_count_match.group(1) if pytest_count_match else "PASS",
@@ -124,7 +107,7 @@ def run_verification_commands():
                 "note": "Generated assets pass the safety scan before assembly completes.",
             },
         ],
-        cue=f"{verification_headline}: the demo story is backed by tests, evals, and generated-asset scanning.",
+        cue=story[6]["takeaway"],
         output_path=os.path.join(SLIDES_DIR, "slide_6.png"),
         border_color=(139, 92, 246) # purple
     )
@@ -195,25 +178,20 @@ def run_verification_commands():
         return first_match(pattern, report_content, "n/a")
 
     current_lr, prior_lr, lr_change = metric_row("Loss ratio")
-    current_claims, prior_claims, claim_change = metric_row("Claim count")
+    current_claims, prior_claims, _claim_change = metric_row("Claim count")
     claim_pct = first_match(r"Claim count increased by ([^(]+)\(", report_content, "n/a")
-    finding_count = len(re.findall(r"^### Finding", report_content, re.MULTILINE)) or first_match(r"anomalies_count\":\s*(\d+)", run_stdout, "2")
-    run_id = first_match(r"Run ID:\s*(\S+)", run_stdout, "n/a")
     severity = first_match(r"Severity:\s*(.+)", run_stdout, "n/a")
     review_required = first_match(r"Human review required:\s*(.+)", run_stdout, "n/a")
-    report_rel = report_match.group(1).strip() if report_match else "outputs/reports/portfolio_review_*.md"
-    trace_rel = trace_match.group(1).strip() if trace_match else "outputs/traces/run_trace_*.json"
 
     coverage = driver_value("coverage")
     state = driver_value("state")
     underwriter = driver_value("underwriter")
     policy_year = driver_value("policy_year")
-    concentration = f"{state} / {coverage} / {underwriter} / policy year {policy_year}"
 
     # Segment 4 ("From CSV to Review Gate")
     generate_video.draw_pipeline_card(
-        "From CSV to Review Gate",
-        "A plain CSV becomes a review decision.",
+        story[4]["title"],
+        story[4]["headline"],
         [
             "CSV",
             "Validate",
@@ -226,7 +204,7 @@ def run_verification_commands():
             {"label": "Symptom 2: claim count", "value": f"{prior_claims} -> {current_claims}"},
         ],
         f"{review_required} ({severity})",
-        cue=f"The agent does not just flag noise: {finding_count} signals cross thresholds and trigger human review.",
+        cue=story[4]["takeaway"],
         output_path=os.path.join(SLIDES_DIR, "slide_4.png"),
         border_color=(245, 158, 11) # amber
     )
@@ -234,8 +212,8 @@ def run_verification_commands():
     # Segment 5 ("Two Symptoms, One Driver")
     if report_lines:
         generate_video.draw_driver_card(
-            "Two Symptoms, One Driver",
-            "The reveal: both signals point to the same slice.",
+            story[5]["title"],
+            story[5]["headline"],
             [state, coverage, underwriter, policy_year],
             [
                 {"label": "Loss-ratio signal", "value": lr_change},
@@ -246,7 +224,7 @@ def run_verification_commands():
                 "Questions",
                 "Trace",
             ],
-            cue=f"The reveal is convergence: both signals point to {concentration}, then the memo frames what to review.",
+            cue=story[5]["takeaway"],
             output_path=os.path.join(SLIDES_DIR, "slide_5.png"),
             border_color=(16, 185, 129)
         )

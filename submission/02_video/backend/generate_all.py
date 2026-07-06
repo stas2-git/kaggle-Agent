@@ -4,7 +4,8 @@ assemble_video.py), for quick full-regeneration - e.g. `--audio-source say` iter
 For the review-then-sign-off workflow this project is built around, prefer running the
 stages separately instead:
   1. build_slides.py          - regenerate slides/rendered/slide_1.png ... slide_7.png
-  2. audio_generation/*.py    - regenerate audio/ (Gemini) or audio/say_preview/ (say)
+  2. audio_generation/*.py    - regenerate story/audio/current/ (Gemini) or
+                                story/audio/previews/say/ (say)
   3. assemble_video.py        - combine whatever's currently on disk into the final video
 
 Running them separately lets you review each spec folder before it's baked into

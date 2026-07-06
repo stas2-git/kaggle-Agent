@@ -5,6 +5,10 @@ The canonical rendered visuals live in `rendered/slide_1.png` through `rendered/
 Each slide is designed as a visual anchor for the narration: one large idea, a few easy-to-read
 supporting cards, and a bottom takeaway for viewers who miss a word in the audio.
 
+Canonical story text lives in `../story/slide_story.yaml`. Exact values on evidence slides
+4-6 are generated from the latest `backend/build_slides.py` run; this outline should describe
+the shape of those facts, not be treated as the source for current numbers.
+
 ---
 
 ### Slide 1: Title Card
@@ -51,10 +55,10 @@ supporting cards, and a bottom takeaway for viewers who miss a word in the audio
 * **Headline**: A plain CSV becomes a review decision.
 * **Visual flow**: CSV -> Validate -> Calculate -> Flag -> Escalate
 * **Metric callouts**:
-  * Symptom 1: loss ratio, 50.0% -> 85.0%
-  * Symptom 2: claim count, 1 -> 3
-  * Review gate: Yes (High)
-* **Takeaway**: The agent does not just flag noise: 2 signals cross thresholds and trigger human review.
+  * Symptom 1: generated loss-ratio movement
+  * Symptom 2: generated claim-count movement
+  * Review gate: generated human-review decision
+* **Takeaway**: The agent does not just flag noise: material signals cross thresholds and trigger human review.
 * **Purpose**: Prove the agent can run the workflow end to end.
 * **Narration**: Segment 4.
 
@@ -64,10 +68,10 @@ supporting cards, and a bottom takeaway for viewers who miss a word in the audio
 * **Title**: Two Symptoms, One Driver
 * **Headline**: The reveal: both signals point to the same slice.
 * **Visual flow**:
-  * Loss-ratio signal +35.0% -> NY / D&O / UW_A / 2025
-  * Claim-count signal 200.0% -> NY / D&O / UW_A / 2025
+  * Loss-ratio signal -> generated concentrated slice
+  * Claim-count signal -> generated concentrated slice
   * Driver target -> memo, questions, trace
-* **Takeaway**: The reveal is convergence: both signals point to NY / D&O / UW_A / policy year 2025, then the memo frames what to review.
+* **Takeaway**: The reveal is convergence: both signals point to the same concentrated slice, then the memo frames what to review.
 * **Purpose**: Show that the agent explains the issue, not just flags it.
 * **Narration**: Segment 5.
 
@@ -77,10 +81,10 @@ supporting cards, and a bottom takeaway for viewers who miss a word in the audio
 * **Title**: Proof, Not Vibes
 * **Headline**: Tests, evals, and scans back the claim.
 * **Verification pillars**:
-  * 59 deterministic checks
-  * 11/11 scenario evals
-  * 0 secret leaks
-* **Takeaway**: 59 tests + 11/11 eval cases passed: the demo story is backed by tests, evals, and generated-asset scanning.
+  * generated deterministic-test headline
+  * generated scenario-eval headline
+  * generated secret-scan status
+* **Takeaway**: The demo story is backed by deterministic tests, scenario evals, and generated-asset scanning.
 * **Purpose**: Demonstrate reliability, security, and local evaluation discipline.
 * **Narration**: Segment 6.
 
