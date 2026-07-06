@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280" role="img" aria-labelledby="title desc">
+  <title id="title">Square-safe actuarial portfolio monitoring cover</title>
+  <desc id="desc">A 560 by 280 Kaggle cover whose center 280 by 280 crop remains a balanced thumbnail.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07131f"/>
+      <stop offset="0.56" stop-color="#0b1d2f"/>
+      <stop offset="1" stop-color="#102a44"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="560" height="280" fill="url(#bg)"/>
+  <g opacity="0.15" stroke="#6ee7b7" stroke-width="1">
+    <path d="M0 56H560M0 112H560M0 168H560M0 224H560"/>
+    <path d="M56 0V280M112 0V280M168 0V280M224 0V280M280 0V280M336 0V280M392 0V280M448 0V280M504 0V280"/>
+  </g>
+  <circle cx="464" cy="42" r="76" fill="#0ea5e9" opacity="0.13"/>
+  <circle cx="72" cy="242" r="86" fill="#22c55e" opacity="0.10"/>
+
+  <g transform="translate(24 98)" opacity="0.88" filter="url(#shadow)">
+    <rect x="0" y="0" width="104" height="86" rx="14" fill="#0d2337" stroke="#24516d"/>
+    <rect x="20" y="23" width="15" height="35" rx="3" fill="#164e63"/>
+    <rect x="45" y="34" width="15" height="24" rx="3" fill="#0f766e"/>
+    <rect x="70" y="14" width="15" height="44" rx="3" fill="#22c55e"/>
+    <text x="20" y="75" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">DATA</text>
+  </g>
+
+  <g transform="translate(432 98)" opacity="0.88" filter="url(#shadow)">
+    <rect x="0" y="0" width="104" height="86" rx="14" fill="#0d2337" stroke="#24516d"/>
+    <rect x="31" y="15" width="42" height="48" rx="6" fill="#f8fafc"/>
+    <rect x="40" y="27" width="24" height="4" rx="2" fill="#0f172a" opacity="0.35"/>
+    <rect x="40" y="40" width="22" height="4" rx="2" fill="#0f766e" opacity="0.72"/>
+    <rect x="40" y="52" width="27" height="4" rx="2" fill="#0ea5e9" opacity="0.72"/>
+    <text x="26" y="75" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">MEMO</text>
+  </g>
+
+  <!-- Center 280 x 280 square-safe composition: crop x=140..420. -->
+  <g transform="translate(140 0)">
+    <rect x="0" y="0" width="280" height="280" fill="#0a1828" opacity="0.36"/>
+    <circle cx="240" cy="38" r="58" fill="#0ea5e9" opacity="0.12"/>
+
+    <g transform="translate(20 18)">
+      <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#f8fafc" dominant-baseline="hanging">Portfolio</text>
+      <text x="0" y="27" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#f8fafc" dominant-baseline="hanging">Monitoring Agent</text>
+      <rect x="0" y="62" width="240" height="4" rx="2" fill="url(#accent)"/>
+      <text x="0" y="81" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#b7c5d7">Detect shifts. Explain drivers.</text>
+    </g>
+
+    <g transform="translate(20 116)" filter="url(#shadow)">
+      <rect x="0" y="0" width="240" height="88" rx="16" fill="#0d2337" stroke="#24516d"/>
+      <g transform="translate(18 17)">
+        <rect x="0" y="22" width="13" height="32" rx="3" fill="#164e63"/>
+        <rect x="20" y="32" width="13" height="22" rx="3" fill="#0f766e"/>
+        <rect x="40" y="8" width="13" height="46" rx="3" fill="#22c55e"/>
+        <text x="1" y="69" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">DATA</text>
+      </g>
+      <g transform="translate(94 11)">
+        <circle cx="26" cy="30" r="27" fill="#0ea5e9" opacity="0.21"/>
+        <path d="M26 5V55M1 30H51M9 13L43 47M43 13L9 47" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="26" cy="30" r="10" fill="#22c55e"/>
+        <text x="-1" y="72" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">TRIAGE</text>
+      </g>
+      <g transform="translate(174 15)">
+        <rect x="5" y="0" width="42" height="49" rx="6" fill="#f8fafc"/>
+        <rect x="14" y="12" width="24" height="4" rx="2" fill="#0f172a" opacity="0.35"/>
+        <rect x="14" y="25" width="22" height="4" rx="2" fill="#0f766e" opacity="0.72"/>
+        <rect x="14" y="37" width="27" height="4" rx="2" fill="#0ea5e9" opacity="0.72"/>
+        <text x="-2" y="69" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">MEMO</text>
+      </g>
+      <g fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M78 45H91"/>
+        <path d="M86 39L92 45L86 51"/>
+        <path d="M154 45H167"/>
+        <path d="M162 39L168 45L162 51"/>
+      </g>
+    </g>
+
+    <g transform="translate(20 224)">
+      <rect x="0" y="0" width="240" height="30" rx="15" fill="#071b2c" stroke="#1c4059"/>
+      <circle cx="17" cy="15" r="4" fill="#22c55e"/>
+      <text x="30" y="19" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Metrics</text>
+      <circle cx="88" cy="15" r="4" fill="#38bdf8"/>
+      <text x="101" y="19" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Evals</text>
+      <circle cx="154" cy="15" r="4" fill="#facc15"/>
+      <text x="167" y="19" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Review Gate</text>
+    </g>
+  </g>
+
+  <text x="28" y="226" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" fill="#b7c5d7">Deterministic</text>
+  <text x="28" y="242" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" fill="#b7c5d7">portfolio math</text>
+  <text x="436" y="226" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" fill="#b7c5d7">Human review</text>
+  <text x="436" y="242" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" fill="#b7c5d7">ready output</text>
+</svg>

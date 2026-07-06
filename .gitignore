@@ -20,6 +20,10 @@ artifacts/rebuilds/fresh_rebuild_v1_same_session_workspace/outputs/
 # Local coding-agent helper packs, not part of the public capstone repo.
 .agents/
 
+# Submission-local non-judge artifacts.
+submission/02_video/archive/
+submission/02_video/**/__pycache__/
+
 # Rebuild snapshots and generated eval outputs.
 project_build/artifacts/rebuilds/
 project_build/tests/eval/eval_results/

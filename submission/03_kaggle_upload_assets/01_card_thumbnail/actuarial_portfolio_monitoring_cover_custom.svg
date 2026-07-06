@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280" role="img" aria-labelledby="title desc">
+  <title id="title">Actuarial Portfolio Monitoring Agent</title>
+  <desc id="desc">Kaggle cover thumbnail showing portfolio data flowing through an agent triage workflow into a review memo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07131f"/>
+      <stop offset="0.58" stop-color="#0b1726"/>
+      <stop offset="1" stop-color="#102238"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.26"/>
+    </filter>
+  </defs>
+
+  <rect width="560" height="280" rx="0" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#6ee7b7" stroke-width="1">
+    <path d="M0 54H560M0 108H560M0 162H560M0 216H560"/>
+    <path d="M70 0V280M140 0V280M210 0V280M280 0V280M350 0V280M420 0V280M490 0V280"/>
+  </g>
+  <circle cx="482" cy="47" r="72" fill="#0ea5e9" opacity="0.12"/>
+  <circle cx="88" cy="238" r="84" fill="#22c55e" opacity="0.10"/>
+
+  <g transform="translate(28 24)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#f8fafc" dominant-baseline="hanging">
+      Actuarial Portfolio Monitoring Agent
+    </text>
+    <rect x="0" y="36" width="504" height="3" rx="1.5" fill="url(#accent)"/>
+    <text x="0" y="54" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="500" fill="#b7c5d7">
+      Detect trend changes, investigate drivers, and draft review-ready memos.
+    </text>
+  </g>
+
+  <g transform="translate(28 98)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="144" height="104" rx="10" fill="#0f2335" stroke="#1f3b52"/>
+    <rect x="20" y="22" width="26" height="48" rx="4" fill="#164e63"/>
+    <rect x="55" y="36" width="26" height="34" rx="4" fill="#0f766e"/>
+    <rect x="90" y="14" width="26" height="56" rx="4" fill="#22c55e"/>
+    <text x="20" y="88" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Portfolio Data</text>
+  </g>
+
+  <g transform="translate(208 98)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="144" height="104" rx="10" fill="#10263a" stroke="#1f4a64"/>
+    <circle cx="72" cy="42" r="23" fill="#0ea5e9" opacity="0.22"/>
+    <path d="M72 18V66M48 42H96M56 26L88 58M88 26L56 58" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="72" cy="42" r="9" fill="#22c55e"/>
+    <text x="26" y="88" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Agent Triage</text>
+  </g>
+
+  <g transform="translate(388 98)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="144" height="104" rx="10" fill="#10243a" stroke="#22445f"/>
+    <rect x="34" y="14" width="76" height="62" rx="6" fill="#f8fafc"/>
+    <rect x="46" y="27" width="52" height="5" rx="2.5" fill="#0f172a" opacity="0.35"/>
+    <rect x="46" y="41" width="40" height="5" rx="2.5" fill="#0f766e" opacity="0.72"/>
+    <rect x="46" y="55" width="50" height="5" rx="2.5" fill="#0ea5e9" opacity="0.72"/>
+    <text x="32" y="88" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#f8fafc">Review Memo</text>
+  </g>
+
+  <g fill="none" stroke="url(#accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M178 150H198"/>
+    <path d="M192 144L198 150L192 156"/>
+    <path d="M358 150H378"/>
+    <path d="M372 144L378 150L372 156"/>
+  </g>
+
+  <g transform="translate(28 226)">
+    <rect x="0" y="0" width="504" height="30" rx="15" fill="#071b2c" stroke="#1c4059"/>
+    <circle cx="18" cy="15" r="4" fill="#22c55e"/>
+    <text x="30" y="19" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#dbeafe">Deterministic metrics</text>
+    <circle cx="174" cy="15" r="4" fill="#38bdf8"/>
+    <text x="186" y="19" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#dbeafe">Driver analysis</text>
+    <circle cx="313" cy="15" r="4" fill="#facc15"/>
+    <text x="325" y="19" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#dbeafe">Human review gates</text>
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280" role="img" aria-labelledby="title desc">
+  <title id="title">Actuarial Portfolio Monitoring Agent square thumbnail</title>
+  <desc id="desc">Square Kaggle thumbnail for an actuarial portfolio monitoring agent, with portfolio data, agent triage, and review memo elements.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07131f"/>
+      <stop offset="0.62" stop-color="#0b1d2f"/>
+      <stop offset="1" stop-color="#102a44"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="280" height="280" rx="0" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#6ee7b7" stroke-width="1">
+    <path d="M0 56H280M0 112H280M0 168H280M0 224H280"/>
+    <path d="M56 0V280M112 0V280M168 0V280M224 0V280"/>
+  </g>
+  <circle cx="236" cy="42" r="58" fill="#0ea5e9" opacity="0.13"/>
+  <circle cx="36" cy="232" r="66" fill="#22c55e" opacity="0.10"/>
+
+  <g transform="translate(20 18)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#f8fafc" dominant-baseline="hanging">
+      Portfolio
+    </text>
+    <text x="0" y="27" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#f8fafc" dominant-baseline="hanging">
+      Monitoring Agent
+    </text>
+    <rect x="0" y="62" width="240" height="4" rx="2" fill="url(#accent)"/>
+    <text x="0" y="80" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#b7c5d7">
+      Detect shifts. Explain drivers.
+    </text>
+  </g>
+
+  <g transform="translate(20 125)" filter="url(#shadow)">
+    <rect x="0" y="0" width="240" height="91" rx="16" fill="#0d2337" stroke="#24516d"/>
+
+    <g transform="translate(20 18)">
+      <rect x="0" y="21" width="13" height="33" rx="3" fill="#164e63"/>
+      <rect x="20" y="31" width="13" height="23" rx="3" fill="#0f766e"/>
+      <rect x="40" y="8" width="13" height="46" rx="3" fill="#22c55e"/>
+      <text x="0" y="69" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">DATA</text>
+    </g>
+
+    <g transform="translate(94 12)">
+      <circle cx="26" cy="30" r="27" fill="#0ea5e9" opacity="0.20"/>
+      <path d="M26 5V55M1 30H51M9 13L43 47M43 13L9 47" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="26" cy="30" r="10" fill="#22c55e"/>
+      <text x="-1" y="74" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">TRIAGE</text>
+    </g>
+
+    <g transform="translate(174 16)">
+      <rect x="5" y="0" width="42" height="50" rx="6" fill="#f8fafc"/>
+      <rect x="14" y="12" width="24" height="4" rx="2" fill="#0f172a" opacity="0.35"/>
+      <rect x="14" y="25" width="22" height="4" rx="2" fill="#0f766e" opacity="0.75"/>
+      <rect x="14" y="37" width="27" height="4" rx="2" fill="#0ea5e9" opacity="0.75"/>
+      <text x="-2" y="71" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#e0f2fe">MEMO</text>
+    </g>
+
+    <g fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M78 46H91"/>
+      <path d="M86 40L92 46L86 52"/>
+      <path d="M154 46H167"/>
+      <path d="M162 40L168 46L162 52"/>
+    </g>
+  </g>
+
+  <g transform="translate(20 235)">
+    <rect x="0" y="0" width="240" height="28" rx="14" fill="#071b2c" stroke="#1c4059"/>
+    <circle cx="17" cy="14" r="4" fill="#22c55e"/>
+    <text x="30" y="18" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Metrics</text>
+    <circle cx="89" cy="14" r="4" fill="#38bdf8"/>
+    <text x="102" y="18" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Evals</text>
+    <circle cx="155" cy="14" r="4" fill="#facc15"/>
+    <text x="168" y="18" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800" fill="#dbeafe">Review Gate</text>
+  </g>
+</svg>

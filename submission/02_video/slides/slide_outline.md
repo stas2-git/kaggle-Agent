@@ -15,9 +15,9 @@ the shape of those facts, not be treated as the source for current numbers.
 * **Title**: Actuarial Portfolio Monitoring Agent
 * **Hook**: The hard part isn't spotting movement. It's turning movement into judgment.
 * **Supporting cards**:
-  * Signal
-  * Investigation
-  * Memo
+  * Detect signal
+  * Find driver
+  * Draft memo
 * **Takeaway**: Monthly monitoring becomes an audit-ready first pass, not a scramble for explanation.
 * **Purpose**: Establish the business problem and the core promise.
 * **Narration**: Segment 1.
@@ -28,9 +28,9 @@ the shape of those facts, not be treated as the source for current numbers.
 * **Title**: From Dashboard to Decision
 * **Hook**: Dashboards stop at awareness. Agents can carry the next step.
 * **Supporting cards**:
-  * Validate
-  * Investigate
-  * Escalate
+  * Validate input
+  * Choose tool
+  * Escalate review
 * **Takeaway**: The agent chooses the next tool, but every number still comes from deterministic code.
 * **Purpose**: Explain why the workflow needs an agent rather than a static chart or script.
 * **Narration**: Segment 2.
@@ -39,12 +39,12 @@ the shape of those facts, not be treated as the source for current numbers.
 
 ### Slide 3: Autonomy With Boundaries
 * **Title**: Autonomy With Boundaries
-* **Hook**: The architecture is a bargain: autonomy with boundaries.
+* **Hook**: Autonomy only works when the boundaries are explicit.
 * **Supporting cards**:
-  * Code computes
-  * Gemini explains
+  * Tools compute
+  * Gemini synthesizes
   * Human approves
-* **Takeaway**: Security gates and Python tools constrain the workflow before Gemini writes the narrative.
+* **Takeaway**: The system constrains what Gemini can do, so experts can trust what it says.
 * **Purpose**: Show the architecture and course concepts: ADK-style agent orchestration, Gemini synthesis, deterministic tools, schemas, tracing, and security gates.
 * **Narration**: Segment 3.
 
@@ -94,9 +94,9 @@ the shape of those facts, not be treated as the source for current numbers.
 * **Title**: Audit-Ready First Pass
 * **Hook**: From monthly scramble to audit-ready first pass.
 * **Supporting cards**:
-  * Faster triage
-  * Clear evidence
-  * Human authority
+  * Triage faster
+  * Evidence travels
+  * Experts decide
 * **Takeaway**: This is a force multiplier for experts, not a substitute for actuarial judgment.
 * **Purpose**: Close with practical value, professional boundaries, and next steps.
 * **Narration**: Segment 7.

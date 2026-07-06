@@ -58,14 +58,12 @@ def wrap_text(draw, text, font, max_width):
 def draw_footer(draw):
     font_footer = load_system_font(20)
     footer_text = "Actuarial Portfolio Monitoring Agent - Capstone Submission (Synthetic Data Only)"
-    draw.text((100, 1010), footer_text, fill=(100, 110, 120), font=font_footer)
+    draw.text((100, 1010), footer_text, fill=(78, 88, 104), font=font_footer)
 
 def draw_header(draw, title, accent, border_top=False):
-    if border_top:
-        draw.rectangle([(0, 0), (1920, 15)], fill=accent)
-    font_title = load_system_font(48 if border_top else 52)
+    font_title = load_system_font(52)
     draw.text((100, 78), title, fill=(255, 255, 255), font=font_title)
-    draw.line([(100, 155), (1820, 155)], fill=accent if not border_top else (100, 110, 120), width=4 if not border_top else 2)
+    draw.line([(100, 155), (1820, 155)], fill=accent, width=4)
 
 def draw_wrapped(draw, text, xy, font, fill, max_width, line_height):
     x, y = xy
@@ -132,6 +130,7 @@ def draw_pipeline_card(title, headline, steps, metric_cards, review_text, cue, o
     img = Image.new("RGB", (1920, 1080), color=(18, 24, 38))
     draw = ImageDraw.Draw(img)
     draw_header(draw, title, border_color, border_top=True)
+    soft_accent = (20, 180, 125)
 
     font_headline = load_system_font(66)
     draw.text((100, 230), headline, fill=(238, 243, 249), font=font_headline)
@@ -153,14 +152,14 @@ def draw_pipeline_card(title, headline, steps, metric_cards, review_text, cue, o
     metric_y = 610
     for idx, card in enumerate(metric_cards):
         x = 100 + idx * 570
-        draw.rounded_rectangle((x, metric_y, x + 520, metric_y + 140), radius=18, fill=(28, 38, 56), outline=border_color, width=2)
+        draw.rounded_rectangle((x, metric_y, x + 520, metric_y + 140), radius=18, fill=(28, 38, 56), outline=soft_accent, width=2)
         draw.text((x + 28, metric_y + 24), card["label"], fill=(170, 185, 205), font=font_card_label)
         draw.text((x + 28, metric_y + 70), card["value"], fill=(250, 253, 255), font=font_card_value)
 
     x = 1240
-    draw.rounded_rectangle((x, metric_y, 1820, metric_y + 140), radius=18, fill=(56, 38, 25), outline=border_color, width=2)
-    draw.text((x + 28, metric_y + 24), "Review gate", fill=(255, 207, 130), font=font_card_label)
-    draw.text((x + 28, metric_y + 70), review_text, fill=(255, 248, 235), font=font_card_value)
+    draw.rounded_rectangle((x, metric_y, 1820, metric_y + 140), radius=18, fill=(20, 60, 54), outline=soft_accent, width=2)
+    draw.text((x + 28, metric_y + 24), "Review gate", fill=(165, 240, 215), font=font_card_label)
+    draw.text((x + 28, metric_y + 70), review_text, fill=(255, 255, 255), font=font_card_value)
 
     draw_story_cue(draw, cue, border_color)
     draw_footer(draw)
@@ -178,10 +177,18 @@ def draw_driver_card(title, headline, focus, left_cards, right_cards, cue, outpu
     center = (710, 405, 1210, 725)
     draw.rounded_rectangle(center, radius=26, fill=(20, 60, 54), outline=border_color, width=4)
     font_focus_label = load_system_font(25)
-    font_focus = load_system_font(48)
+    font_chip_label = load_system_font(19)
+    font_chip_value = load_system_font(30)
     draw.text((960, 455), "Where to look first", fill=(165, 240, 215), font=font_focus_label, anchor="mm")
-    for idx, line in enumerate(focus):
-        draw.text((960, 525 + idx * 48), line, fill=(255, 255, 255), font=font_focus, anchor="mm")
+    focus_labels = ["State", "Coverage", "UW", "Policy year"]
+    chip_w = 190
+    chip_h = 68
+    chip_positions = [(750, 505), (980, 505), (750, 600), (980, 600)]
+    for idx, line in enumerate(focus[:4]):
+        x, y = chip_positions[idx]
+        draw.rounded_rectangle((x, y, x + chip_w, y + chip_h), radius=14, fill=(24, 77, 68), outline=(45, 152, 120), width=1)
+        draw.text((x + 18, y + 13), focus_labels[idx], fill=(145, 210, 190), font=font_chip_label)
+        draw.text((x + 18, y + 35), line, fill=(255, 255, 255), font=font_chip_value)
 
     font_label = load_system_font(28)
     font_value = load_system_font(38)
@@ -213,10 +220,11 @@ def draw_verification_card(title, headline, pillars, cue, output_path, border_co
 
     card_w = 520
     gap = 55
-    y = 460
+    y = 430
+    soft_accent = (20, 180, 125)
     for idx, pillar in enumerate(pillars):
         x = 100 + idx * (card_w + gap)
-        draw.rounded_rectangle((x, y, x + card_w, y + 250), radius=22, fill=(28, 38, 56), outline=border_color, width=2)
+        draw.rounded_rectangle((x, y, x + card_w, y + 250), radius=22, fill=(28, 38, 56), outline=soft_accent, width=2)
         draw.text((x + 36, y + 34), pillar["value"], fill=(255, 255, 255), font=load_system_font(66))
         draw.text((x + 36, y + 112), pillar["label"], fill=(205, 215, 230), font=load_system_font(34))
         draw_wrapped(draw, pillar["note"], (x + 36, y + 165), load_system_font(27), (155, 170, 190), card_w - 72, 34)

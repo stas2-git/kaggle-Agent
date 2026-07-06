@@ -26,6 +26,8 @@ from common import (
     run_command, redact_workspace_paths, ensure_persistent_dirs,
 )
 
+DECK_ACCENT = (0, 220, 130)
+
 def draw_static_slides():
     print("Drawing standard conceptual slide images...")
     for slide in generate_video.SLIDES_DATA:
@@ -109,7 +111,7 @@ def run_verification_commands():
         ],
         cue=story[6]["takeaway"],
         output_path=os.path.join(SLIDES_DIR, "slide_6.png"),
-        border_color=(139, 92, 246) # purple
+        border_color=DECK_ACCENT,
     )
     results["eval_headline"] = eval_headline
 
@@ -200,13 +202,13 @@ def run_verification_commands():
             "Escalate",
         ],
         [
-            {"label": "Symptom 1: loss ratio", "value": f"{prior_lr} -> {current_lr}"},
-            {"label": "Symptom 2: claim count", "value": f"{prior_claims} -> {current_claims}"},
+            {"label": "Symptom 1: loss ratio", "value": f"{prior_lr} to {current_lr}"},
+            {"label": "Symptom 2: claim count", "value": f"{prior_claims} to {current_claims}"},
         ],
         f"{review_required} ({severity})",
         cue=story[4]["takeaway"],
         output_path=os.path.join(SLIDES_DIR, "slide_4.png"),
-        border_color=(245, 158, 11) # amber
+        border_color=DECK_ACCENT,
     )
 
     # Segment 5 ("Two Symptoms, One Driver")
@@ -226,7 +228,7 @@ def run_verification_commands():
             ],
             cue=story[5]["takeaway"],
             output_path=os.path.join(SLIDES_DIR, "slide_5.png"),
-            border_color=(16, 185, 129)
+            border_color=DECK_ACCENT,
         )
     else:
         generate_video.draw_log_card(
