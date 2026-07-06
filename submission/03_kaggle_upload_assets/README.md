@@ -19,10 +19,13 @@ Assets prepared for the Kaggle writeup form.
 
 ## 02_media_gallery
 
-- `01_workflow_concept.png`: workflow/problem framing slide.
-- `02_architecture_layers.png`: architecture slide.
-- `03_demo_run_card.png`: demo command evidence card.
-- `04_generated_report_card.png`: generated review memo evidence card.
-- `05_observability_trace_card.png`: trace evidence card.
-- `06_eval_scorecard.png`: eval scorecard evidence card.
-- `07_pytest_results.png`: pytest evidence card.
+The 8 slides actually used in the final video (`submission/02_video/final_demo_video.mp4`), copied from `submission/02_video/slides/rendered/` so the gallery matches the video 1:1.
+
+- `01_title.png`: title card.
+- `02_problem.png`: problem framing — manual monthly review is a scramble, not a monitoring workflow.
+- `03_why_an_agent.png`: why an agent beats a dashboard (validate, choose tool, escalate review).
+- `04_architecture.png`: five-layer bounded architecture (data, security, tools, Gemini synthesis, output).
+- `05_live_demo_run.png`: live demo evidence — CSV in, agent run, high-severity human-review gate.
+- `06_driver_decomposition.png`: driver decomposition evidence — two anomaly signals converge on one slice.
+- `07_verification_scorecard.png`: verification evidence — deterministic checks, scenario evals, secret-leak scan.
+- `08_closing_roadmap.png`: closing claim and roadmap.

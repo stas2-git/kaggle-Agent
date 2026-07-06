@@ -49,6 +49,8 @@ synthetic portfolio CSV
 
 The LLM writes narrative synthesis only from trusted tool outputs. Deterministic Python code calculates every numeric portfolio metric.
 
+![Five-layer bounded architecture: data intake, security scan, deterministic Python tools, Gemini synthesis, output](submission/03_kaggle_upload_assets/02_media_gallery/04_architecture.png)
+
 ## Why This Is An Agent
 
 A dashboard can display portfolio movement, but it does not perform the conditional first-pass investigation:
