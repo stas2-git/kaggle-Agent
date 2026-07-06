@@ -7,6 +7,10 @@ subfolder here is where one or more of those gates writes its proof. This is not
 once, evidence sits forever unread" folder — some of these are one-time snapshots, others
 are meant to be re-run and appended to as the project changes. See the table below.
 
+Public repo note: these artifacts are included to make the build process auditable for
+reviewers. Older snapshots may be historical; the root README and submission checklist point
+to the current runnable path and final evidence.
+
 ## What's here and whether it's one-time or ongoing
 
 | Folder / file | Gate | One-time or ongoing? | What it proves |

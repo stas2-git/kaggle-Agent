@@ -4,6 +4,24 @@ Format per `spec_files/50_implementation/02_spec_adequacy_and_build_gates.md` Se
 
 ---
 
+Date: 2026-07-06
+Spec version: 0.2 (no version bump; public repository polish only)
+File changed:
+- `project_build/artifacts/README.md`
+- `project_build/artifacts/spec_change_log.md`
+- `spec_files/50_implementation/02_spec_adequacy_and_build_gates.md`
+
+Reason: Refresh public-facing spec and artifact documentation so GitHub file history uses a
+descriptive commit message instead of an old placeholder commit label.
+
+Failure classification: **documentation polish**. No behavior, architecture, evaluation, or
+runtime contract changed.
+
+Verification: no code verification required for this documentation-only refresh. The prior
+public-repo cleanup commit already verified unit/integration tests and video backend compile.
+
+---
+
 Date: 2026-07-05
 Spec version: 0.2 (no version bump; documentation and reconciliation pass on the existing v0.2 package)
 File changed:

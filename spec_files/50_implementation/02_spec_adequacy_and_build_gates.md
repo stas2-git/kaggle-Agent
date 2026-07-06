@@ -6,6 +6,9 @@ This file defines the build-control process for the capstone project. It answers
 
 This file does not replace the product, architecture, tool, security, or evaluation specs. It governs how those specs are used during implementation.
 
+For public review, this file should be read as process evidence: it explains why the repository
+contains build-gate artifacts, spec reviews, and change logs in addition to runnable code.
+
 ---
 
 ## 1. Core Principle
