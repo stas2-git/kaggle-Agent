@@ -25,7 +25,9 @@ DEMO_DATASETS = {
 class ReviewRequest(BaseModel):
     """Request body for an approved local/demo review."""
 
-    dataset_ref: str = Field(..., description="Approved demo alias or allowed local CSV path.")
+    dataset_ref: str = Field(
+        ..., description="Approved demo alias or allowed local CSV path."
+    )
     latest_month: str = Field(..., pattern=r"^\d{4}-\d{2}$")
     mode: Literal["online", "offline"] = "offline"
     model_name: str | None = None
@@ -54,7 +56,9 @@ def healthz() -> dict[str, str]:
 def readyz() -> dict[str, object]:
     """Return sanitized readiness/configuration details."""
 
-    cfg = load_config(force_offline=os.environ.get("PORTFOLIO_AGENT_EXECUTION_MODE") == "offline")
+    cfg = load_config(
+        force_offline=os.environ.get("PORTFOLIO_AGENT_EXECUTION_MODE") == "offline"
+    )
     return {
         "status": "ready",
         "application": cfg.application_name,

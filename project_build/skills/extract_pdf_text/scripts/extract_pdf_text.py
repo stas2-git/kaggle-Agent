@@ -16,14 +16,13 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 
 import pdfplumber
-import fitz          # PyMuPDF
+import fitz  # PyMuPDF
 import pytesseract
 from PIL import Image, ImageEnhance, ImageFilter
 
 # ─── Settings and Logging ───────────────────────────────────────────────────
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s  %(levelname)-8s %(message)s"
+    level=logging.INFO, format="%(asctime)s  %(levelname)-8s %(message)s"
 )
 log = logging.getLogger(__name__)
 
@@ -45,6 +44,7 @@ SECTION_PATTERNS = [
     r"(?i)^\s*\d+\.?\s*(conclusion|summary|discussion)\s*$",
 ]
 
+
 def locate_tesseract():
     """Attempt to find the Tesseract binary automatically."""
     try:
@@ -55,25 +55,28 @@ def locate_tesseract():
 
     # Common search paths
     paths = [
-        "/opt/homebrew/bin/tesseract",     # macOS Homebrew (Apple Silicon)
-        "/usr/local/bin/tesseract",       # macOS Homebrew (Intel)
-        r"C:\Program Files\Tesseract-OCR\tesseract.exe", # Windows default
+        "/opt/homebrew/bin/tesseract",  # macOS Homebrew (Apple Silicon)
+        "/usr/local/bin/tesseract",  # macOS Homebrew (Intel)
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",  # Windows default
     ]
     for p in paths:
         if os.path.exists(p):
             return p
     return None
 
+
 def _long_path(p: Path) -> str:
     """Return path string; uses extended prefix on Windows to bypass MAX_PATH."""
     resolved = str(p.resolve())
-    if os.name == 'nt' and not resolved.startswith("\\\\?\\"):
+    if os.name == "nt" and not resolved.startswith("\\\\?\\"):
         return "\\\\?\\" + resolved
     return resolved
+
 
 def _is_junk(filename: str) -> bool:
     """Check if the filename matches any junk patterns."""
     return any(pat in filename for pat in JUNK_PATTERNS)
+
 
 def score_line(line: str) -> int:
     """Return priority score for a line — higher = keep near top."""
@@ -81,6 +84,7 @@ def score_line(line: str) -> int:
         if re.match(pat, line):
             return 10
     return 0
+
 
 def smart_extract(pages_text: list[str], max_chars: int) -> str:
     """
@@ -105,7 +109,9 @@ def smart_extract(pages_text: list[str], max_chars: int) -> str:
     for line in lines:
         if score_line(line) > 0:
             if buffer:
-                (priority_blocks if in_priority else normal_blocks).append("\n".join(buffer))
+                (priority_blocks if in_priority else normal_blocks).append(
+                    "\n".join(buffer)
+                )
                 buffer = []
             in_priority = True
             buffer.append(line)
@@ -134,6 +140,7 @@ def smart_extract(pages_text: list[str], max_chars: int) -> str:
 
     return result.strip()
 
+
 def _enhance_image(img: Image.Image) -> Image.Image:
     """Apply grayscale, contrast boost, sharpening, and median filtering for OCR."""
     img = img.convert("L")  # Grayscale
@@ -141,6 +148,7 @@ def _enhance_image(img: Image.Image) -> Image.Image:
     img = ImageEnhance.Sharpness(img).enhance(2.0)
     img = img.filter(ImageFilter.MedianFilter(size=3))
     return img
+
 
 def _extract_page_text(doc: fitz.Document, page_num: int) -> str:
     """Extract page text using PyMuPDF native extractor, falling back to enhanced OCR."""
@@ -159,7 +167,10 @@ def _extract_page_text(doc: fitz.Document, page_num: int) -> str:
     ocr_text = pytesseract.image_to_string(img, lang="eng", config="--psm 3")
     return ocr_text.strip()
 
-def _extract_page_with_timeout(doc: fitz.Document, page_num: int, timeout_sec: int) -> str | None:
+
+def _extract_page_with_timeout(
+    doc: fitz.Document, page_num: int, timeout_sec: int
+) -> str | None:
     """Extract a single page's text with a thread timeout."""
     ex = ThreadPoolExecutor(max_workers=1)
     try:
@@ -167,7 +178,9 @@ def _extract_page_with_timeout(doc: fitz.Document, page_num: int, timeout_sec: i
         try:
             return future.result(timeout=timeout_sec)
         except FuturesTimeoutError:
-            log.warning(f"    Page {page_num + 1} timed out ({timeout_sec}s), skipping page")
+            log.warning(
+                f"    Page {page_num + 1} timed out ({timeout_sec}s), skipping page"
+            )
             return None
         except Exception as e:
             log.warning(f"    Page {page_num + 1} error: {e}")
@@ -175,7 +188,10 @@ def _extract_page_with_timeout(doc: fitz.Document, page_num: int, timeout_sec: i
     finally:
         ex.shutdown(wait=False)
 
-def extract_pdf_document(pdf_path: Path, max_chars: int, min_chars: int, timeout_sec: int) -> str | None:
+
+def extract_pdf_document(
+    pdf_path: Path, max_chars: int, min_chars: int, timeout_sec: int
+) -> str | None:
     """
     Extract text from a PDF document:
     1. Try whole-document native extraction using pdfplumber.
@@ -211,7 +227,9 @@ def extract_pdf_document(pdf_path: Path, max_chars: int, min_chars: int, timeout
 
     for page_num in range(len(doc)):
         if total_chars >= max_chars:
-            log.info(f"    Reached max character limit ({max_chars}) at page {page_num + 1}")
+            log.info(
+                f"    Reached max character limit ({max_chars}) at page {page_num + 1}"
+            )
             break
 
         page_text = _extract_page_with_timeout(doc, page_num, timeout_sec)
@@ -227,10 +245,17 @@ def extract_pdf_document(pdf_path: Path, max_chars: int, min_chars: int, timeout
     result = "\n\n".join(accumulated)
     if len(result) > max_chars:
         result = result[:max_chars]
-    
+
     return result if len(result) >= min_chars else None
 
-def process_file(input_file: Path, output_file: Path, max_chars: int, min_chars: int, timeout_sec: int):
+
+def process_file(
+    input_file: Path,
+    output_file: Path,
+    max_chars: int,
+    min_chars: int,
+    timeout_sec: int,
+):
     """Process a single PDF file and write output."""
     if _is_junk(input_file.name):
         log.info(f"Skipping junk file: {input_file.name}")
@@ -242,17 +267,38 @@ def process_file(input_file: Path, output_file: Path, max_chars: int, min_chars:
     if text:
         output_file.parent.mkdir(parents=True, exist_ok=True)
         output_file.write_text(text, encoding="utf-8")
-        log.info(f"  Successfully extracted {len(text)} characters to {output_file.name}")
+        log.info(
+            f"  Successfully extracted {len(text)} characters to {output_file.name}"
+        )
     else:
         log.warning(f"  Failed to extract usable text from: {input_file.name}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Extract text from PDF documents using native and OCR fallbacks.")
-    parser.add_argument("--input", required=True, help="Input PDF file or folder containing PDFs")
-    parser.add_argument("--output", required=True, help="Output TXT file or folder to save outputs")
-    parser.add_argument("--max-chars", type=int, default=15000, help="Max characters to extract per file")
-    parser.add_argument("--min-chars", type=int, default=100, help="Min characters required to save output")
-    parser.add_argument("--timeout", type=int, default=30, help="Per-page timeout limit in seconds")
+    parser = argparse.ArgumentParser(
+        description="Extract text from PDF documents using native and OCR fallbacks."
+    )
+    parser.add_argument(
+        "--input", required=True, help="Input PDF file or folder containing PDFs"
+    )
+    parser.add_argument(
+        "--output", required=True, help="Output TXT file or folder to save outputs"
+    )
+    parser.add_argument(
+        "--max-chars",
+        type=int,
+        default=15000,
+        help="Max characters to extract per file",
+    )
+    parser.add_argument(
+        "--min-chars",
+        type=int,
+        default=100,
+        help="Min characters required to save output",
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=30, help="Per-page timeout limit in seconds"
+    )
     parser.add_argument("--tesseract-path", help="Explicit path to tesseract binary")
     args = parser.parse_args()
 
@@ -274,7 +320,9 @@ def main():
             output_file = output_path / input_path.with_suffix(".txt").name
         else:
             output_file = output_path
-        process_file(input_path, output_file, args.max_chars, args.min_chars, args.timeout)
+        process_file(
+            input_path, output_file, args.max_chars, args.min_chars, args.timeout
+        )
     elif input_path.is_dir():
         # Directory execution
         output_path.mkdir(parents=True, exist_ok=True)
@@ -283,9 +331,12 @@ def main():
         for pdf_file in pdf_files:
             rel = pdf_file.relative_to(input_path)
             out_file = output_path / rel.with_suffix(".txt")
-            process_file(pdf_file, out_file, args.max_chars, args.min_chars, args.timeout)
+            process_file(
+                pdf_file, out_file, args.max_chars, args.min_chars, args.timeout
+            )
     else:
         log.error(f"Input path does not exist: {args.input}")
+
 
 if __name__ == "__main__":
     main()

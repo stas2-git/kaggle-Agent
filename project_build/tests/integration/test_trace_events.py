@@ -41,7 +41,9 @@ def test_offline_trace_contains_enriched_event_schema(tmp_path):
 
 
 def test_trace_logger_records_policy_decision_events(tmp_path):
-    logger = TraceLogger(run_id="policy-trace-test", dataset_path="tests/golden/clean_portfolio.csv")
+    logger = TraceLogger(
+        run_id="policy-trace-test", dataset_path="tests/golden/clean_portfolio.csv"
+    )
     logger.set_metadata("execution_mode", "offline")
     logger.log_policy_decision(
         hook="before_tool",
@@ -56,4 +58,6 @@ def test_trace_logger_records_policy_decision_events(tmp_path):
     assert trace["events"][0]["event_type"] == "policy_decision"
     assert trace["events"][0]["details"]["hook"] == "before_tool"
     assert trace["events"][0]["details"]["decision"] == "block"
-    assert trace["events"][0]["details"]["reason_code"] == "unauthorized_driver_dimension"
+    assert (
+        trace["events"][0]["details"]["reason_code"] == "unauthorized_driver_dimension"
+    )

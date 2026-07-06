@@ -30,17 +30,23 @@ def _data_quality_summary(errors: list[str], warnings: list[str]) -> dict:
         "warnings": len(warnings),
         "error_messages": errors,
         "warning_messages": warnings,
-        "null_warnings": "Null cells present" if any("Null" in w for w in warnings) else None,
+        "null_warnings": "Null cells present"
+        if any("Null" in w for w in warnings)
+        else None,
         "injection_warnings": (
             "Prompt injection signature detected"
             if any("injection" in w.lower() for w in warnings)
             else None
         ),
-        "non_numeric": "Non-numeric types" if any("non-numeric" in w for w in warnings) else None,
+        "non_numeric": "Non-numeric types"
+        if any("non-numeric" in w for w in warnings)
+        else None,
     }
 
 
-def _human_review_reasons(anomalies: list[AnomalyRecord], warnings: list[str]) -> list[str]:
+def _human_review_reasons(
+    anomalies: list[AnomalyRecord], warnings: list[str]
+) -> list[str]:
     reasons: list[str] = []
     if any(a.severity == "high" for a in anomalies):
         reasons.append("high_severity_anomaly")
@@ -75,7 +81,9 @@ def _offline_review_memo(
 
     findings: list[FindingDetail] = []
     for anomaly in anomalies:
-        related_drivers = [d for d in driver_results if d.anomaly_id == anomaly.anomaly_id]
+        related_drivers = [
+            d for d in driver_results if d.anomaly_id == anomaly.anomaly_id
+        ]
         if related_drivers:
             driver_bits = []
             for driver in related_drivers:
@@ -107,7 +115,9 @@ def _offline_review_memo(
         "Confirm whether any data-quality warnings affect interpretation.",
     ]
     if data_quality_summary.get("injection_warnings"):
-        followups.append("Investigate suspicious note fields before relying on narrative text.")
+        followups.append(
+            "Investigate suspicious note fields before relying on narrative text."
+        )
 
     return ReviewMemo(
         valuation_month=valuation_month,
@@ -234,7 +244,9 @@ def review_portfolio(
 
     human_review_reasons = _human_review_reasons(anomalies, warnings)
     trace.set_metadata("run_status", "COMPLETE")
-    trace.set_metadata("overall_severity", "High" if memo.requires_human_review else "Low")
+    trace.set_metadata(
+        "overall_severity", "High" if memo.requires_human_review else "Low"
+    )
     trace.set_metadata("requires_human_review", memo.requires_human_review)
     trace.set_metadata("human_review_reasons", human_review_reasons)
     trace.set_metadata("report_path", str(report_file))

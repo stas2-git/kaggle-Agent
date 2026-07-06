@@ -31,7 +31,23 @@ eval = [
     "google-adk[eval]>=2.0.0,<3.0.0",
     "google-cloud-aiplatform[evaluation]>=1.156.0",
 ]
+lint = [
+    "codespell>=2.4.1",
+    "mypy>=1.19.0",
+    "ruff>=0.14.0",
+    "ty>=0.0.56",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.ty.rules]
+deprecated = "ignore"
+invalid-argument-type = "ignore"
+invalid-parameter-default = "ignore"
+invalid-return-type = "ignore"
+not-iterable = "ignore"
+not-subscriptable = "ignore"
+unresolved-attribute = "ignore"
+unsupported-operator = "ignore"

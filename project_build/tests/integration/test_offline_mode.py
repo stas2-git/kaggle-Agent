@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
 
-import pytest
-
 from portfolio_agent.support.config import load_config
 from portfolio_agent.service import review_portfolio
 
@@ -103,7 +101,9 @@ def test_online_mode_keeps_existing_model_synthesis_boundary(monkeypatch, tmp_pa
 
     import portfolio_agent.agent
 
-    monkeypatch.setattr(portfolio_agent.agent, "synthesize_review_findings", fake_synthesis)
+    monkeypatch.setattr(
+        portfolio_agent.agent, "synthesize_review_findings", fake_synthesis
+    )
     config = load_config(force_offline=False)
     config = type(config)(
         application_name=config.application_name,

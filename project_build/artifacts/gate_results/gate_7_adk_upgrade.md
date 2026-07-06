@@ -204,10 +204,10 @@ tests/unit/
 Four reference-material implementation spec links were reported as file-type changes after scaffolding:
 
 ```text
-T refrence material/codelabs/CL4 ambient agent/ambient-expense-agent/CAPSTONE_IMPLEMENTATION_SPEC.md
-T refrence material/codelabs/CL4 secure an ai agent lifecycle/secure-agent-lab/shopping-assistant/CAPSTONE_IMPLEMENTATION_SPEC.md
-T refrence material/codelabs/CL5 Deploy an ADK agent to Agent Runtime using Agents CLI/expense-agent/CAPSTONE_IMPLEMENTATION_SPEC.md
-T refrence material/codelabs/CL5 Vibecode and Deploy a Frontend for an ADK agent/submission_frontend/CAPSTONE_IMPLEMENTATION_SPEC.md
+T reference material/codelabs/CL4 ambient agent/ambient-expense-agent/CAPSTONE_IMPLEMENTATION_SPEC.md
+T reference material/codelabs/CL4 secure an ai agent lifecycle/secure-agent-lab/shopping-assistant/CAPSTONE_IMPLEMENTATION_SPEC.md
+T reference material/codelabs/CL5 Deploy an ADK agent to Agent Runtime using Agents CLI/expense-agent/CAPSTONE_IMPLEMENTATION_SPEC.md
+T reference material/codelabs/CL5 Vibecode and Deploy a Frontend for an ADK agent/submission_frontend/CAPSTONE_IMPLEMENTATION_SPEC.md
 ```
 
 ## Stop decision

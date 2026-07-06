@@ -5,10 +5,12 @@ from typing import List, Dict, Any
 
 from portfolio_agent.support.config import APPLICATION_NAME
 
+
 class TraceLogger:
     """
     Collects run information, steps, tool calls, and saves a JSON trace.
     """
+
     def __init__(self, run_id: str, dataset_path: str):
         self.run_id = run_id
         self.dataset_path = dataset_path
@@ -32,20 +34,22 @@ class TraceLogger:
         event_id = self._next_event_id
         self._next_event_id += 1
         details = details or {}
-        self.events.append({
-            "event_id": event_id,
-            "event_name": name,
-            "event_type": event_type,
-            "name": name,
-            "invocation_id": self.metadata.get("invocation_id", self.run_id),
-            "correlation_id": correlation_id,
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-            "details": details,
-            "input_summary": details.get("input_summary", {}),
-            "output_summary": details.get("output_summary", details),
-            "status": status,
-            "duration_ms": duration_ms,
-        })
+        self.events.append(
+            {
+                "event_id": event_id,
+                "event_name": name,
+                "event_type": event_type,
+                "name": name,
+                "invocation_id": self.metadata.get("invocation_id", self.run_id),
+                "correlation_id": correlation_id,
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                "details": details,
+                "input_summary": details.get("input_summary", {}),
+                "output_summary": details.get("output_summary", details),
+                "status": status,
+                "duration_ms": duration_ms,
+            }
+        )
 
     def log_policy_decision(
         self,
@@ -83,7 +87,7 @@ class TraceLogger:
         """
         out_path = Path(output_dir)
         out_path.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"run_trace_{self.run_id}.json"
         trace_file = out_path / filename
 
@@ -111,7 +115,7 @@ class TraceLogger:
             },
             "final_report_path": self.metadata.get("report_path"),
             "final_status": self.metadata.get("run_status"),
-            "events": self.events
+            "events": self.events,
         }
 
         trace_file.write_text(json.dumps(trace_data, indent=2), encoding="utf-8")

@@ -17,9 +17,12 @@ INJECTION_KEYWORDS = [
     r"bypass\s+check",
 ]
 
+
 class SecurityError(Exception):
     """Raised when security validation fails."""
+
     pass
+
 
 def validate_file_path(file_path: str, workspace_root: str = None) -> Path:
     """
@@ -35,7 +38,9 @@ def validate_file_path(file_path: str, workspace_root: str = None) -> Path:
 
     # Verify that the target starts with the workspace root to prevent system-wide traversal
     if not str(target_path).startswith(str(workspace_path)):
-        raise SecurityError(f"Access Denied: Path traversal detected outside workspace for {file_path}")
+        raise SecurityError(
+            f"Access Denied: Path traversal detected outside workspace for {file_path}"
+        )
 
     # Verify it lies inside one of the allowed subdirectories
     is_allowed = False
@@ -46,9 +51,12 @@ def validate_file_path(file_path: str, workspace_root: str = None) -> Path:
             break
 
     if not is_allowed:
-        raise SecurityError(f"Access Denied: Path '{file_path}' must reside under one of the allowed folders: {ALLOWED_SUBDIRS}")
+        raise SecurityError(
+            f"Access Denied: Path '{file_path}' must reside under one of the allowed folders: {ALLOWED_SUBDIRS}"
+        )
 
     return target_path
+
 
 def scan_text_for_injection(text: str) -> bool:
     """

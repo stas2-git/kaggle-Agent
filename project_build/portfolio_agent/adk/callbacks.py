@@ -10,7 +10,11 @@ from uuid import uuid4
 
 from portfolio_agent.adk import adk_tools
 from portfolio_agent.support.config import APPLICATION_NAME, DEFAULT_MODEL_NAME
-from portfolio_agent.core.security import SecurityError, scan_text_for_injection, validate_file_path
+from portfolio_agent.core.security import (
+    SecurityError,
+    scan_text_for_injection,
+    validate_file_path,
+)
 
 
 TOOL_ALLOWLIST = {
@@ -88,7 +92,11 @@ def _blocked(reason_code: str, message: str) -> dict:
 def _contains_unsafe_text(value: Any) -> bool:
     if isinstance(value, str):
         lowered = value.lower()
-        return scan_text_for_injection(value) or "system prompt" in lowered or "developer message" in lowered
+        return (
+            scan_text_for_injection(value)
+            or "system prompt" in lowered
+            or "developer message" in lowered
+        )
     if isinstance(value, list):
         return any(_contains_unsafe_text(item) for item in value)
     if isinstance(value, dict):
@@ -194,7 +202,9 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
             )
             return _blocked("path_not_allowed", str(exc))
 
-    if name == "calculate_portfolio_metrics" and args.get("dataset_ref") not in state.get(adk_tools.STATE_VALIDATIONS, {}):
+    if name == "calculate_portfolio_metrics" and args.get(
+        "dataset_ref"
+    ) not in state.get(adk_tools.STATE_VALIDATIONS, {}):
         _record(
             state,
             hook="before_tool",
@@ -203,9 +213,14 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
             reason_code="validation_required",
             description="Metrics calculation requires prior validation.",
         )
-        return _blocked("validation_required", "Validate the dataset before calculating metrics.")
+        return _blocked(
+            "validation_required", "Validate the dataset before calculating metrics."
+        )
 
-    if name == "calculate_portfolio_metrics" and args.get("group_by") != adk_tools.CANONICAL_METRIC_GROUP_BY:
+    if (
+        name == "calculate_portfolio_metrics"
+        and args.get("group_by") != adk_tools.CANONICAL_METRIC_GROUP_BY
+    ):
         _record(
             state,
             hook="before_tool",
@@ -219,7 +234,9 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
             "Use group_by ['valuation_month', 'business_segment'] for portfolio metrics.",
         )
 
-    if name == "detect_anomalies" and args.get("metrics_ref") not in state.get(adk_tools.STATE_METRICS, {}):
+    if name == "detect_anomalies" and args.get("metrics_ref") not in state.get(
+        adk_tools.STATE_METRICS, {}
+    ):
         _record(
             state,
             hook="before_tool",
@@ -228,7 +245,9 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
             reason_code="metrics_required",
             description="Anomaly detection requires calculated metrics.",
         )
-        return _blocked("metrics_required", "Calculate metrics before detecting anomalies.")
+        return _blocked(
+            "metrics_required", "Calculate metrics before detecting anomalies."
+        )
 
     if name == "investigate_anomaly_drivers":
         dimensions = args.get("dimensions", [])
@@ -246,12 +265,17 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
                 reason_code="unauthorized_driver_dimension",
                 description=f"Unauthorized driver dimension(s): {unauthorized}",
             )
-            return _blocked("unauthorized_driver_dimension", "Unauthorized driver dimension requested.")
+            return _blocked(
+                "unauthorized_driver_dimension",
+                "Unauthorized driver dimension requested.",
+            )
 
         anomaly_ref = args.get("anomaly_ref")
         anomaly_id = args.get("anomaly_id")
         anomaly_bundle = state.get(adk_tools.STATE_ANOMALIES, {}).get(anomaly_ref)
-        if anomaly_bundle is None or anomaly_id not in anomaly_bundle.get("anomaly_ids", []):
+        if anomaly_bundle is None or anomaly_id not in anomaly_bundle.get(
+            "anomaly_ids", []
+        ):
             _record(
                 state,
                 hook="before_tool",
@@ -260,7 +284,9 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
                 reason_code="unknown_anomaly_id",
                 description=f"Unknown anomaly_id '{anomaly_id}' for anomaly_ref '{anomaly_ref}'.",
             )
-            return _blocked("unknown_anomaly_id", "Driver analysis requires a real anomaly ID.")
+            return _blocked(
+                "unknown_anomaly_id", "Driver analysis requires a real anomaly ID."
+            )
 
     _record(
         state,
@@ -273,7 +299,9 @@ def before_tool_callback(tool: Any, args: dict, tool_context: Any) -> dict | Non
     return None
 
 
-def after_tool_callback(tool: Any, args: dict, tool_context: Any, tool_response: Any) -> dict | None:
+def after_tool_callback(
+    tool: Any, args: dict, tool_context: Any, tool_response: Any
+) -> dict | None:
     """Validate, redact, and record tool responses after execution."""
 
     state = _state(tool_context)
@@ -300,7 +328,9 @@ def after_tool_callback(tool: Any, args: dict, tool_context: Any, tool_response:
             reason_code="corrupt_numeric_output",
             description=f"Tool '{name}' returned NaN or infinite numeric output.",
         )
-        return _blocked("corrupt_numeric_output", "Tool response contained corrupt numeric output.")
+        return _blocked(
+            "corrupt_numeric_output", "Tool response contained corrupt numeric output."
+        )
 
     sanitized = _redact_text(tool_response)
     _record(

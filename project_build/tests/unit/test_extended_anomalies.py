@@ -37,14 +37,18 @@ def test_claim_count_anomaly_moderate_and_severe():
     m_pri = MetricsRecord(**_baseline_kwargs(valuation_month="2026-05", claim_count=10))
 
     # +30% -> moderate (>= 25%, < 50%)
-    m_cur_moderate = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", claim_count=13))
+    m_cur_moderate = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", claim_count=13)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_moderate], "2026-06")
     cc = next(a for a in anomalies if a.metric == "claim_count")
     assert cc.severity == "moderate"
     assert cc.requires_human_review is False
 
     # +60% -> severe (>= 50%)
-    m_cur_severe = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", claim_count=16))
+    m_cur_severe = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", claim_count=16)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_severe], "2026-06")
     cc = next(a for a in anomalies if a.metric == "claim_count")
     assert cc.severity == "high"
@@ -52,16 +56,22 @@ def test_claim_count_anomaly_moderate_and_severe():
 
 
 def test_rate_change_deterioration_moderate_and_severe():
-    m_pri = MetricsRecord(**_baseline_kwargs(valuation_month="2026-05", rate_change_pct=0.05))
+    m_pri = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-05", rate_change_pct=0.05)
+    )
 
     # delta = -0.07 -> moderate (<= -0.05, > -0.10)
-    m_cur_moderate = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", rate_change_pct=-0.02))
+    m_cur_moderate = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", rate_change_pct=-0.02)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_moderate], "2026-06")
     rc = next(a for a in anomalies if a.metric == "rate_change")
     assert rc.severity == "moderate"
 
     # delta = -0.11 -> severe (<= -0.10)
-    m_cur_severe = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", rate_change_pct=-0.06))
+    m_cur_severe = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", rate_change_pct=-0.06)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_severe], "2026-06")
     rc = next(a for a in anomalies if a.metric == "rate_change")
     assert rc.severity == "high"
@@ -69,16 +79,22 @@ def test_rate_change_deterioration_moderate_and_severe():
 
 
 def test_retention_decrease_moderate_and_severe():
-    m_pri = MetricsRecord(**_baseline_kwargs(valuation_month="2026-05", avg_retention=250000.0))
+    m_pri = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-05", avg_retention=250000.0)
+    )
 
     # delta% = -12% -> moderate (<= -10%, > -25%)
-    m_cur_moderate = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", avg_retention=220000.0))
+    m_cur_moderate = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", avg_retention=220000.0)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_moderate], "2026-06")
     ret = next(a for a in anomalies if a.metric == "avg_retention")
     assert ret.severity == "moderate"
 
     # delta% = -28% -> severe (<= -25%)
-    m_cur_severe = MetricsRecord(**_baseline_kwargs(valuation_month="2026-06", avg_retention=180000.0))
+    m_cur_severe = MetricsRecord(
+        **_baseline_kwargs(valuation_month="2026-06", avg_retention=180000.0)
+    )
     anomalies = detect_anomalies([m_pri, m_cur_severe], "2026-06")
     ret = next(a for a in anomalies if a.metric == "avg_retention")
     assert ret.severity == "high"
@@ -176,5 +192,9 @@ def test_rate_change_and_retention_driver_contribution_is_premium_weighted():
     ny = next(c for c in d_state.top_contributors if c.value == "NY")
     nj = next(c for c in d_state.top_contributors if c.value == "NJ")
 
-    assert pytest.approx(ny.contribution_to_change) == (0.5 * 250000.0) - (0.5 * 250000.0)
-    assert pytest.approx(nj.contribution_to_change) == (0.5 * 150000.0) - (0.5 * 250000.0)
+    assert pytest.approx(ny.contribution_to_change) == (0.5 * 250000.0) - (
+        0.5 * 250000.0
+    )
+    assert pytest.approx(nj.contribution_to_change) == (0.5 * 150000.0) - (
+        0.5 * 250000.0
+    )

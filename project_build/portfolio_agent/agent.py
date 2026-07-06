@@ -69,13 +69,14 @@ root_agent = Agent(
 
 app = App(name=APPLICATION_NAME, root_agent=root_agent)
 
+
 def synthesize_review_findings(
     valuation_month: str,
     anomalies: list[AnomalyRecord],
     driver_results: list[DriverResult],
     data_quality_summary: dict,
     model_name: str = "gemini-2.5-flash-lite",
-    user_prompt_override: str = None
+    user_prompt_override: str = None,
 ) -> ReviewMemo:
     """
     Synthesize deterministic anomalies and drivers into an actuary-ready review memo.
@@ -152,7 +153,7 @@ Generate a ReviewMemo JSON output following the response schema.
             response_mime_type="application/json",
             response_schema=ReviewMemo,
             system_instruction=system_instruction,
-            temperature=0.1  # Low temperature for analytical consistency
+            temperature=0.1,  # Low temperature for analytical consistency
         ),
     )
 

@@ -62,12 +62,13 @@ To ensure absolute numerical accuracy, the agent enforces a core principle: **th
 
 ## 4. Course Concepts Used
 
-The project demonstrates key concepts from the AI Agents curriculum:
-1. **Agent Tool Design**: Bound tools with strict validation schemas (Pydantic), enforcing clear interfaces and input sanitization.
-2. **Agent Skills**: Isolated the monitoring logic into a portable `SKILL.md` skill definition, instructing the agent how to analyze insurance portfolios using conservative language.
-3. **Security Containment**: Implemented path traversal validation, input column regex scanning, and human-in-the-loop review triggers.
-4. **Local-First Evaluation**: Built an evaluation suite covering 10 scenarios to automatically assess routing correctness, report quality, and security safety.
-5. **Observability Trace Logging**: Formulated a JSON logging schema to capture every step, tool call, duration, and decision.
+The project intentionally demonstrates more than the minimum three course concepts:
+1. **ADK Agent / Tool-Calling System**: The repository exports a real Google ADK `root_agent` and `App`, with model-callable tools for loading data, validation, metric calculation, anomaly detection, and driver investigation. A separate CLI path uses the same deterministic service so demos and tests remain reproducible.
+2. **Agent Tool Design**: Bound tools use Pydantic schemas and JSON-safe adapters, enforcing clear interfaces, prerequisite ordering, canonical grouping, and input sanitization.
+3. **Agent Skills**: The monitoring workflow is isolated into a portable `SKILL.md` runtime skill that loads actuarial review guidance, conservative language rules, and anomaly-review principles into the agent context.
+4. **Security and Human Review Controls**: Path traversal validation, prompt-injection scanning, tool allowlists, model/tool callbacks, secret scanning, and human-review gates prevent the agent from turning generated narrative into unreviewed underwriting or pricing action.
+5. **Agents CLI / Deployability Shape**: The project includes an Agents CLI manifest, `agents-cli run` entry point, FastAPI adapter, Dockerfile, and local-first setup instructions. The submitted demo runs locally without cloud credentials, while the structure remains ready for a future approved deployment.
+6. **Local Evaluation and Observability**: Unit, integration, golden, security, report-quality, and scenario eval checks validate routing, metric consistency, report safety, and prompt-injection behavior. Each review writes a Markdown memo plus an inspectable JSON trace.
 
 ---
 
@@ -132,7 +133,7 @@ Unit and integration tests compare metrics calculations, anomaly detection flags
 * `benchmark_deterioration`: Rate adequacy drop (-0.25) driven by NY state.
 
 ### Evaluation Suite:
-The evaluation runner simulates 10 evaluation cases covering data quality failures, conflicting signals, path traversal violations, notes prompt injection, and prompt disclosure requests. The system automatically verifies that:
+The deterministic offline evaluation runner simulates 10 evaluation cases covering data quality failures, conflicting signals, path traversal violations, notes prompt injection, and prompt disclosure requests. The system automatically verifies that:
 * Path traversals are blocked.
 * Injections are flagged.
 * Report metrics cited match raw data outputs exactly.

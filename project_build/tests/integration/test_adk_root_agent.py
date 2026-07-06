@@ -13,7 +13,10 @@ def test_root_agent_and_app_import_with_expected_adk_shape():
     assert root_agent.model == "gemini-2.5-flash-lite"
     assert root_agent.output_schema is None
 
-    tool_names = [getattr(tool, "name", getattr(tool, "__name__", str(tool))) for tool in root_agent.tools]
+    tool_names = [
+        getattr(tool, "name", getattr(tool, "__name__", str(tool)))
+        for tool in root_agent.tools
+    ]
     assert tool_names == [
         "load_portfolio_data",
         "validate_portfolio_data",
@@ -34,7 +37,9 @@ def test_root_agent_instruction_contains_runtime_skill_rules():
 
     assert "Validate the dataset before analysis" in root_agent.instruction
     assert "Never invent numbers" in root_agent.instruction
-    assert "Every numeric claim must come from a tool response" in root_agent.instruction
+    assert (
+        "Every numeric claim must come from a tool response" in root_agent.instruction
+    )
 
 
 def test_clean_offline_review_skips_driver_investigation(tmp_path):

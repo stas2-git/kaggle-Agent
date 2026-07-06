@@ -159,7 +159,9 @@ def test_after_model_blocks_binding_or_unsupported_output():
 
     result = after_model_callback(
         context,
-        {"executive_summary": "Stop writing this segment and implement this rate change."},
+        {
+            "executive_summary": "Stop writing this segment and implement this rate change."
+        },
     )
 
     assert result["status"] == "blocked"

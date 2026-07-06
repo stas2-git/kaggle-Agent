@@ -40,7 +40,9 @@ def test_runtime_instruction_context_contains_core_workflow_without_eager_refere
 
 
 def test_optional_skill_references_fail_clearly_for_unknown_name():
-    with pytest.raises(SkillContextError, match="Unknown portfolio-monitoring reference"):
+    with pytest.raises(
+        SkillContextError, match="Unknown portfolio-monitoring reference"
+    ):
         load_portfolio_monitoring_reference("not_a_real_reference")
 
 

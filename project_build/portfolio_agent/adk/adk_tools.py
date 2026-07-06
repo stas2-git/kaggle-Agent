@@ -48,8 +48,16 @@ def _state(tool_context: Any) -> MutableMapping[str, Any]:
         if isinstance(tool_context, MutableMapping):
             state = tool_context
         else:
-            raise TypeError("ADK tool adapters require a tool_context with mutable state.")
-    for key in (STATE_DATASETS, STATE_VALIDATIONS, STATE_METRICS, STATE_ANOMALIES, STATE_DRIVERS):
+            raise TypeError(
+                "ADK tool adapters require a tool_context with mutable state."
+            )
+    for key in (
+        STATE_DATASETS,
+        STATE_VALIDATIONS,
+        STATE_METRICS,
+        STATE_ANOMALIES,
+        STATE_DRIVERS,
+    ):
         state.setdefault(key, {})
     return state
 
@@ -98,7 +106,9 @@ def validate_portfolio_data(dataset_ref: str, tool_context: ToolContext) -> dict
         return _error(f"Unknown dataset_ref: {dataset_ref}", "unknown_dataset_ref")
 
     clean_df, errors, warnings = validate_data_engine(df)
-    validation_status = "fail" if errors else "pass_with_warnings" if warnings else "pass"
+    validation_status = (
+        "fail" if errors else "pass_with_warnings" if warnings else "pass"
+    )
     _RUNTIME_DATASETS[dataset_ref] = clean_df
     state[STATE_VALIDATIONS][dataset_ref] = {
         "status": validation_status,
@@ -118,7 +128,9 @@ def validate_portfolio_data(dataset_ref: str, tool_context: ToolContext) -> dict
     }
 
 
-def calculate_portfolio_metrics(dataset_ref: str, group_by: list[str], tool_context: ToolContext) -> dict:
+def calculate_portfolio_metrics(
+    dataset_ref: str, group_by: list[str], tool_context: ToolContext
+) -> dict:
     """Calculate deterministic portfolio metrics for a validated dataset."""
 
     state = _state(tool_context)
@@ -128,9 +140,15 @@ def calculate_portfolio_metrics(dataset_ref: str, group_by: list[str], tool_cont
 
     validation = state[STATE_VALIDATIONS].get(dataset_ref)
     if validation is None:
-        return _error("Dataset must be validated before calculating metrics.", "validation_required")
+        return _error(
+            "Dataset must be validated before calculating metrics.",
+            "validation_required",
+        )
     if validation["status"] == "fail":
-        return _error("Dataset validation failed; metrics were not calculated.", "validation_failed")
+        return _error(
+            "Dataset validation failed; metrics were not calculated.",
+            "validation_failed",
+        )
 
     if group_by != CANONICAL_METRIC_GROUP_BY:
         return _error(
@@ -138,7 +156,9 @@ def calculate_portfolio_metrics(dataset_ref: str, group_by: list[str], tool_cont
             "unsupported_metric_group_by",
         )
 
-    missing_dimensions = [dimension for dimension in group_by if dimension not in df.columns]
+    missing_dimensions = [
+        dimension for dimension in group_by if dimension not in df.columns
+    ]
     if missing_dimensions:
         return _error(
             f"Unknown group_by dimension(s): {missing_dimensions}",
@@ -163,7 +183,9 @@ def calculate_portfolio_metrics(dataset_ref: str, group_by: list[str], tool_cont
     }
 
 
-def detect_anomalies(metrics_ref: str, latest_month: str, tool_context: ToolContext) -> dict:
+def detect_anomalies(
+    metrics_ref: str, latest_month: str, tool_context: ToolContext
+) -> dict:
     """Detect threshold anomalies from deterministic metrics for the latest month."""
 
     state = _state(tool_context)
@@ -193,7 +215,9 @@ def detect_anomalies(metrics_ref: str, latest_month: str, tool_context: ToolCont
         "summary_counts": {
             "total": len(anomalies),
             "high": sum(1 for anomaly in anomalies if anomaly.severity == "high"),
-            "moderate": sum(1 for anomaly in anomalies if anomaly.severity == "moderate"),
+            "moderate": sum(
+                1 for anomaly in anomalies if anomaly.severity == "moderate"
+            ),
         },
     }
 
@@ -221,7 +245,11 @@ def investigate_anomaly_drivers(
     if anomaly is None:
         return _error(f"Unknown anomaly_id: {anomaly_id}", "unknown_anomaly_id")
 
-    unauthorized = [dimension for dimension in dimensions if dimension not in ALLOWED_DRIVER_DIMENSIONS]
+    unauthorized = [
+        dimension
+        for dimension in dimensions
+        if dimension not in ALLOWED_DRIVER_DIMENSIONS
+    ]
     if unauthorized:
         return _error(
             f"Unauthorized driver dimension(s): {unauthorized}",
@@ -241,7 +269,9 @@ def investigate_anomaly_drivers(
     driver_results = investigate_drivers_engine(df, anomaly, dimensions=dimensions)
     trimmed_results = []
     for result in driver_results:
-        result_copy = result.model_copy(update={"top_contributors": result.top_contributors[:top_n]})
+        result_copy = result.model_copy(
+            update={"top_contributors": result.top_contributors[:top_n]}
+        )
         trimmed_results.append(result_copy)
 
     driver_ref = f"drivers:{uuid4().hex}"

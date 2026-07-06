@@ -1,7 +1,12 @@
-import os
 from pathlib import Path
 from typing import List, Dict, Any
-from portfolio_agent.core.schemas import ReviewMemo, AnomalyRecord, DriverResult, MetricsRecord
+from portfolio_agent.core.schemas import (
+    ReviewMemo,
+    AnomalyRecord,
+    DriverResult,
+    MetricsRecord,
+)
+
 
 def compile_markdown_report(
     memo: ReviewMemo,
@@ -12,7 +17,7 @@ def compile_markdown_report(
     dataset_path: str,
     trace_path: str,
     metrics_records: List[MetricsRecord],
-    output_dir: str = "outputs/reports"
+    output_dir: str = "outputs/reports",
 ) -> Path:
     """
     Compile the synthesized memo and tool findings into a formal Markdown report.
@@ -21,7 +26,7 @@ def compile_markdown_report(
     # 1. Create output folder
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
-    
+
     filename = f"portfolio_review_{memo.valuation_month.replace('-', '_')}_{run_id}.md"
     report_file = out_path / filename
 
@@ -34,7 +39,9 @@ def compile_markdown_report(
         overall_status = "Moderate Anomaly"
 
     # 3. Find latest metrics for the summary table
-    latest_metrics = [m for m in metrics_records if m.valuation_month == memo.valuation_month]
+    latest_metrics = [
+        m for m in metrics_records if m.valuation_month == memo.valuation_month
+    ]
     # We aggregate all segments for the summary table (or take the primary segment if only one)
     if len(latest_metrics) == 1:
         m_cur = latest_metrics[0]
@@ -65,7 +72,9 @@ def compile_markdown_report(
         return str(v)
 
     # Helper function to print changes
-    def fmt_chg(cur_val: Any, pri_val: Any, is_pct: bool = False, is_curr: bool = False) -> str:
+    def fmt_chg(
+        cur_val: Any, pri_val: Any, is_pct: bool = False, is_curr: bool = False
+    ) -> str:
         if cur_val is None or pri_val is None:
             return "N/A"
         diff = cur_val - pri_val
@@ -129,17 +138,19 @@ def compile_markdown_report(
 """
 
     for i, detail in enumerate(memo.finding_details, 1):
-        anomaly = next((a for a in anomalies if a.anomaly_id == detail.anomaly_id), None)
+        anomaly = next(
+            (a for a in anomalies if a.anomaly_id == detail.anomaly_id), None
+        )
         drivers = [d for d in driver_results if d.anomaly_id == detail.anomaly_id]
-        
+
         md += f"""
-### Finding {i}: {detail.segment} {detail.metric.replace('_', ' ').title()} Anomaly
+### Finding {i}: {detail.segment} {detail.metric.replace("_", " ").title()} Anomaly
 
 **Metric:** {detail.metric}  
 **Severity:** {anomaly.severity if anomaly else "unknown"}  
-**Current:** {fmt_val(anomaly.current_value, is_pct=(anomaly.metric=='loss_ratio')) if anomaly else "N/A"}  
-**Prior:** {fmt_val(anomaly.prior_value, is_pct=(anomaly.metric=='loss_ratio')) if anomaly else "N/A"}  
-**Change:** {fmt_chg(anomaly.current_value, anomaly.prior_value, is_pct=(anomaly.metric=='loss_ratio')) if anomaly else "N/A"}  
+**Current:** {fmt_val(anomaly.current_value, is_pct=(anomaly.metric == "loss_ratio")) if anomaly else "N/A"}  
+**Prior:** {fmt_val(anomaly.prior_value, is_pct=(anomaly.metric == "loss_ratio")) if anomaly else "N/A"}  
+**Change:** {fmt_chg(anomaly.current_value, anomaly.prior_value, is_pct=(anomaly.metric == "loss_ratio")) if anomaly else "N/A"}  
 
 **Evidence:**  
 {anomaly.explanation if anomaly else "Calculated threshold breach flagged by tools."}
@@ -151,7 +162,7 @@ def compile_markdown_report(
                 md += f"* **By {d.dimension}**:\n"
                 for c in d.top_contributors[:3]:
                     # Format value contribution
-                    md += f"  * `{c.value}`: contrib={c.contribution_to_change*100:+.1f} pts (current={fmt_val(c.current_value, is_pct=(anomaly.metric=='loss_ratio'))}, prior={fmt_val(c.prior_value, is_pct=(anomaly.metric=='loss_ratio'))})\n"
+                    md += f"  * `{c.value}`: contrib={c.contribution_to_change * 100:+.1f} pts (current={fmt_val(c.current_value, is_pct=(anomaly.metric == 'loss_ratio'))}, prior={fmt_val(c.prior_value, is_pct=(anomaly.metric == 'loss_ratio'))})\n"
         else:
             md += "No granular drivers investigated.\n"
 
@@ -163,7 +174,7 @@ def compile_markdown_report(
 {detail.likely_cause_hypothesis}
 """
 
-    md += f"""
+    md += """
 ## Recommended follow-up
 """
     for q in memo.recommended_followups:
@@ -186,7 +197,9 @@ def compile_markdown_report(
         if not severities and not data_quality_summary.get("warnings"):
             md += "- Escalated due to high-impact recommendation logic.\n"
     else:
-        md += "- Metrics are within normal threshold parameters. Data quality is clean.\n"
+        md += (
+            "- Metrics are within normal threshold parameters. Data quality is clean.\n"
+        )
 
     md += f"""
 ## Trace and reproducibility

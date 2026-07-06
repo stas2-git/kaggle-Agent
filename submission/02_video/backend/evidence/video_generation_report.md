@@ -5,10 +5,10 @@ status below reflects the last build_slides.py (stage 1) run, not this run - ass
 does not re-verify the agent, it only combines already-reviewed specs.
 
 ## 1. Verification Status (from the last build_slides.py run)
-- **Pytest Suite**: PASS ✅ (59 passed, 6 warnings in 0.77s)
+- **Pytest Suite**: PASS ✅ (60 passed, 6 warnings in 0.97s)
 - **Offline Evaluations**: PASS ✅ (11/11 evaluation cases passed)
 - **Vertical-Slice Review Run**: PASS ✅
-- **Verification generated at**: `2026-07-06T13:46:11`
+- **Verification generated at**: `2026-07-06T18:32:23`
 
 ## 2. This Assembly Run
 - **Voiceover TTS Source**: `Gemini API TTS (Segment-Based)`

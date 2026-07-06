@@ -22,7 +22,9 @@ class SkillContextError(RuntimeError):
 
 def _read_required(path: Path) -> str:
     if not path.is_file():
-        raise SkillContextError(f"Required portfolio-monitoring skill file is missing: {path}")
+        raise SkillContextError(
+            f"Required portfolio-monitoring skill file is missing: {path}"
+        )
     return path.read_text(encoding="utf-8")
 
 
@@ -38,11 +40,15 @@ def load_portfolio_monitoring_reference(name: str) -> str:
     relative_path = REFERENCE_FILES.get(name)
     if relative_path is None:
         allowed = ", ".join(sorted(REFERENCE_FILES))
-        raise SkillContextError(f"Unknown portfolio-monitoring reference '{name}'. Allowed: {allowed}")
+        raise SkillContextError(
+            f"Unknown portfolio-monitoring reference '{name}'. Allowed: {allowed}"
+        )
     return _read_required(PORTFOLIO_SKILL_DIR / relative_path)
 
 
-def build_review_instruction_context(*, include_actuarial_principles: bool = False) -> str:
+def build_review_instruction_context(
+    *, include_actuarial_principles: bool = False
+) -> str:
     """Build instruction context without loading threshold/template files prematurely."""
 
     parts = [load_portfolio_monitoring_skill()]

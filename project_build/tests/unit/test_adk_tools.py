@@ -37,7 +37,8 @@ def test_adapter_results_are_json_serializable_and_preserve_deterministic_values
     loss_ratio_anomalies = [
         anomaly
         for anomaly in anomalies["anomalies"]
-        if anomaly["metric"] == "loss_ratio" and anomaly["business_segment"] == "Public D&O"
+        if anomaly["metric"] == "loss_ratio"
+        and anomaly["business_segment"] == "Public D&O"
     ]
     assert loss_ratio_anomalies
     assert loss_ratio_anomalies[0]["severity"] == "high"
@@ -123,7 +124,10 @@ def test_driver_analysis_success_uses_opaque_refs_and_limits_top_contributors():
     json.dumps(result)
     assert result["status"] == "success"
     assert result["driver_ref"].startswith("drivers:")
-    assert {item["dimension"] for item in result["driver_results"]} == {"coverage", "state"}
+    assert {item["dimension"] for item in result["driver_results"]} == {
+        "coverage",
+        "state",
+    }
     assert all(len(item["top_contributors"]) <= 2 for item in result["driver_results"])
 
 
