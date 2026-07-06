@@ -49,6 +49,25 @@ def test_calculate_portfolio_metrics():
     # retention = (100k * 100k + 50k * 200k) / 150k = (10B + 10B) / 150k = 20B / 150k = 133,333.33
     assert pytest.approx(m.avg_retention) == 133333.3333
 
+def test_calculate_portfolio_metrics_rejects_noncanonical_grouping():
+    df = pd.DataFrame(
+        {
+            "valuation_month": ["2026-06"],
+            "business_segment": ["Public D&O"],
+            "written_premium": [100000.0],
+            "earned_premium": [80000.0],
+            "incurred_loss": [40000.0],
+            "claim_count": [2],
+            "account_count": [5],
+            "avg_retention": [100000.0],
+            "rate_change_pct": [0.05],
+            "benchmark_adequacy": [1.0],
+        }
+    )
+
+    with pytest.raises(ValueError, match="requires group_by"):
+        calculate_portfolio_metrics(df, group_by=["valuation_month"])
+
 def test_detect_anomalies():
     # 1. Setup metrics list (May 2026 vs June 2026)
     m_may = MetricsRecord(

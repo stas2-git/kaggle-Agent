@@ -28,7 +28,7 @@ def test_health_works_without_credentials_or_model_client(monkeypatch):
 
 def test_readyz_reveals_no_environment_values(monkeypatch):
     monkeypatch.setenv("GOOGLE_API_KEY", "AIza-not-a-real-key")
-    monkeypatch.setenv("PORTFOLIO_AGENT_MODEL", "gemini-2.5-flash")
+    monkeypatch.setenv("PORTFOLIO_AGENT_MODEL", "gemini-2.5-flash-lite")
 
     response = TestClient(app).get("/readyz")
 
@@ -39,7 +39,7 @@ def test_readyz_reveals_no_environment_values(monkeypatch):
     assert body["application"] == "portfolio_agent"
     assert body["model_configured"] is True
     assert "AIza-not-a-real-key" not in body_text
-    assert "gemini-2.5-flash" not in body_text
+    assert "gemini-2.5-flash-lite" not in body_text
 
 
 def test_invalid_path_returns_controlled_error():

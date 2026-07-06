@@ -83,17 +83,21 @@ def calculate_portfolio_metrics(df: pd.DataFrame, group_by: List[str] = None) ->
     """
     Calculate deterministic portfolio metrics by month and segment.
     """
+    canonical_group_by = ["valuation_month", "business_segment"]
     if group_by is None:
-        group_by = ["valuation_month", "business_segment"]
+        group_by = canonical_group_by
+    if group_by != canonical_group_by:
+        raise ValueError(
+            "calculate_portfolio_metrics requires group_by "
+            "['valuation_month', 'business_segment']."
+        )
 
     records: List[MetricsRecord] = []
     
     # Group and aggregate
     grouped = df.groupby(group_by)
     
-    for keys, group in grouped:
-        val_month = keys[0] if isinstance(keys, tuple) else val_month
-        bus_seg = keys[1] if isinstance(keys, tuple) else keys
+    for (val_month, bus_seg), group in grouped:
         
         # Simple sums
         written = float(group["written_premium"].sum())

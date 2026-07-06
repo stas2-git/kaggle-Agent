@@ -124,4 +124,4 @@ def test_online_mode_keeps_existing_model_synthesis_boundary(monkeypatch, tmp_pa
 
     assert result.execution_mode == "online"
     assert calls
-    assert calls[0]["model_name"] == "gemini-2.5-flash"
+    assert calls[0]["model_name"] == "gemini-2.5-flash-lite"

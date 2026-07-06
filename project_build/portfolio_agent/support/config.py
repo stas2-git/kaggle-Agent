@@ -15,7 +15,7 @@ from typing import Literal
 
 ExecutionMode = Literal["online", "offline"]
 
-DEFAULT_MODEL_NAME = "gemini-2.5-flash"
+DEFAULT_MODEL_NAME = "gemini-2.5-flash-lite"
 APPLICATION_NAME = "portfolio_agent"
 DEFAULT_THRESHOLD_PROFILE = "default_actuarial_config"
 

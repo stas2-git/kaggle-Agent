@@ -10,7 +10,7 @@ def test_root_agent_and_app_import_with_expected_adk_shape():
     assert app.name == "portfolio_agent"
     assert app.root_agent is root_agent
     assert root_agent.name == "portfolio_monitoring_agent"
-    assert root_agent.model == "gemini-2.5-flash"
+    assert root_agent.model == "gemini-2.5-flash-lite"
     assert root_agent.output_schema is None
 
     tool_names = [getattr(tool, "name", getattr(tool, "__name__", str(tool))) for tool in root_agent.tools]

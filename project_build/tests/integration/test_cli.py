@@ -52,7 +52,7 @@ def test_cli_adapter_calls_shared_service_for_online_mode(monkeypatch, capsys):
         {
             "input_path": "tests/golden/clean_portfolio.csv",
             "latest_month": "2026-06",
-            "model_name": "gemini-2.5-flash",
+            "model_name": "gemini-2.5-flash-lite",
             "user_prompt": None,
             "force_offline": False,
         }

@@ -74,7 +74,7 @@ def synthesize_review_findings(
     anomalies: list[AnomalyRecord],
     driver_results: list[DriverResult],
     data_quality_summary: dict,
-    model_name: str = "gemini-2.5-flash",
+    model_name: str = "gemini-2.5-flash-lite",
     user_prompt_override: str = None
 ) -> ReviewMemo:
     """

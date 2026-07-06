@@ -170,7 +170,7 @@ MOCK_MEMOS = {
     )
 }
 
-def get_mock_findings(valuation_month, anomalies, driver_results, data_quality_summary, model_name="gemini-2.5-flash", user_prompt_override=None):
+def get_mock_findings(valuation_month, anomalies, driver_results, data_quality_summary, model_name="gemini-2.5-flash-lite", user_prompt_override=None):
     # Find matching scenario ID based on input data signature
     # In run_eval, we patch synthesize_review_findings with this
     scenario_id = os.environ.get("CURRENT_EVAL_ID", "EVAL-001")
@@ -237,7 +237,7 @@ def run_case(case):
                 anomalies=anomalies,
                 driver_results=driver_results,
                 data_quality_summary=dq_summary,
-                model_name="gemini-2.5-flash",
+                model_name="gemini-2.5-flash-lite",
                 user_prompt_override=user_prompt
             )
             import time

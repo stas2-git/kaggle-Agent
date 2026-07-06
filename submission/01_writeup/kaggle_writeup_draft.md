@@ -101,7 +101,7 @@ When an anomaly is flagged, the agent slices the dataset by grouping dimensions 
 These contribution formulas ensure that summing the slice contributions across any given dimension exactly equals the total portfolio segment change.
 
 ### LLM Synthesis Node:
-The LLM synthesis node (using Gemini-2.5-flash) receives the data quality report, the metrics records, the anomaly logs, and the driver slices. It generates a Pydantic `ReviewMemo` containing:
+The LLM synthesis node (using Gemini-2.5-flash-lite) receives the data quality report, the metrics records, the anomaly logs, and the driver slices. It generates a Pydantic `ReviewMemo` containing:
 * Executive Summary (bulleted findings)
 * Material Findings Details (concentration drivers, interpretation, caveats)
 * Recommended follow-up questions

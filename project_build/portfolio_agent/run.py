@@ -14,7 +14,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Actuarial Portfolio Monitoring Agent")
     parser.add_argument("--input", required=True, help="Path to synthetic monthly portfolio CSV")
     parser.add_argument("--latest-month", required=True, help="Valuation month to review (YYYY-MM)")
-    parser.add_argument("--model", default="gemini-2.5-flash", help="Gemini LLM model name")
+    parser.add_argument("--model", default="gemini-2.5-flash-lite", help="Gemini LLM model name")
     parser.add_argument("--user-prompt", default=None, help="Custom prompt or override instruction for the agent")
     parser.add_argument(
         "--force-offline",
