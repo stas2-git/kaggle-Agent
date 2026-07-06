@@ -2,7 +2,7 @@
 
 Reads slides/rendered/slide_0.png ... slide_7.png, story/audio/current/seg_N.mp3 (the
 canonical narration), and story/slide_story.yaml as fixed inputs, and produces captions.srt +
-draft_demo_video.mp4. Does NOT run pytest/eval/the live agent, and does NOT draw slides -
+final_demo_video.mp4. Does NOT run pytest/eval/the live agent, and does NOT draw slides -
 that's build_slides.py's job (stage 1). This stage is fast and deterministic: it only
 combines specs you've already reviewed, it never regenerates them.
 
@@ -256,7 +256,7 @@ Confirm outputs locally using:
     print(f"Generated final run summary report at: {report_path}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Assemble draft_demo_video.mp4 from the current slides/audio specs")
+    parser = argparse.ArgumentParser(description="Assemble final_demo_video.mp4 from the current slides/audio specs")
     parser.add_argument("--voice", default="Samantha", help="Voice override for macOS 'say' (default: Samantha)")
     parser.add_argument("--rate", type=int, default=170, help="Speech rate override in WPM (default: 170)")
     parser.add_argument("--audio-source", default="auto", choices=["auto", "gemini", "say"], help="Explicitly select audio source (default: auto - prefer canonical Gemini audio in story/audio/current/, fall back to macOS 'say' if no complete set exists)")
@@ -390,7 +390,7 @@ def main():
 
     write_captions_srt(segments, segment_durations, os.path.join(VIDEO_DIR, "captions.srt"))
 
-    final_video_out = os.path.join(VIDEO_DIR, "draft_demo_video.mp4")
+    final_video_out = os.path.join(VIDEO_DIR, "final_demo_video.mp4")
 
     if target_segments is not None:
         print(f"\nUsing mixed narration mode ({audio_source})...")

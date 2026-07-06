@@ -9,7 +9,7 @@ stages separately instead:
   3. assemble_video.py        - combine whatever's currently on disk into the final video
 
 Running them separately lets you review each spec folder before it's baked into
-draft_demo_video.mp4. This wrapper skips that pause by design - use it for fast iteration,
+final_demo_video.mp4. This wrapper skips that pause by design - use it for fast iteration,
 not for producing a final deliverable you haven't looked at yet.
 """
 

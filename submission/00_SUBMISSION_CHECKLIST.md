@@ -21,7 +21,7 @@ The local capstone reference says a valid submission needs a Kaggle Writeup, Med
 
 ## Suggested Final Pass
 
-1. Confirm the root [`../../README.md`](../../README.md) has clear setup and run instructions.
+1. Confirm the root [`../README.md`](../README.md) has clear setup and run instructions.
 2. Confirm the writeup explains the problem, agent architecture, implementation, evaluation, and learning journey.
 3. Confirm the video shows the product working, not only slides.
 4. Confirm links in the Kaggle Writeup are public.

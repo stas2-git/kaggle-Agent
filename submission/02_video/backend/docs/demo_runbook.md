@@ -36,7 +36,7 @@ If you prefer to capture actual screen movement, follow these guidelines:
    ```
 2. **Execute Pipeline Run**:
    ```bash
-   uv run python3 -m portfolio_agent.run --input "tests/golden/loss_ratio_spike.csv" --latest-month "2026-06"
+   uv run python3 -m portfolio_agent.run --input "tests/golden/loss_ratio_spike.csv" --latest-month "2026-06" --force-offline
    ```
 3. **Show Generated Actuarial Report**: Open the compiled markdown memo from the path shown in the execution output.
 4. **Show Automated Pytest Verification**:

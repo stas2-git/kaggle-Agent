@@ -22,7 +22,7 @@ does not re-verify the agent, it only combines already-reviewed specs.
 - **Final Video Duration**: 195.800 seconds
 - **Absolute Duration Difference**: 0.054 seconds
 - **Duration Boundary Status**: PASS (Within 1.0s limit) ✅
-- **Video Output Path**: `<workspace>/submission/02_video/draft_demo_video.mp4`
+- **Video Output Path**: `<workspace>/submission/02_video/final_demo_video.mp4`
 
 ## 4. Generated Outputs
 - **Slides** (8 reviewable visuals across 7 narrated segments, `submission/02_video/slides/rendered/`): `slide_0.png` ... `slide_7.png`

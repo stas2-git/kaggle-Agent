@@ -17,8 +17,6 @@ project_build/        # Runnable app, tests, data, runtime skills, build config
 spec_files/           # Canonical product, architecture, quality, and submission specs
 submission/           # Kaggle writeup, checklist, video, and voice assets
 assignment_details/   # Course notes, codelabs, references, archives, and maps
-.agents/              # Project-local helper skills for coding agents
-.vscode/              # Local workspace metadata
 ```
 
 Root dot files and dot folders are local/tooling support. The important human branches are `project_build/`, `spec_files/`, `submission/`, and `assignment_details/`.
@@ -69,16 +67,16 @@ cd project_build
 uv sync
 ```
 
-Run the vertical slice:
-
-```bash
-uv run python3 -m portfolio_agent.run --input "data/synthetic_portfolio_monthly.csv" --latest-month "2026-06"
-```
-
-Run without external LLM calls:
+Run the vertical slice without external LLM calls:
 
 ```bash
 uv run python3 -m portfolio_agent.run --input "data/synthetic_portfolio_monthly.csv" --latest-month "2026-06" --force-offline
+```
+
+Optional: run online synthesis if Gemini credentials are configured:
+
+```bash
+uv run python3 -m portfolio_agent.run --input "data/synthetic_portfolio_monthly.csv" --latest-month "2026-06"
 ```
 
 Outputs are written under `project_build/`:

@@ -145,7 +145,8 @@ The evaluation runner simulates 10 evaluation cases covering data quality failur
 The demo utilizes a synthetic dataset with a planted loss ratio spike in the `Public D&O` segment. 
 1. The user runs:
    ```bash
-   python -m portfolio_agent.run --input data/eval/loss_ratio_spike.csv --latest-month 2026-06
+   cd project_build
+   uv run python3 -m portfolio_agent.run --input data/eval/loss_ratio_spike.csv --latest-month 2026-06 --force-offline
    ```
 2. The agent validates the CSV, aggregates metrics, and detects that the loss ratio rose from 50.0% to 85.0%.
 3. The driver tool is triggered, identifying that the entire 35.0 percentage point increase was concentrated in `state = NY` and `policy_year = 2025`.

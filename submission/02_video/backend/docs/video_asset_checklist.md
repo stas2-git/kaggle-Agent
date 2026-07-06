@@ -5,7 +5,7 @@ This checklist tracks all required elements for compiling and publishing the fin
 **Status as of 2026-07-06: all automated assets below are generated and present in
 `../../slides/rendered/`, `../evidence/`, and `../../story/audio/current/`** (verified -
 see `../../segment_tracker.md` for whether their *content* is still accurate, which is a
-separate question from whether the file exists). The latest `draft_demo_video.mp4` uses
+separate question from whether the file exists). The latest `final_demo_video.mp4` uses
 Gemini audio for all seven segments.
 
 ---
@@ -27,7 +27,7 @@ evidence:
 * [x] **Audio Voiceover files** — Current audio files exist (`story/audio/current/` mp3s + `story/audio/current/details/gemini_segments/` wav+metadata).
 * [x] **Final all-Gemini voiceover** — Gemini TTS regenerated for segments 4-6 after the story rewrite.
 * [x] **Subtitles** — Timing-aligned subtitle file (`captions.srt`)
-* [x] **Video Compilation** — Stitched final video (`draft_demo_video.mp4`)
+* [x] **Video Compilation** — Stitched final video (`final_demo_video.mp4`)
 * [x] **Safety Audit** — Automated scanning report confirming no secrets, API keys, or un-redacted local paths are leaked (`evidence/video_generation_report.md`)
 
 ---

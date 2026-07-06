@@ -6,7 +6,7 @@ Read this first when opening `submission/02_video` in a new context window.
 
 - `story/slide_story.yaml` is the canonical source for slide titles, takeaways, and narration
   text.
-- `draft_demo_video.mp4` was last assembled successfully on 2026-07-06.
+- `final_demo_video.mp4` was last assembled successfully on 2026-07-06.
 - The latest draft video uses Gemini audio for all seven segments.
 - The latest assembly report is `backend/evidence/video_generation_report.md`.
 - The old top-level `audio/` and `narrative/` folders were intentionally moved into
@@ -31,7 +31,7 @@ Read this first when opening `submission/02_video` in a new context window.
 
 ## Next Likely Action
 
-Review `draft_demo_video.mp4`, then commit this final audio pass if it sounds right. If the
+Review `final_demo_video.mp4`, then commit this final audio pass if it sounds right. If the
 story wording changes again, preview cheaply with `say` before spending Gemini quota:
 
 ```bash
