@@ -19,7 +19,7 @@ Assets prepared for the Kaggle writeup form.
 
 ## 02_media_gallery
 
-The 8 slides actually used in the final video (`submission/02_video/final_demo_video.mp4`), copied from `submission/02_video/slides/rendered/` so the gallery matches the video 1:1.
+Slides 01-08 are the deck actually used in the final video (`submission/02_video/final_demo_video.mp4`), copied from `submission/02_video/slides/rendered/` so the gallery matches the video 1:1. Slides 09-10 are raw captured tool output (not designed cards) copied from `submission/02_video/backend/evidence/demo_cards/`, backing the verification claim with literal command output rather than a styled summary.
 
 - `01_title.png`: title card.
 - `02_problem.png`: problem framing — manual monthly review is a scramble, not a monitoring workflow.
@@ -29,3 +29,5 @@ The 8 slides actually used in the final video (`submission/02_video/final_demo_v
 - `06_driver_decomposition.png`: driver decomposition evidence — two anomaly signals converge on one slice.
 - `07_verification_scorecard.png`: verification evidence — deterministic checks, scenario evals, secret-leak scan.
 - `08_closing_roadmap.png`: closing claim and roadmap.
+- `09_raw_pytest_output.png`: real captured `uv run pytest` terminal output (60 passed, exit code 0).
+- `10_raw_trace_output.png`: real captured JSON trace excerpt from an actual run (run_id, timestamps, severity, review flags).
