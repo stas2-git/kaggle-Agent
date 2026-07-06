@@ -11,7 +11,7 @@ Assets prepared for the Kaggle writeup form.
 
 ## 02_media_gallery
 
-Slides 01-08 are the deck actually used in the final video (`submission/02_video/final_demo_video.mp4`), copied from `submission/02_video/slides/rendered/` so the gallery matches the video 1:1. Slides 09-12 are raw captured tool output (not designed cards), backing the verification claim with literal command output rather than a styled summary — 09-10 come from `submission/02_video/backend/evidence/demo_cards/`; 11-12 were rendered from the same real captured logs using the project's own card renderer (`generate_video.draw_log_card` / `draw_stat_card`).
+Slides 01-08 are the deck actually used in the final video (`submission/02_video/final_demo_video.mp4`), copied from `submission/02_video/slides/rendered/` so the gallery matches the video 1:1. Slides 09-11 are raw captured output (not designed cards) from the same real online run (Run ID 213 against `tests/golden/loss_ratio_spike.csv`), read top to bottom as CLI output -> the actual LLM-authored memo it produced -> the structured trace of that run.
 
 - `01_title.png`: title card.
 - `02_problem.png`: problem framing — manual monthly review is a scramble, not a monitoring workflow.
@@ -21,7 +21,6 @@ Slides 01-08 are the deck actually used in the final video (`submission/02_video
 - `06_driver_decomposition.png`: driver decomposition evidence — two anomaly signals converge on one slice.
 - `07_verification_scorecard.png`: verification evidence — deterministic checks, scenario evals, secret-leak scan.
 - `08_closing_roadmap.png`: closing claim and roadmap.
-- `09_raw_pytest_output.png`: real captured `uv run pytest` terminal output (60 passed, exit code 0).
-- `10_raw_trace_output.png`: real captured JSON trace excerpt from an actual run (run_id, timestamps, severity, review flags).
-- `11_raw_demo_run_output.png`: real captured CLI output from an online run against `tests/golden/loss_ratio_spike.csv` (real severity, real human-review flag, real report/trace paths).
-- `12_raw_eval_scorecard.png`: real captured offline eval run output (11/11 cases passed, exit code 0).
+- `09_raw_demo_run_output.png`: real captured CLI output from an online run against `tests/golden/loss_ratio_spike.csv` (real severity, real human-review flag, real report/trace paths).
+- `10_raw_llm_generated_report.png`: excerpt of the actual Gemini-authored review memo from that same run (Run ID 213) — executive summary, interpretation, and hypothesis, grounded in the deterministic numbers above it.
+- `11_raw_trace_output.png`: real captured JSON trace excerpt from that same run (run_id, timestamps, severity, review flags).
